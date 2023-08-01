@@ -5,15 +5,28 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-code {
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
 
 * {
   scroll-behavior: smooth;
 }
+
+.transition-time{
+  transition: 0.5s ease-in-out;
+}
+
+.sticky-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
