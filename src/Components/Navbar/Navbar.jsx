@@ -30,11 +30,12 @@ export default function Navbar() {
   }
 
   return (
-    <Disclosure as="nav" className="bg-black h-20">
+    <div className="sticky top-0 overflow-hidden z-50">
+    <Disclosure as="nav" className="bg-black ">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-8xl px-2 md:px-6 lg:px-8 ">
-            <div className="relative flex h-20 items-center justify-between">
+            <div className="relative flex h-20 items-center justify-between ">
               <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -146,7 +147,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Disclosure.Panel className="md:hidden bg-inherit">
+          <Disclosure.Panel className="md:hidden bg-inherit z-10 overflow-hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
                 <Disclosure.Button
@@ -195,16 +196,11 @@ export default function Navbar() {
                     <Button variant="outlined" size='large' sx={{marginLeft:1, borderColor:"#00C2BE", color:"#00C2BE", "&:hover":{borderColor:"#029592"}}}>Log IN</Button>
                   </>
                 )}
-            </div>
-            
-
-              
-
-
-            
+            </div>  
           </Disclosure.Panel>
         </>
       )}
     </Disclosure>
+    </div>
   )
 }
