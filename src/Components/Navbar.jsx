@@ -1,19 +1,20 @@
 import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import logo from '../../assets/logo.jpg';
+import logo from '../assets/logo.jpg';
 import { AccountCircleOutlined, Height, ShoppingCartOutlined } from '@mui/icons-material';
 import { Button } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
 
 
 
 const navigation = [
-  { name: 'Home', href: '#', current: true },
-  { name: 'Latest', href: '#', current: false },
-  { name: 'Men', href: '#', current: false },
-  { name: 'Women', href: '#', current: false },
-  { name: 'Kids', href: '#', current: false },
-  { name: 'Accessories', href: '#', current: false },
+  { name: 'Home', to: '/' },
+  { name: 'Latest', to: '#'},
+  { name: 'Men', to: '/products/men'},
+  { name: 'Women', to: '/products/women'},
+  { name: 'Kids', to: '/products/kids'},
+  { name: 'Accessories', to: '/products/accessories'},
 ]
 
 function classNames(...classes) {
@@ -24,6 +25,7 @@ function classNames(...classes) {
 export default function Navbar() {
 
   const[isLogged, setLogin] = useState(false);
+  const location = useLocation();
 
   function test(){
     console.log("Clicked");
@@ -35,7 +37,7 @@ export default function Navbar() {
       {({ open }) => (
         <>
           <div className="mx-auto max-w-8xl px-2 md:px-6 lg:px-8 ">
-            <div className="relative flex h-20 items-center justify-between ">
+            <div className="relative flex h-24 items-center justify-between ">
               <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -51,26 +53,29 @@ export default function Navbar() {
               <div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start h-10">
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="h-14 w-auto"
+                    className="h-16 w-auto"
                     src={logo}
                     alt="logo"
                   />
                 </div>
-                <div className="hidden md:ml-6 lg:ml-16 md:block">
+                <div className="hidden md:ml-6 lg:ml-16 md:block text-xl">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-1 py-2 text-md font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
-                    ))}
+                    {navigation.map((item) => {
+                      const isActive = location.pathname === item.to;
+                      return(
+                        <Link
+                          key={item.name}
+                          to={item.to}
+                          className={classNames(
+                            isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                            'rounded-md px-1 py-2 text-md font-medium'
+                          )}
+                          aria-current={isActive ? 'page' : undefined}
+                        >
+                          {item.name}
+                        </Link>
+                      )
+                    })}
                   </div>
                 </div>
               </div>
@@ -149,20 +154,23 @@ export default function Navbar() {
 
           <Disclosure.Panel className="md:hidden bg-inherit z-10 overflow-hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
-                  )}
-                  aria-current={item.current ? 'page' : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
+              {navigation.map((item) => {
+                const isActive = location.pathname === item.to;
+                return(
+                  <Disclosure.Button
+                    key={item.name}
+                    className={classNames(
+                      isActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      'block rounded-md px-3 py-2 text-base font-medium'
+                      )}
+                      aria-current={isActive ? 'page' : undefined}
+                  >
+                    <Link to={item.to}>
+                      {item.name}
+                    </Link>
+                  </Disclosure.Button>  
+                )
+              })}
             </div>
             
             <div className="pt-4 pb-3 border-t border-gray-700 px-2 space-y-1">
