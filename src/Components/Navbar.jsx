@@ -4,7 +4,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from '../assets/logo.jpg';
 import { AccountCircleOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 
@@ -17,6 +17,12 @@ const navigation = [
   { name: 'Accessories', to: '/products/accessories'},
 ]
 
+const profileMenu = [
+  { name: 'Your Profile', to:''},
+  { name: 'Settings', to:''},
+  { name: 'Logout', to:''}
+]
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -26,13 +32,14 @@ export default function Navbar() {
 
   const[isLogged, setLogin] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  function test(){
-    console.log("Clicked");
+  function navigateToLogin(){
+    navigate("/login")
   }
 
   return (
-    <div className="sticky top-0 overflow-hidden z-50">
+    <div className="sticky top-0 z-50">
     <Disclosure as="nav" className="bg-black ">
       {({ open }) => (
         <>
@@ -92,7 +99,7 @@ export default function Navbar() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3 hidden md:block p-1 ">
                   <div >
-                    <Menu.Button onClick={!isLogged ? test : null} className="relative flex rounded-full bg-gray-800 text-gray-400 p-1 hover:text-white scale-[1.15]">
+                    <Menu.Button onClick={!isLogged ? navigateToLogin : null} className="relative flex rounded-full bg-gray-800 text-gray-400 p-1 hover:text-white scale-[1.15]">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       <AccountCircleOutlined aria-hidden="true" className="h-8 w-8 rounded-full" />
@@ -111,37 +118,19 @@ export default function Navbar() {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md  bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <Menu.Item>
-                              {( active ) => (
-                                <a
-                                  href="#"
-                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                >
-                                  Your Profile
-                                </a>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {( active ) => (
-                                <a
-                                  href="#"
-                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                >
-                                  Settings
-                                </a>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {( active ) => (
-                                <a
-                                  href="#"
-                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                >
-                                  Sign out
-                                </a>
-                              )}
-                            </Menu.Item>
+                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ">
+                            {profileMenu.map((item) => (
+                              <Menu.Item>
+                                {( active ) => (
+                                  <Link
+                                    to = {item.to}
+                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                  >
+                                    {item.name}
+                                  </Link>
+                                )}
+                              </Menu.Item>
+                            ))}
                           </Menu.Items>
                         </Transition>
                       </>
@@ -176,32 +165,36 @@ export default function Navbar() {
             <div className="pt-4 pb-3 border-t border-gray-700 px-2 space-y-1">
                 {isLogged ?   (
                   <> 
-                    <Disclosure.Button
-                      as="a"
-                      href="#"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                    >
-                      Your Profile
-                    </Disclosure.Button>
-                    <Disclosure.Button
-                      as="a"
-                      href="#"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                    >
-                      Settings
-                    </Disclosure.Button>
-                    <Disclosure.Button
-                      as="a"
-                      href="#"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                    >
-                      Sign out
-                    </Disclosure.Button>
+                    {profileMenu.map((item) => (
+                      <Disclosure.Button
+                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                      >
+                        <Link to={item.to}>
+                          {item.name}
+                        </Link>
+                      </Disclosure.Button>
+                    ))}                  
                   </>
                 ) : (
                   <>
-                    <Button variant="contained" size='large' sx={{marginTop: 0.35, marginLeft:1, background:"#00C2BE", color:"#000000", "&:hover":{backgroundColor:"#029592"}}}>Sign UP</Button>
-                    <Button variant="outlined" size='large' sx={{marginLeft:1, borderColor:"#00C2BE", color:"#00C2BE", "&:hover":{borderColor:"#029592"}}}>Log IN</Button>
+                    <Button 
+                      variant="contained" 
+                      size='large' 
+                      sx={{marginTop: 0.35, marginLeft:1, background:"#00C2BE", color:"#000000", "&:hover":{backgroundColor:"#029592"}}}
+                    >
+                      <Link to="/signup">
+                        Sign UP
+                      </Link>
+                    </Button>
+                    <Button 
+                      variant="outlined" 
+                      size='large' 
+                      sx={{marginLeft:1, borderColor:"#00C2BE", color:"#00C2BE", "&:hover":{borderColor:"#029592"}}}
+                    >
+                      <Link to="/login">
+                        Log In
+                      </Link>
+                    </Button>
                   </>
                 )}
             </div>  

@@ -1,26 +1,28 @@
 import { Route, Routes } from 'react-router-dom';
-import Navbar from './Components/Navbar';
 import Men from './Pages/Men';
-import Footer from './Components/Footer';
 import Women from './Pages/Women';
 import Kids from './Pages/Kids';
 import Accessories from './Pages/Accessories';
+import Homepage from './Pages/Homepage';
+import LogIn from './Pages/LogIn';
+import VerifyOTP from './Pages/VerifyOTP';
+import SignUp from './Pages/SignUp';
 
 
 function App() {
   return (
-    <div>
-      <Navbar/>
-      <Routes>
-        <Route path='products'>
-          <Route path='men' Component={Men}/>
-          <Route path='women' Component={Women}/>
-          <Route path='kids' Component={Kids}/>
-          <Route path='accessories' Component={Accessories}/>
-          <Route path=':productID' Component={Footer}/>
-        </Route>
-      </Routes>
-    </div>
+    <Routes>
+      <Route path='/' Component={Homepage} />
+      <Route path='products'>
+        <Route path='men' Component={Men}/>
+        <Route path='women' Component={Women}/>
+        <Route path='kids' Component={Kids}/>
+        <Route path='accessories' Component={Accessories}/>
+        <Route path=':productID' />
+      </Route>
+      <Route path='/login' Component={LogIn} />
+      <Route path='/signup' Component={SignUp} />
+    </Routes>   
   );
 }
 
