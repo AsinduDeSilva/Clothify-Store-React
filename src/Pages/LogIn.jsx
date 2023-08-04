@@ -17,6 +17,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Link, useNavigate } from 'react-router-dom';
 
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -81,9 +82,10 @@ export default function LogIn() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-
+    
       <Grid container component="main" sx={{ height: '100vh'}}>
         <CssBaseline />
+        
         <Grid
           item
           lg={8}
@@ -96,15 +98,17 @@ export default function LogIn() {
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} lg={4} component={Paper} elevation={6} square>
+
+        
+        <Grid item xs={12} lg={4} component={Paper} elevation={6} square >
           <Box
             sx={{
               my: 8,
-              mx: 4,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
+            className='xl:mx-12 sm:mx-[20%] mx-4 '
           >
             <Avatar sx={{ m: 1, bgcolor: '#000000' }}>
               <LockOutlinedIcon className='text-[#00C2BE]' />
@@ -114,11 +118,9 @@ export default function LogIn() {
             </Typography>
             {
               credentialsInvalidError ? (
-                <>
                 <Alert severity="error" className='w-full mt-4'>
                   Incorrect email or password
                 </Alert>
-                </>
               ): null
             }
             <Box component="form" noValidate sx={{ mt: 1 }}>

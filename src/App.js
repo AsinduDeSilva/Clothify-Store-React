@@ -5,7 +5,7 @@ import Kids from './Pages/Kids';
 import Accessories from './Pages/Accessories';
 import Homepage from './Pages/Homepage';
 import LogIn from './Pages/LogIn';
-import VerifyOTP from './Pages/VerifyOTP';
+import VerifyOTP from './Pages/OtpVerification';
 import SignUp from './Pages/SignUp';
 
 
@@ -22,6 +22,7 @@ function App() {
       </Route>
       <Route path='/login' Component={LogIn} />
       <Route path='/signup' Component={SignUp} />
+      <Route path='/verify' Component={VerifyOTP} />
     </Routes>   
   );
 }

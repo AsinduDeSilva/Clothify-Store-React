@@ -51,7 +51,6 @@ export default function SignUp() {
     if(firstName === "" || lastName === "" || password === ""){
         if(firstName === ""){setFirstNameFieldError(true)};
         if(lastName === ""){setLastNameFieldError(true)};
-        if(email === ""){setEmailFieldError(true)};
         if(password === ""){setPasswordFieldError(true)};
         return;
     }
@@ -183,7 +182,6 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Button
-
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2, backgroundColor:"#262626", ":hover":{backgroundColor:'#000000'} }}
@@ -194,7 +192,7 @@ export default function SignUp() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link to="/login" className='text-[#1976D2] underline text-sm underline-["red"]'>  
-                  Already have an account? Sign in
+                  Already have an account? Log in
                 </Link>
               </Grid>
             </Grid>
