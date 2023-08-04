@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from '../assets/logo.jpg';
-import { AccountCircleOutlined, Height, ShoppingCartOutlined } from '@mui/icons-material';
+import { AccountCircleOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -37,7 +37,7 @@ export default function Navbar() {
       {({ open }) => (
         <>
           <div className="mx-auto max-w-8xl px-2 md:px-6 lg:px-8 ">
-            <div className="relative flex h-24 items-center justify-between ">
+            <div className="relative flex h-20 items-center justify-between ">
               <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -53,12 +53,12 @@ export default function Navbar() {
               <div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start h-10">
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="h-16 w-auto"
+                    className="h-14 w-auto"
                     src={logo}
                     alt="logo"
                   />
                 </div>
-                <div className="hidden md:ml-6 lg:ml-16 md:block text-xl">
+                <div className="hidden md:ml-6 lg:ml-16 md:block text-md">
                   <div className="flex space-x-4">
                     {navigation.map((item) => {
                       const isActive = location.pathname === item.to;
