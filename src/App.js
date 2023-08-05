@@ -7,6 +7,7 @@ import Homepage from './Pages/Homepage';
 import LogIn from './Pages/LogIn';
 import VerifyOTP from './Pages/OtpVerification';
 import SignUp from './Pages/SignUp';
+import AddToCart from './Pages/AddToCart';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         <Route path='women' Component={Women}/>
         <Route path='kids' Component={Kids}/>
         <Route path='accessories' Component={Accessories}/>
-        <Route path=':productID' />
+        <Route path=':productID' Component={AddToCart}/>
       </Route>
       <Route path='/login' Component={LogIn} />
       <Route path='/signup' Component={SignUp} />

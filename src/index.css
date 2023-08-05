@@ -7,14 +7,7 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-body::-webkit-scrollbar {
-  display: none;
-}
 
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
 
 * {
   scroll-behavior: smooth;
@@ -24,9 +17,4 @@ body::-webkit-scrollbar {
   transition: 0.5s ease-in-out;
 }
 
-.sticky-wrapper {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
 

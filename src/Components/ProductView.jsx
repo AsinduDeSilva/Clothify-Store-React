@@ -8,7 +8,7 @@ export default function ProductView(props) {
         </div>
         <div className='mt-3 ml-3 pb-1'>
             <h1 className='font-semibold md:text-[16px] text-sm text-gray-600'>{props.name}</h1>
-            <p className='md:text-[16px] text-sm my-1 md:my-2 text-gray-900 font-semibold'>LKR {props.price}</p>
+            <p className='md:text-[16px] text-sm my-1 md:my-2 text-gray-900 font-semibold'>LKR {props.price.toFixed(2)}</p>
         </div>
     </div>
   )

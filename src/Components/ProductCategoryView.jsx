@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ProductListView from './ProductListView'
-import {Pagination } from '@mui/material';
+import {Backdrop, CircularProgress, Pagination } from '@mui/material';
 import Heading from './Heading';
 import Footer from './Footer';
 import Navbar from './Navbar';
@@ -9,15 +9,20 @@ import Navbar from './Navbar';
 export default function ProductCategoryView(props) {
   const [productList, setProductList] = useState([]);
   const [pageCount, setPageCount] = useState(0); 
+  const [backDropOpen, setBackDropOpen] = useState(false);
   
   useEffect(()=>{
     loadProducts(1);
   },[]); 
 
   const loadProducts = (page) =>{
+
+    setBackDropOpen(true);
+
     fetch(`http://192.168.1.20:8080/product/category/${props.category}?page=${page}`)
      .then(res => res.json())
      .then(data => {
+        setBackDropOpen(false);
         setProductList(data.content);
         setPageCount(data.totalPages);
     })
@@ -38,6 +43,13 @@ export default function ProductCategoryView(props) {
       </div>
 
       <Footer />
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={backDropOpen}   
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       
     </div>
   )
