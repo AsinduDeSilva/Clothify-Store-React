@@ -48,10 +48,11 @@ export default function SignUp() {
     setPasswordFieldError(false);
     setEmailExists(false);
 
-    if(firstName === "" || lastName === "" || password === ""){
-        if(firstName === ""){setFirstNameFieldError(true)};
-        if(lastName === ""){setLastNameFieldError(true)};
-        if(password === ""){setPasswordFieldError(true)};
+    if(firstName === "" || lastName === "" || email === "" || password === ""){
+        if(firstName === "")setFirstNameFieldError(true);
+        if(lastName === "")setLastNameFieldError(true);
+        if(email === "")setEmailFieldError(true);
+        if(password === "")setPasswordFieldError(true);
         return;
     }
 

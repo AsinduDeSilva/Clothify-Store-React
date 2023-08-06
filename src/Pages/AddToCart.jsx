@@ -4,6 +4,8 @@ import Navbar from '../Components/Navbar';
 import Grid from '@mui/material/Unstable_Grid2';
 import Footer from '../Components/Footer';
 import { Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../Redux/userInfo';
 
 
 export default function AddToCart() {
@@ -20,6 +22,7 @@ export default function AddToCart() {
   });
   const [qty, setQty] = useState(0);
   const [size, setSize] = useState("");
+  const dispatch = useDispatch();
   
 
   useEffect(() =>{
@@ -55,7 +58,12 @@ export default function AddToCart() {
   }
 
   const addToCartBtnClicked = () => {
-
+    if (qty === 0 )return;
+    dispatch(addToCart({
+      productID: productID,
+      size: size,
+      qty: qty 
+    }))
   }
 
   const buyNowBtnClicked = () => {

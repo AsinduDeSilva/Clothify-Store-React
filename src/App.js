@@ -8,6 +8,7 @@ import LogIn from './Pages/LogIn';
 import VerifyOTP from './Pages/OtpVerification';
 import SignUp from './Pages/SignUp';
 import AddToCart from './Pages/AddToCart';
+import PageNotFound from './Pages/PageNotFound';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Route path='/login' Component={LogIn} />
       <Route path='/signup' Component={SignUp} />
       <Route path='/verify' Component={VerifyOTP} />
+      <Route path="*" Component={PageNotFound} />
     </Routes>   
   );
 }

@@ -1,10 +1,14 @@
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from '../assets/logo.jpg';
 import { AccountCircleOutlined, ShoppingCartOutlined } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Badge, Button } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import { setLogged } from '../Redux/userInfo';
+
 
 
 
@@ -17,12 +21,6 @@ const navigation = [
   { name: 'Accessories', to: '/products/accessories'},
 ]
 
-const profileMenu = [
-  { name: 'Your Profile', to:''},
-  { name: 'Settings', to:''},
-  { name: 'Logout', to:''}
-]
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -30,12 +28,19 @@ function classNames(...classes) {
 
 export default function Navbar() {
 
-  const[isLogged, setLogin] = useState(false);
+  const {isLogged, cart } = useSelector((state) => state.userInfo);
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
   function navigateToLogin(){
     navigate("/login")
+  }
+
+  const logoutBtnClicked = () => {
+    Cookies.remove('jwt');
+    dispatch(setLogged(false))
+    
   }
 
   return (
@@ -93,7 +98,9 @@ export default function Navbar() {
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <ShoppingCartOutlined className="h-6 w-6" aria-hidden="true" />
+                  <Badge badgeContent={cart.length} color='info' >
+                    <ShoppingCartOutlined className="h-6 w-6" aria-hidden="true" />
+                  </Badge>  
                 </button>
 
                 {/* Profile dropdown */}
@@ -119,18 +126,40 @@ export default function Navbar() {
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ">
-                            {profileMenu.map((item) => (
-                              <Menu.Item>
-                                {( active ) => (
-                                  <Link
-                                    to = {item.to}
-                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                  >
-                                    {item.name}
-                                  </Link>
-                                )}
-                              </Menu.Item>
-                            ))}
+                            <Menu.Item>
+                              {( active ) => (
+                                <Link
+                                  to = '/'
+                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                >
+                                  Your Profile
+                                </Link>
+                              )}
+                            </Menu.Item>  
+
+                            <Menu.Item>
+                              {( active ) => (
+                                <Link
+                                  to = '/'
+                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                >
+                                  Settings
+                                </Link>
+                              )}
+                            </Menu.Item>
+
+                            <Menu.Item>
+                              {( active ) => (
+                                <Link
+                                  onClick={logoutBtnClicked}   
+                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                >
+                                  Logout
+                                </Link>
+                              )}
+                            </Menu.Item>
+                              
+                            
                           </Menu.Items>
                         </Transition>
                       </>
@@ -165,15 +194,26 @@ export default function Navbar() {
             <div className="pt-4 pb-3 border-t border-gray-700 px-2 space-y-1">
                 {isLogged ?   (
                   <> 
-                    {profileMenu.map((item) => (
                       <Disclosure.Button
                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                       >
-                        <Link to={item.to}>
-                          {item.name}
+                        <Link to="/">
+                          Your Profile
                         </Link>
-                      </Disclosure.Button>
-                    ))}                  
+                      </Disclosure.Button>    
+                      <Disclosure.Button
+                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                      >
+                        <Link to="/">
+                          Settings
+                        </Link>
+                      </Disclosure.Button>  
+                      <Disclosure.Button
+                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                        onClick={logoutBtnClicked}
+                      >
+                        Logout
+                      </Disclosure.Button>              
                   </>
                 ) : (
                   <>

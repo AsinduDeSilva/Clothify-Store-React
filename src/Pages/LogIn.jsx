@@ -16,6 +16,9 @@ import Alert from '@mui/material/Alert';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { setCustomerID, setLogged } from '../Redux/userInfo';
 
 
 function Copyright(props) {
@@ -35,6 +38,7 @@ export default function LogIn() {
   const [emailFieldEmptyError, setEmailFieldEmptyError] = useState(false);
   const [passwordFieldEmptyError, setPasswordFieldEmptyError] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
 
   const loginClicked = () =>{
@@ -62,16 +66,43 @@ export default function LogIn() {
       .then(res => res.json())
       .then(data => {
         setBackDropOpen(false);
-        console.log(data);
+
         if(data.success){
-          data.customer ? navigate("/") : navigate("/") /*Navigate to Admin panel */ ; 
+          if(data.customer){
+            loadCustomerDetails(data.jwt)
+            navigate("/", {replace: true})
+          }else{
+            /*Navigate to Admin panel */ 
+          }
+          Cookies.set('jwt', data.jwt, { expires: 7 });
+          dispatch(setLogged(true));
           return;
         }
+
         if(data.credentialsValid){
-          navigate("/verify", {replace: true, state: {email}})
+          navigate("/verify", {state: {email}})
         }
+
         setCredentialsInvalidError(!data.credentialsValid);    
-      });
+      });   
+  }
+
+  const loadCustomerDetails = (jwt) =>{
+    fetch('http://192.168.1.20:8080/customer/email',{  
+      method: 'POST',
+      body: JSON.stringify({
+        email: email,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': `Bearer ${jwt}`,
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      dispatch(setCustomerID(data.customerID))
+    })
   }
 
   return (
