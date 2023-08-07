@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 const initialState = {
   isLogged: Cookies.get('jwt') !== undefined ,
-  customerID: "",
+  customerID: Cookies.get('customerID'),
   cart: [],
 }
 

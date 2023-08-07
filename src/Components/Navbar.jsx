@@ -39,8 +39,10 @@ export default function Navbar() {
 
   const logoutBtnClicked = () => {
     Cookies.remove('jwt');
+    Cookies.remove('customerID')
     dispatch(setLogged(false))
-    
+    navigate('/')
+    window.location.replace("/")
   }
 
   return (

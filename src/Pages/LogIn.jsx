@@ -80,7 +80,7 @@ export default function LogIn() {
         }
 
         if(data.credentialsValid){
-          navigate("/verify", {state: {email}})
+          navigate("/verify", {state: {email:email, password:password}})
         }
 
         setCredentialsInvalidError(!data.credentialsValid);    
@@ -88,6 +88,7 @@ export default function LogIn() {
   }
 
   const loadCustomerDetails = (jwt) =>{
+    setBackDropOpen(true)
     fetch('http://192.168.1.20:8080/customer/email',{  
       method: 'POST',
       body: JSON.stringify({
@@ -100,10 +101,12 @@ export default function LogIn() {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data)
+      setBackDropOpen(false)
+      Cookies.set('customerID',data.customerID, {expires: 7})
       dispatch(setCustomerID(data.customerID))
     })
   }
+
 
   return (
     <>

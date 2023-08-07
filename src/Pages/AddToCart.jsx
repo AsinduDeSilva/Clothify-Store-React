@@ -32,10 +32,7 @@ export default function AddToCart() {
   const loadProductDeatils = () => {
     fetch(`http://192.168.1.20:8080/product/${productID}`)
      .then(res => res.json())
-     .then(data => {
-        console.log(data);
-        setProductData(data);
-    })
+     .then(data => setProductData(data))
   }
 
   const qtyOnHandOf = (size) => {

@@ -6,7 +6,8 @@ import { Alert, Avatar, Backdrop, Box, CircularProgress, Container, Typography }
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PageNotFound from './PageNotFound';
 import { useDispatch } from 'react-redux';
-import { setLogged } from '../Redux/userInfo';
+import { setCustomerID, setLogged } from '../Redux/userInfo';
+import Cookies from 'js-cookie';
 
 export default function VerifyOTP() {
   const[otp,setOtp] = useState("");
@@ -14,6 +15,7 @@ export default function VerifyOTP() {
   const [isOtpValid, setOtpValid] = useState(true);
   const [backDropOpen, setBackDropOpen] = useState(false);
   const email = useLocation().state?.email;
+  const password = useLocation().state?.password;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -43,14 +45,68 @@ export default function VerifyOTP() {
         setBackDropOpen(false);
         console.log(data);
         if(data.success){
-            navigate("/", {replace: true});
-            dispatch(setLogged(true));
+            authenticate();
             return;
         }
-        if(data.otpExpired){setOtpExpired(data.otpExpired);return;}
+        if(data.otpExpired){
+          setOtpExpired(data.otpExpired);
+          return;
+        }
         setOtpValid(false);
       });
-  } 
+  }
+
+  const authenticate = () =>{
+
+    setBackDropOpen(true);
+    fetch('http://192.168.1.20:8080/authenticate',{
+      method: 'POST',
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        setBackDropOpen(false);
+
+        if(data.success){
+          if(data.customer){
+            loadCustomerDetails(data.jwt)
+            navigate("/", {replace: true})
+          }else{
+            /*Navigate to Admin panel */ 
+          }
+          Cookies.set('jwt', data.jwt, { expires: 7 });
+          dispatch(setLogged(true));
+          return;
+        }
+
+      });   
+  }
+  
+  const loadCustomerDetails = (jwt) =>{
+    setBackDropOpen(true)
+    fetch('http://192.168.1.20:8080/customer/email',{  
+      method: 'POST',
+      body: JSON.stringify({
+        email: email,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': `Bearer ${jwt}`,
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      setBackDropOpen(false)
+      Cookies.set('customerID',data.customerID, {expires: 7})
+      dispatch(setCustomerID(data.customerID))
+    })
+  }
   
   const resendOtpBtnClicked = () =>{
     setOtpExpired(false);

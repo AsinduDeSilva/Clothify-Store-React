@@ -5,13 +5,12 @@ import { useSelector } from 'react-redux'
 
 export default function Homepage() {
 
-  const {cart} =useSelector((state) => state.userInfo)
-  console.log(cart[1])
+  const {cart, customerID} =useSelector((state) => state.userInfo)
+  console.log(customerID)
 
   return (
     <div>
       <Navbar/>
-      {Cookies.get('jwt')}
     </div>
   )
 }
