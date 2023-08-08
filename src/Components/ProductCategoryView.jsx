@@ -4,12 +4,14 @@ import {Backdrop, CircularProgress, Pagination } from '@mui/material';
 import Heading from './Heading';
 import Footer from './Footer';
 import Navbar from './Navbar';
+import { useSelector } from 'react-redux';
 
 
 export default function ProductCategoryView(props) {
   const [productList, setProductList] = useState([]);
   const [pageCount, setPageCount] = useState(0); 
   const [backDropOpen, setBackDropOpen] = useState(false);
+  const {backendAddress} = useSelector(state => state.backendInfo);
   
   useEffect(()=>{
     loadProducts(1);
@@ -19,7 +21,7 @@ export default function ProductCategoryView(props) {
 
     setBackDropOpen(true);
 
-    fetch(`http://192.168.1.20:8080/product/category/${props.category}?page=${page}`)
+    fetch(`http://${backendAddress}/product/category/${props.category}?page=${page}`)
      .then(res => res.json())
      .then(data => {
         setBackDropOpen(false);

@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Alert, Avatar, Backdrop, Box, CircularProgress, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PageNotFound from './PageNotFound';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCustomerID, setLogged } from '../Redux/userInfo';
 import Cookies from 'js-cookie';
 
@@ -18,6 +18,7 @@ export default function VerifyOTP() {
   const password = useLocation().state?.password;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {backendAddress} = useSelector(state => state.backendInfo);
 
   const verifyBtnClicked = () =>{
     
@@ -30,7 +31,7 @@ export default function VerifyOTP() {
 
     setBackDropOpen(true);
 
-    fetch('http://192.168.1.20:8080/customer/verify',{
+    fetch(`http://${backendAddress}/customer/verify`,{
       method: 'POST',
       body: JSON.stringify({
         email: email,
@@ -59,7 +60,7 @@ export default function VerifyOTP() {
   const authenticate = () =>{
 
     setBackDropOpen(true);
-    fetch('http://192.168.1.20:8080/authenticate',{
+    fetch(`http://${backendAddress}/authenticate`,{
       method: 'POST',
       body: JSON.stringify({
         email: email,
@@ -90,7 +91,7 @@ export default function VerifyOTP() {
   
   const loadCustomerDetails = (jwt) =>{
     setBackDropOpen(true)
-    fetch('http://192.168.1.20:8080/customer/email',{  
+    fetch(`http://${backendAddress}/customer/email`,{  
       method: 'POST',
       body: JSON.stringify({
         email: email,
@@ -112,7 +113,7 @@ export default function VerifyOTP() {
     setOtpExpired(false);
     setBackDropOpen(true);
 
-    fetch('http://192.168.1.20:8080/customer/resend-otp',{
+    fetch(`http://${backendAddress}/customer/resend-otp`,{
       method: 'POST',
       body: JSON.stringify({
         email: email,

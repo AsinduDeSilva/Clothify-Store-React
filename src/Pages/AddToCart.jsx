@@ -4,7 +4,7 @@ import Navbar from '../Components/Navbar';
 import Grid from '@mui/material/Unstable_Grid2';
 import Footer from '../Components/Footer';
 import { Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../Redux/userInfo';
 
 
@@ -23,6 +23,7 @@ export default function AddToCart() {
   const [qty, setQty] = useState(0);
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
+  const {backendAddress} = useSelector(state => state.backendInfo);
   
 
   useEffect(() =>{
@@ -30,7 +31,7 @@ export default function AddToCart() {
   },[])
 
   const loadProductDeatils = () => {
-    fetch(`http://192.168.1.20:8080/product/${productID}`)
+    fetch(`http://${backendAddress}/product/${productID}`)
      .then(res => res.json())
      .then(data => setProductData(data))
   }
@@ -76,7 +77,7 @@ export default function AddToCart() {
                 <div className='md:h-[500px] h-[400px] flex items-center justify-center md:my-10 '>
                   <div className='h-[90%] rounded-[20px] shadow-xl hover:shadow-2xl transition-time overflow-hidden'>
                     <img 
-                      src={productData.imgFileName === "" ? null : "http://192.168.1.20:8080/product/image/"+productData.imgFileName} 
+                      src={productData.imgFileName === "" ? null : `http://${backendAddress}/product/image/${productData.imgFileName}`} 
                       alt="product" 
                       className='w-full h-full hover:scale-110 transition-time' 
                     />
@@ -130,7 +131,7 @@ export default function AddToCart() {
 
                     <p className='font-medium'>Quantity</p>
 
-                    <div className='flex '>
+                    <div className='flex'>
                       <div className='flex h-8 w-24 bg-[#fff] rounded border border-black ml-5 mt-4 mb-10'>
                         <div className='w-8 flex items-center justify-center'>
                           <button className="font-semibold" onClick={e => decrement()}> - </button>

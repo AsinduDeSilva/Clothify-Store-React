@@ -13,6 +13,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function Copyright(props) {
     return (
@@ -40,6 +41,7 @@ export default function SignUp() {
   const [passwordFieldError, setPasswordFieldError] = useState(false);
   const [isEmailExists, setEmailExists] = useState(false);
   const navigate = useNavigate();
+  const {backendAddress} = useSelector(state => state.backendInfo);
   
   const sigUpBtnClicked = () =>{
     setFirstNameFieldError(false);
@@ -63,7 +65,7 @@ export default function SignUp() {
 
     setBackDropOpen(true);
 
-    fetch('http://192.168.1.20:8080/customer',{
+    fetch(`http://${backendAddress}/customer`,{
       method: 'POST',
       body: JSON.stringify({
         firstName: firstName,
@@ -83,7 +85,7 @@ export default function SignUp() {
         console.log(data);
         setBackDropOpen(false);
         if(data.success){
-            navigate("/verify", {state: {email}});
+            navigate("/verify", {state: {email: email, password: password}});
         }
         if(data.message === "Duplicate Data"){
             setEmailExists(true);

@@ -17,7 +17,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCustomerID, setLogged } from '../Redux/userInfo';
 
 
@@ -39,6 +39,7 @@ export default function LogIn() {
   const [passwordFieldEmptyError, setPasswordFieldEmptyError] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {backendAddress} = useSelector(state => state.backendInfo);
 
 
   const loginClicked = () =>{
@@ -53,7 +54,7 @@ export default function LogIn() {
     }
 
     setBackDropOpen(true);
-    fetch('http://192.168.1.20:8080/authenticate',{
+    fetch(`http://${backendAddress}/authenticate`,{
       method: 'POST',
       body: JSON.stringify({
         email: email,
@@ -89,7 +90,7 @@ export default function LogIn() {
 
   const loadCustomerDetails = (jwt) =>{
     setBackDropOpen(true)
-    fetch('http://192.168.1.20:8080/customer/email',{  
+    fetch(`http://${backendAddress}/customer/email`,{  
       method: 'POST',
       body: JSON.stringify({
         email: email,

@@ -32,9 +32,12 @@ export const userInfoSlice = createSlice({
         state.cart.push(payload);
         
     },
+    updateCart: (state, action) => {
+      state.cart = action.payload;
+    },
   },
 })
 
-export const {setLogged, addToCart, setCustomerID } = userInfoSlice.actions
+export const {setLogged, addToCart, setCustomerID, updateCart } = userInfoSlice.actions
 
 export default userInfoSlice.reducer
