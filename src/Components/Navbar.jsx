@@ -100,9 +100,11 @@ export default function Navbar() {
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <Badge badgeContent={cart.length} color='info' >
-                    <ShoppingCartOutlined className="h-6 w-6" aria-hidden="true" />
-                  </Badge>  
+                  <Link to="/cart">
+                    <Badge badgeContent={cart.length} color='info' >
+                      <ShoppingCartOutlined className="h-6 w-6" aria-hidden="true"  />
+                    </Badge> 
+                  </Link> 
                 </button>
 
                 {/* Profile dropdown */}
