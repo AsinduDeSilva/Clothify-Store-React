@@ -54,12 +54,44 @@ export default function ShoppingCart() {
     return total;
   }
 
-  const incremnet = (index) => {
+  const qtyOnHandOf = (index,size) => {
+    switch (size){
+      case "SMALL" : return productDetailsList[index].smallQty;
+      case "MEDIUM" : return productDetailsList[index].mediumQty;
+      case "LARGE" : return productDetailsList[index].largeQty;
+      default : return 0;
+    }
+  }
 
+  const incremnet = (index) => {
+    if(qtyOnHandOf(index,cart[index].size) === cart[index].qty)return;
+
+    const cartDetail = cart[index];
+
+    let updatedCart = [...cart];
+    updatedCart[index] = {
+        productID: cartDetail.productID,
+        size: cartDetail.size,
+        qty: cartDetail.qty + 1
+    };
+    
+
+    dispatch(updateCart(updatedCart))
   }
 
   const decremnet = (index) => {
-    
+    if(cart[index].qty == 1) return;
+ 
+    const cartDetail = cart[index];
+
+    let updatedCart = [...cart];
+    updatedCart[index] = {
+        productID: cartDetail.productID,
+        size: cartDetail.size,
+        qty: cartDetail.qty - 1
+    };
+
+    dispatch(updateCart(updatedCart))
   }
 
     
