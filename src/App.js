@@ -10,6 +10,7 @@ import SignUp from './Pages/SignUp';
 import AddToCart from './Pages/AddToCart';
 import PageNotFound from './Pages/PageNotFound';
 import Cart from './Pages/ShoppingCart';
+import Checkout from './Pages/Checkout';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path=':productID' Component={AddToCart}/>
       </Route>
       <Route path='/cart' Component={Cart}/>
+      <Route path='/checkout' Component={Checkout} />
       <Route path='/login' Component={LogIn} />
       <Route path='/signup' Component={SignUp} />
       <Route path='/verify' Component={VerifyOTP} />
