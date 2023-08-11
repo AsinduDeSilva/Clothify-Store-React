@@ -7,7 +7,7 @@ import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import { updateCart } from '../Redux/userInfo';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SHIPPING_FEE = 500.00;
 
@@ -18,6 +18,7 @@ export default function Checkout() {
   const {cart} = useSelector((state) => state.userInfo);  
   const dispatch = useDispatch(); 
   const navigate = useNavigate();
+  const tempCart = useLocation().state?.cart;
   const [customerDetails, setCustomerDetails] = useState({});
   const [productDetailsList, setProductDetailsList] = useState([]); 
   const [email, setEmail] = useState("");
@@ -31,13 +32,18 @@ export default function Checkout() {
   const [txtLastNameError, setTxtLastNameError] = useState(false);
   const [txtAddressError, setTxtAddressError] = useState(false);
   const [txtPhoneNoError, setTxtPhoneNoError] = useState(false);
+  const [checkoutCart, setCheckoutCart] = useState(cart);
 
   useEffect(() => {
     if(isLogged){
+      if(tempCart != undefined){
+        setCheckoutCart(tempCart);
+      }
       loadCustomerDetails();
       loadProducts();
     }
-  },[])
+    console.log(1)
+  },[checkoutCart])
 
   const loadCustomerDetails = () =>{
     setBackDropOpen(true)
@@ -61,20 +67,19 @@ export default function Checkout() {
   async function loadProducts() {
     setProductDetailsList([]);
   
-    const fetchPromises = cart.map(async (cartItem) => {
+    const fetchPromises = checkoutCart.map(async (cartItem) => {
       const response = await fetch(`http://${backendAddress}/product/${cartItem.productID}`);
       const data = await response.json();
       return data;
     });
   
     const productDetailsArray = await Promise.all(fetchPromises);
-  
     setProductDetailsList(productDetailsArray);
   }
 
   const getTotal = () => {
     let total = 0;
-    cart.forEach((cartItem, index) => {
+    checkoutCart.forEach((cartItem, index) => {
         total += cartItem.qty * productDetailsList[index]?.unitPrice;
     })
     return total;
@@ -102,11 +107,11 @@ export default function Checkout() {
     }
 
     let orderDetails = [];
-    for(var i=0; i<cart.length; i++){
+    for(var i=0; i<checkoutCart.length; i++){
       orderDetails.push({
-        productID: cart[i].productID,
-        size: cart[i].size,
-        quantity: cart[i].qty,
+        productID: checkoutCart[i].productID,
+        size: checkoutCart[i].size,
+        quantity: checkoutCart[i].qty,
         unitPrice: productDetailsList[i].unitPrice
       })
     }
@@ -174,7 +179,7 @@ export default function Checkout() {
   return (
     <div>
         {
-          cart.length === 0 || !isLogged ? null : (
+          checkoutCart.length === 0 || !isLogged ? null : (
             <>
               <Navbar/>
               <Heading name="Checkout" />
@@ -182,7 +187,7 @@ export default function Checkout() {
               <Grid container spacing={0} sx={{mb:5}}> 
                 <Grid xs={12} lg={6} className="border-r-2" >
                   <Container component="main" maxWidth="sm" >
-                    <h1 className='font-medium mb-6'>Contact Information</h1>
+                    <h1 className='font-medium text-[18px] mb-6'>Contact Information</h1>
                     <TextField  
                       disabled
                       label="Email" 
@@ -193,7 +198,7 @@ export default function Checkout() {
                         readOnly: true,
                       }}   
                     />
-                    <h1 className='font-medium my-6'>Shipping Information</h1>
+                    <h1 className='font-medium text-[18px] my-6'>Shipping Information</h1>
                     <Grid container spacing={2} >
                         <Grid xs={12} sm={6}>
                             <TextField  

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
 import Grid from '@mui/material/Unstable_Grid2';
 import Footer from '../Components/Footer';
@@ -23,6 +23,7 @@ export default function AddToCart() {
   const [qty, setQty] = useState(0);
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {backendAddress} = useSelector(state => state.backendInfo);
   
 
@@ -65,7 +66,12 @@ export default function AddToCart() {
   }
 
   const buyNowBtnClicked = () => {
-    
+    if (qty === 0 )return;
+    navigate("/checkout", {state: {cart:[{
+      productID: productID,
+      size: size,
+      qty: qty 
+    }]}})
   }
 
   return (
