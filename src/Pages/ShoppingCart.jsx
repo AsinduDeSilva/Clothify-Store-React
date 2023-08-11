@@ -6,14 +6,15 @@ import { Delete } from '@mui/icons-material';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCart } from '../Redux/userInfo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function ShoppingCart() {
 
-  const {cart} = useSelector((state) => state.userInfo);   
+  const {cart, isLogged} = useSelector((state) => state.userInfo);   
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [productDetailsList, setProductDetailsList] = useState([]); 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function loadProducts() {
     setProductDetailsList([]);
@@ -32,10 +33,6 @@ export default function ShoppingCart() {
   useEffect(() => {
     loadProducts();
   },[])
-
-  const checkOutBtnClicked = () => {
-    console.log(productDetailsList)
-  }
 
   const removefromCart = (index) => {
     const updatedCart = [...cart];
@@ -94,11 +91,15 @@ export default function ShoppingCart() {
     dispatch(updateCart(updatedCart))
   }
 
+  const btnCheckoutOnClick = () => {
+    isLogged ? navigate("/checkout") : navigate("/login");
+  }
+
     
   return (
     <div>
         <Navbar />
-        <Heading name="Shopping Cart"/>
+        <Heading name="Your Cart"/>
 
         {cart.length !== 0 ? (
             <>
@@ -172,10 +173,10 @@ export default function ShoppingCart() {
                 <Button 
                     variant="contained" 
                     size={window.innerWidth > 350 ? 'large' : 'medium'}
-                    sx={btnStyle1}
-                    onClick={checkOutBtnClicked}            
+                    sx={btnStyle1}  
+                    onClick={btnCheckoutOnClick}         
                     >
-                    Check out
+                      Checkout
                 </Button>
 
                 <p className='text-lg xs:text-2xl font-semibold'>{"LKR "+getTotal().toFixed(2)}</p>
