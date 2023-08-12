@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
 import Grid from '@mui/material/Unstable_Grid2';
 import Footer from '../Components/Footer';
-import { Button } from '@mui/material';
+import { Backdrop, Button, CircularProgress } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../Redux/userInfo';
 
@@ -22,9 +22,11 @@ export default function AddToCart() {
   });
   const [qty, setQty] = useState(0);
   const [size, setSize] = useState("");
+  const [backDropOpen, setBackDropOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {isLogged} = useSelector(state => state.userInfo)
   
 
   useEffect(() =>{
@@ -32,9 +34,13 @@ export default function AddToCart() {
   },[])
 
   const loadProductDeatils = () => {
+    setBackDropOpen(true)
     fetch(`http://${backendAddress}/product/${productID}`)
      .then(res => res.json())
-     .then(data => setProductData(data))
+     .then(data => {
+      setBackDropOpen(false)
+      setProductData(data)
+    })
   }
 
   const qtyOnHandOf = (size) => {
@@ -67,7 +73,7 @@ export default function AddToCart() {
 
   const buyNowBtnClicked = () => {
     if (qty === 0 )return;
-    navigate("/checkout", {state: {cart:[{
+    !isLogged ? navigate("/login") : navigate("/checkout", {state: {cart:[{
       productID: productID,
       size: size,
       qty: qty 
@@ -193,6 +199,13 @@ export default function AddToCart() {
         </Grid>
 
         <Footer/>
+
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={backDropOpen}   
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
         
     </div>
   )

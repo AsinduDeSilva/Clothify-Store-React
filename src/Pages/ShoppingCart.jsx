@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Heading from '../Components/Heading';
 import Navbar from '../Components/Navbar';
-import { Button, IconButton } from '@mui/material';
+import { Backdrop, Button, CircularProgress, IconButton } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,11 +13,13 @@ export default function ShoppingCart() {
   const {cart, isLogged} = useSelector((state) => state.userInfo);   
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [productDetailsList, setProductDetailsList] = useState([]); 
+  const [backDropOpen, setBackDropOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   async function loadProducts() {
     setProductDetailsList([]);
+    setBackDropOpen(true)
   
     const fetchPromises = cart.map(async (cartItem) => {
       const response = await fetch(`http://${backendAddress}/product/${cartItem.productID}`);
@@ -26,7 +28,7 @@ export default function ShoppingCart() {
     });
   
     const productDetailsArray = await Promise.all(fetchPromises);
-  
+    setBackDropOpen(false)
     setProductDetailsList(productDetailsArray);
   }
 
@@ -189,7 +191,14 @@ export default function ShoppingCart() {
         )}
           
 
-          <Footer/>
+        <Footer/>
+
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={backDropOpen}   
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
     </div>
   )
 }
