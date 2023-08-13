@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 const initialState = {
   isLogged: Cookies.get('jwt') !== undefined ,
   customerID: Cookies.get('customerID'),
-  cart: [],
+  cart: Cookies.get('cart') === undefined ? [] : JSON.parse(Cookies.get('cart')),
 }
 
 export const userInfoSlice = createSlice({
@@ -30,10 +30,12 @@ export const userInfoSlice = createSlice({
         }
         
         state.cart.push(payload);
+        Cookies.set('cart', JSON.stringify(state.cart))
         
     },
     updateCart: (state, action) => {
       state.cart = action.payload;
+      Cookies.set('cart', JSON.stringify(state.cart))
     },
   },
 })
