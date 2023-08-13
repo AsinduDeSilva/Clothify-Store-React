@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar'
 import Heading from '../Components/Heading'
-import { Button, Container, TextField } from '@mui/material'
+import { Backdrop, Button, CircularProgress, Container, TextField } from '@mui/material'
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import Footer from '../Components/Footer';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import UpdateProfilePage from './UpdateProfilePage';
 
 export default function Profile() {
   const {customerID, isLogged} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [customerDetails, setCustomerDetails] = useState({});
   const [backDropOpen, setBackDropOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadCustomerDetails();
@@ -32,7 +34,7 @@ export default function Profile() {
   }
 
   const btnUpdateProfileOnClick = () => {
-    
+    navigate("/profile/update", {state:{customerDetails}});
   }
 
   const btnChangePasswordOnClick = () => {
@@ -94,14 +96,14 @@ export default function Profile() {
             </Button>
           </div>
           <div className='flex justify-end xs:block'>
-            <Button 
-              variant="contained" 
-              size='medium'
-              sx={btnStyle1}  
-              onClick={btnUpdateProfileOnClick}         
-            >
-              Update Profile
-            </Button>
+              <Button 
+                variant="contained" 
+                size='medium'
+                sx={btnStyle1}  
+                onClick={btnUpdateProfileOnClick}         
+              >
+                Update Profile
+              </Button>
           </div>
         </div>
 
@@ -122,6 +124,13 @@ export default function Profile() {
       </Container>
 
       <Footer/>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={backDropOpen}   
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       
     </div>
   )

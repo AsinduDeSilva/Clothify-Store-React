@@ -144,7 +144,7 @@ export default function Navbar() {
                             <Menu.Item>
                               {( active ) => (
                                 <Link
-                                  to = '/profile'
+                                  to = '/profile/overview'
                                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
                                   Profile
@@ -208,7 +208,7 @@ export default function Navbar() {
                       <Disclosure.Button
                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                       >
-                        <Link to="/profile">
+                        <Link to="/profile/overview">
                           Profile
                         </Link>
                       </Disclosure.Button>  
