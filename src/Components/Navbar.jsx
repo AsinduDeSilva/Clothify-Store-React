@@ -14,7 +14,7 @@ import { setLogged } from '../Redux/userInfo';
 
 const navigation = [
   { name: 'Home', to: '/' },
-  { name: 'Latest', to: '#'},
+  { name: 'Latest', to: '/products/latest'},
   { name: 'Men', to: '/products/men'},
   { name: 'Women', to: '/products/women'},
   { name: 'Kids', to: '/products/kids'},
@@ -94,18 +94,18 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0 ">
-                <button
-                  type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white  "
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <Link to="/cart">
+                <Link to="/cart">
+                  <button
+                    type="button"
+                    className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white  "
+                  >
+                    <span className="absolute -inset-1.5" />
+                    <span className="sr-only">View notifications</span>
                     <Badge badgeContent={cart.length} color='info' >
                       <ShoppingCartOutlined className="h-6 w-6" aria-hidden="true"  />
                     </Badge> 
-                  </Link> 
-                </button>
+                  </button>
+                </Link> 
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3 hidden md:block p-1 ">
@@ -133,10 +133,10 @@ export default function Navbar() {
                             <Menu.Item>
                               {( active ) => (
                                 <Link
-                                  to = '/'
+                                  to = '/orders'
                                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
-                                  Your Profile
+                                  Orders
                                 </Link>
                               )}
                             </Menu.Item>  
@@ -144,10 +144,10 @@ export default function Navbar() {
                             <Menu.Item>
                               {( active ) => (
                                 <Link
-                                  to = '/'
+                                  to = '/profile'
                                   className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                 >
-                                  Settings
+                                  Profile
                                 </Link>
                               )}
                             </Menu.Item>
@@ -201,15 +201,15 @@ export default function Navbar() {
                       <Disclosure.Button
                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                       >
-                        <Link to="/">
-                          Your Profile
+                        <Link to="/orders">
+                          Orders
                         </Link>
                       </Disclosure.Button>    
                       <Disclosure.Button
                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                       >
-                        <Link to="/">
-                          Settings
+                        <Link to="/profile">
+                          Profile
                         </Link>
                       </Disclosure.Button>  
                       <Disclosure.Button

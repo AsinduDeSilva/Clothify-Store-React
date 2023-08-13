@@ -5,16 +5,13 @@ import { Button, Container, TextField } from '@mui/material'
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import Footer from '../Components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
   const {customerID, isLogged} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
+  const [customerDetails, setCustomerDetails] = useState({});
   const [backDropOpen, setBackDropOpen] = useState(false);
-  const [textFieldEditable, setTextFieldEditable] = useState(false);
 
   useEffect(() => {
     loadCustomerDetails();
@@ -30,11 +27,20 @@ export default function Profile() {
     .then(res => res.json())
     .then(data => {
       setBackDropOpen(false); 
-      setFirstName(data.firstName);
-      setLastName(data.lastName);
-      setAddress(data.address);
-      setPhoneNo(data.mobileNo);
+      setCustomerDetails(data)
     })
+  }
+
+  const btnUpdateProfileOnClick = () => {
+    
+  }
+
+  const btnChangePasswordOnClick = () => {
+    
+  }
+
+  const btnDeleteAccountOnClick = () => {
+    
   }
 
   return (
@@ -42,69 +48,81 @@ export default function Profile() {
       <Navbar />
       <Heading name="Profile" />
 
-      <Container maxWidth="sm" className='flex items-center justify-center'>
-        <div className='flex items-center justify-between mb-5'>
-          <TextField 
-            id="outlined-basic" 
-            label="First name" 
-            variant="outlined" 
-            fullWidth 
-            value={firstName}
-            InputProps={{
-              readOnly: !textFieldEditable,
-            }} 
-          />
+      <Container maxWidth="sm" className='flex'>
+        <div className='flex border-b border-white h-[60px]'>
+          <div className='w-[40%] border-r border-white flex items-center justify-center bg-[#212529] text-white text-[15px]'>
+            First name
+          </div>
+          <div className='w-full flex items-center bg-[#D9D9D9] text- text-[14px] px-2'>
+            {customerDetails.firstName}
+          </div>
         </div>
-        <div className='flex items-center justify-between mb-5'>
-          <TextField 
-            id="outlined-basic" 
-            label="Last name" 
-            variant="outlined" 
-            fullWidth 
-            value={lastName}
-            InputProps={{
-              readOnly: !textFieldEditable,
-            }} 
-          />
+        <div className='flex h-[60px] border-b border-white'>
+          <div className='w-[40%] border-r border-white flex items-center justify-center bg-[#212529] text-white text-[15px]'>
+            Last name
+          </div>
+          <div className='w-full flex items-center bg-[#D9D9D9] text-[14px] px-2'>
+            {customerDetails.lastName}
+          </div>
         </div>
-        <div className='flex items-center justify-between mb-5'>
-        <TextField 
-            id="outlined-basic" 
-            label="Phone" 
-            variant="outlined" 
-            fullWidth 
-            value={phoneNo}
-            InputProps={{
-              readOnly: !textFieldEditable,
-            }} 
-          />
+        <div className='flex h-[60px] border-b border-white'>
+          <div className='w-[40%] border-r border-white flex items-center justify-center bg-[#212529] text-white text-[15px]'>
+            Phone No
+          </div>
+          <div className='w-full flex items-center bg-[#D9D9D9] text-[14px] px-2'>
+            {customerDetails.mobileNo}
+          </div>
         </div>
-        <div className='flex items-center justify-between mb-5'>
-        <TextField 
-            id="outlined-basic" 
-            label="Address" 
-            variant="outlined" 
-            fullWidth 
-            multiline
-            value={address}
-            InputProps={{
-              readOnly: !textFieldEditable,
-            }} 
-          />
+        <div className='flex h-[100px] border-b border-white'>
+          <div className='w-[40%] border-r border-white flex items-center justify-center bg-[#212529] text-white text-[15px]'>
+            Address
+          </div>
+          <div className='w-full flex items-center bg-[#D9D9D9] text-[14px] px-2'>
+            {customerDetails.address}
+          </div>
         </div>
-        <div className='flex items-center justify-end mb-10'>
+        
+        <div className='xs:flex justify-between my-5'>
+          <div className='flex justify-end mb-2 xs:block xs:mb-0'>
+            <Button 
+              variant="contained" 
+              size='medium'
+              sx={btnStyle1}  
+              onClick={btnChangePasswordOnClick}         
+            >
+              Change Password
+            </Button>
+          </div>
+          <div className='flex justify-end xs:block'>
+            <Button 
+              variant="contained" 
+              size='medium'
+              sx={btnStyle1}  
+              onClick={btnUpdateProfileOnClick}         
+            >
+              Update Profile
+            </Button>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className='mt-5 mb-10 flex justify-end'>
           <Button 
             variant="contained" 
-            size={window.innerWidth > 350 ? 'large' : 'medium'}
-            sx={btnStyle1}  
-            //onClick={btnCheckoutOnClick}         
+            size='medium'
+            color='error' 
+            sx={{borderRadius:'25px'}}
+            onClick={btnDeleteAccountOnClick}         
           >
-            Edit
+              Delete Account
           </Button>
         </div>
+
       </Container>
 
       <Footer/>
+      
     </div>
   )
 }
@@ -112,7 +130,6 @@ export default function Profile() {
 const btnStyle1 ={
   backgroundColor:'black',
   borderRadius:'25px',
-  px:5,
   ":hover":{
     backgroundColor:"black"
   }
