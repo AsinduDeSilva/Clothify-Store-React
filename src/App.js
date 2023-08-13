@@ -13,6 +13,7 @@ import Cart from './Pages/ShoppingCart';
 import Checkout from './Pages/Checkout';
 import Profile from './Pages/Profile';
 import UpdateProfilePage from './Pages/UpdateProfilePage';
+import ChangePassword from './Pages/ChangePassword';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
       <Route path='profile'>
         <Route path='overview' Component={Profile}/>
         <Route path='update' Component={UpdateProfilePage}/>
+        <Route path='change-password' Component={ChangePassword}/>
       </Route>
       <Route path='/login' Component={LogIn} />
       <Route path='/signup' Component={SignUp} />

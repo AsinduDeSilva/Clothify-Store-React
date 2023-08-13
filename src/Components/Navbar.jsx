@@ -7,7 +7,7 @@ import { Badge, Button } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
-import { setLogged } from '../Redux/userInfo';
+import { setCustomerID, setLogged } from '../Redux/userInfo';
 
 
 
@@ -41,8 +41,8 @@ export default function Navbar() {
     Cookies.remove('jwt');
     Cookies.remove('customerID')
     dispatch(setLogged(false))
+    dispatch(setCustomerID(undefined))
     navigate('/')
-    window.location.replace("/")
   }
 
   return (

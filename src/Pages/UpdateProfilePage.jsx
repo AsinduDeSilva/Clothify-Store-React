@@ -81,6 +81,7 @@ export default function UpdateProfilePage() {
                 Swal.fire({
                     icon: 'success',
                     text: 'Successfully Updated',
+                    confirmButtonText: 'OK'
                 })
             }
         })
@@ -171,4 +172,4 @@ const btnStyle1 ={
     ":hover":{
       backgroundColor:"black"
     }
-  }
+}

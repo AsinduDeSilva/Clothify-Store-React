@@ -42,7 +42,6 @@ export default function Checkout() {
       loadCustomerDetails();
       loadProducts();
     }
-    console.log(1)
   },[checkoutCart])
 
   const loadCustomerDetails = () =>{
