@@ -42,7 +42,9 @@ export default function Navbar() {
     Cookies.remove('customerID')
     dispatch(setLogged(false))
     dispatch(setCustomerID(undefined))
-    navigate('/')
+    setTimeout(() => {
+      navigate("/", {replace: true})  
+    }, 100);
   }
 
   return (

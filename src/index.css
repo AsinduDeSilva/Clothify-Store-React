@@ -21,10 +21,16 @@ body {
   background-color: #000000 !important;
   color: white !important;
   border-color: #000000 !important;
-}
+} 
 
 .swal2-confirm:focus {
   box-shadow: none !important;
+}
+
+.confirm-delete {
+  background-color: #C62828 !important;
+  color: white !important;
+  border-color: #000000 !important;
 }
 
 

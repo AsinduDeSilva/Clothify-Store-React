@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar'
 import Heading from '../Components/Heading'
 import { Backdrop, Button, CircularProgress, Container } from '@mui/material'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import Footer from '../Components/Footer';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { setCustomerID, setLogged } from '../Redux/userInfo';
 
 
 export default function Profile() {
@@ -14,6 +16,7 @@ export default function Profile() {
   const [customerDetails, setCustomerDetails] = useState({});
   const [backDropOpen, setBackDropOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     loadCustomerDetails();
@@ -42,7 +45,45 @@ export default function Profile() {
   }
 
   const btnDeleteAccountOnClick = () => {
-    
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#000000',
+      confirmButtonText: 'Delete',
+      customClass:{
+        confirmButton: 'confirm-delete'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        setBackDropOpen(true)
+        fetch(`http://${backendAddress}/customer/${customerID}`,{  
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+            setBackDropOpen(false); 
+            if(data.success){
+                Cookies.remove('jwt');
+                Cookies.remove('customerID')
+                dispatch(setLogged(false))
+                dispatch(setCustomerID(undefined))
+                navigate('/', {replace: true})
+                Swal.fire(
+                  'Deleted!',
+                  'Your account has been deleted.',
+                  'success'
+                )
+            }
+        })
+      }
+    })
   }
 
   return (
