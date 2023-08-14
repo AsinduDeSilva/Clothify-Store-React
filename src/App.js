@@ -14,6 +14,8 @@ import Checkout from './Pages/Checkout';
 import Profile from './Pages/Profile';
 import UpdateProfilePage from './Pages/UpdateProfilePage';
 import ChangePassword from './Pages/ChangePassword';
+import Latest from './Pages/Latest';
+
 
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
         <Route path='men' Component={Men}/>
         <Route path='women' Component={Women}/>
         <Route path='kids' Component={Kids}/>
+        <Route path='latest' Component={Latest}/>
         <Route path='accessories' Component={Accessories}/>
         <Route path=':productID' Component={AddToCart}/>
       </Route>
