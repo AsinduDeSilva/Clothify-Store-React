@@ -14,6 +14,7 @@ import Checkout from './Pages/Checkout';
 import Profile from './Pages/Profile';
 import UpdateProfilePage from './Pages/UpdateProfilePage';
 import ChangePassword from './Pages/ChangePassword';
+import Orders from './Pages/Orders';
 import Latest from './Pages/Latest';
 
 
@@ -32,6 +33,7 @@ function App() {
       </Route>
       <Route path='/cart' Component={Cart}/>
       <Route path='/checkout' Component={Checkout} />
+      <Route path='/orders' Component={Orders} />
       <Route path='profile'>
         <Route path='overview' Component={Profile}/>
         <Route path='update' Component={UpdateProfilePage}/>
