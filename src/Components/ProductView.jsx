@@ -5,7 +5,7 @@ export default function ProductView(props) {
   const {backendAddress} = useSelector(state => state.backendInfo);
 
   return (
-    <div className='rounded-[20px] overflow-hidden hover:cursor-pointer shadow-xl hover:shadow-2xl transition-time z-0'>
+    <div className='rounded-[20px] overflow-hidden hover:cursor-pointer shadow-xl hover:shadow-2xl transition-time z-0 bg-white'>
         <div className='overflow-hidden'>
             <img src={`http://${backendAddress}/product/image/${props.image}`} className='w-full xl:h-[360px] sm:h-[320px] xs:h-[250px] h-[200px] hover:scale-110 transition-time hover:fill-transparent' alt="product" />
         </div>

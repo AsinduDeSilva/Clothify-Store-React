@@ -172,18 +172,3 @@ export default function Orders() {
   )
 }
 
-/*
-  async function loadProducts() {
-    setProductDetailsList([]);
-    setBackDropOpen(true)
-  
-    const fetchPromises = orderList.map(async (orderDetail) => {
-      const response = await fetch(`http://${backendAddress}/product/${orderDetail.productID}`);
-      const data = await response.json();
-      return data;
-    });
-  
-    const productDetailsArray = await Promise.all(fetchPromises);
-    setBackDropOpen(false)
-    setProductDetailsList(productDetailsArray);
-  }*/

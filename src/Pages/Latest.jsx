@@ -28,10 +28,6 @@ export default function Latest() {
     })
   }
 
-  const handleChange = (event, value) => {
-    loadProducts(value);
-  };
-
   return (
     <div>
       <Navbar/>
