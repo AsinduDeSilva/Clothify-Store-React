@@ -16,6 +16,7 @@ import UpdateProfilePage from './Pages/UpdateProfilePage';
 import ChangePassword from './Pages/ChangePassword';
 import Orders from './Pages/Orders';
 import Latest from './Pages/Latest';
+import AdminProducts from './Pages/AdminProducts';
 
 
 
@@ -38,6 +39,10 @@ function App() {
         <Route path='overview' Component={Profile}/>
         <Route path='update' Component={UpdateProfilePage}/>
         <Route path='change-password' Component={ChangePassword}/>
+      </Route>
+      <Route path='admin'>
+        <Route path='products' Component={AdminProducts}/>
+        
       </Route>
       <Route path='/login' Component={LogIn} />
       <Route path='/signup' Component={SignUp} />

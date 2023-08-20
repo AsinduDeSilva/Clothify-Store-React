@@ -7,6 +7,15 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+.product-table::-webkit-scrollbar {
+  display: none;
+}
+
+.product-table {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+
 
 
 * {
