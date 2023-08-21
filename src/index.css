@@ -26,11 +26,11 @@ body {
   transition: 0.5s ease-in-out;
 }
 
-.swal2-confirm {
+/* .swal2-confirm {
   background-color: #000000 !important;
   color: white !important;
   border-color: #000000 !important;
-} 
+}  */
 
 .swal2-confirm:focus {
   box-shadow: none !important;

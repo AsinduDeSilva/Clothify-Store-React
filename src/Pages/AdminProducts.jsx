@@ -61,18 +61,17 @@ export default function AdminProducts() {
                 centered 
                 onChange={onTabChange}  
                 textColor='inherit' 
-                
                 TabIndicatorProps={{
                     style: {
-                      backgroundColor: "#00C2BE"
+                      backgroundColor: "#fff"
                     }
                 }}
               >
-                <Tab label="All" />
-                <Tab label="Men" />
-                <Tab label="Women" />
-                <Tab label="Kids" />
-                <Tab label="Accessories"  />              
+                <Tab label="All" className='hover:bg-[#141414]'/>
+                <Tab label="Men" className='hover:bg-[#141414]'/>
+                <Tab label="Women" className='hover:bg-[#141414]'/>
+                <Tab label="Kids" className='hover:bg-[#141414]'/>
+                <Tab label="Accessories" className='hover:bg-[#141414]'/>              
               </Tabs>
             </div>
             <div className='h-[76.8%] mx-2 mt-2 bg-[#1E1E1E]'>
@@ -87,11 +86,24 @@ export default function AdminProducts() {
               <hr className='mb-4' />
 
               <div className='h-[86%] overflow-y-scroll product-table'>
-                {productList.map(productDetails => (
-                    <AdminProductRow key={productDetails.productID} productDetails={productDetails}/>
+                {productList.map((productDetails, index) => (
+                    <AdminProductRow 
+                      key={productDetails.productID} 
+                      productDetails={productDetails} 
+                      setProductList={setProductList}
+                      index={index}
+                    />
                 ))}
                 <div className='w-full flex justify-center py-3'>
-                  <Pagination count={pageCount} onChange={(e, value) => loadProducts(value)}   /> 
+                  <Pagination 
+                    count={pageCount} 
+                    onChange={(e, value) => loadProducts(value)} 
+                    sx={{"& .MuiPaginationItem-root": {
+                      color: "#fff",
+                    }, "& .Mui-selected" : {
+                      backgroundColor: "#141414"
+                    }}}  
+                  /> 
                 </div>
               </div>
 

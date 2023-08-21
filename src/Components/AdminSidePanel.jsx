@@ -1,14 +1,14 @@
 import React from 'react'
 import logo from '../assets/logo.jpg';
 import { Link } from 'react-router-dom';
-import { HomeIcon } from '@heroicons/react/24/outline';
-import { Dashboard, Inventory2, Settings, ShoppingCart } from '@mui/icons-material';
+import { Dashboard, ExitToApp, Inventory2, Settings, ShoppingCart } from '@mui/icons-material';
 
 const navigation = [
   { name: 'Dashboard', icon: Dashboard,  to: '/admin', current: false },
   { name: 'Products', icon: Inventory2,  to: '/admin/products', current: true },
   { name: 'Orders', icon: ShoppingCart,  to: '/admin', current: false },
   { name: 'Settings', icon: Settings,  to: '/admin', current: false },
+  { name: 'Logout', icon: ExitToApp,  to: '/admin', current: false },
  
 ]
 
