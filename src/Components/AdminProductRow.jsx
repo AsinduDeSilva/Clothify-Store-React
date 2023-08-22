@@ -5,11 +5,13 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import MyBackdrop from './MyBackdrop';
+import { useNavigate } from 'react-router-dom';
 
 export default function AdminProductRow({productDetails, setProductList, index}) {
 
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [backDropOpen, setBackDropOpen] = useState(false);
+  const navigate = useNavigate();
 
   const btnDeleteOnClick = (productID) => {
     Swal.fire({
@@ -56,6 +58,10 @@ export default function AdminProductRow({productDetails, setProductList, index})
     })    
   }
 
+  const btnEditOnClick = () => {
+    navigate("update", {state: {productDetails}})
+  }
+
   return ( 
     <div className='flex flex-row text-white mx-5 h-[20%] rounded-[12px] bg-[#141414] mb-3'>
         <div className='flex-[2] flex items-center justify-center '>{productDetails.productID}</div>
@@ -81,6 +87,7 @@ export default function AdminProductRow({productDetails, setProductList, index})
         <div className='flex-[2] flex items-center justify-center text-white'>
             <IconButton 
               sx={{"&:hover, &.Mui-focusVisible": { backgroundColor: "#484848" }}}
+              onClick={btnEditOnClick}
             >
               <Edit className='text-white'/>
             </IconButton>

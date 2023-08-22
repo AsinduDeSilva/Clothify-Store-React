@@ -18,6 +18,7 @@ import Orders from './Pages/Orders';
 import Latest from './Pages/Latest';
 import AdminProducts from './Pages/AdminProducts';
 import AddProduct from './Pages/AddProduct';
+import UpdateProduct from './Pages/UpdateProduct';
 
 
 
@@ -45,6 +46,7 @@ function App() {
         <Route path='products'>
           <Route path='' Component={AdminProducts}/>
           <Route path='add' Component={AddProduct}/>
+          <Route path='update' Component={UpdateProduct}/>
         </Route>
         
       </Route>
