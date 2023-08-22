@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import AdminSidePanel from '../Components/AdminSidePanel'
-import { Pagination, Tab, Tabs } from '@mui/material'
+import { Button, Pagination, Tab, Tabs } from '@mui/material'
 import AdminProductRow from '../Components/AdminProductRow';
 import { useSelector } from 'react-redux';
 import MyBackdrop from '../Components/MyBackdrop';
+import { Add } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 
 export default function AdminProducts() {
@@ -42,7 +44,7 @@ export default function AdminProducts() {
       case 1 : category = "men"; break;
       case 2 : category = "women"; break;
       case 3 : category = "kids"; break;
-      case 4 : category = "accessories";
+      //case 4 : category = "accessories";
     }
     setActiveCategory(category);
     setActiveTab(newTab);
@@ -52,8 +54,17 @@ export default function AdminProducts() {
     <div className='flex-row flex h-[100vh] '>
         <div className='flex-[3] '><AdminSidePanel/></div>
         <div className='flex-[11] bg-[#141414] -ml-1'>
-            <div className='h-[13%] '>
-                {/* Add Button */}
+            <div className='h-[13%] flex justify-end items-center mr-5'>
+                <Link to='add'>
+                  <Button 
+                    variant='contained' 
+                    startIcon={<Add/>} 
+                    sx={{py: 1.5, px: 4, background: '#026472', ":hover":{background: '#026C7B'}}} 
+                    className='hover:bg-red-400' 
+                  >
+                    Add Product
+                  </Button>
+                </Link>
             </div>
             <div className='text-white bg-[#1E1E1E] mx-2 py-2 h-[9%]'>
               <Tabs 
@@ -67,11 +78,11 @@ export default function AdminProducts() {
                     }
                 }}
               >
-                <Tab label="All" className='hover:bg-[#141414]'/>
-                <Tab label="Men" className='hover:bg-[#141414]'/>
-                <Tab label="Women" className='hover:bg-[#141414]'/>
-                <Tab label="Kids" className='hover:bg-[#141414]'/>
-                <Tab label="Accessories" className='hover:bg-[#141414]'/>              
+                <Tab label="All" className='hover:bg-[#141414]' sx={{borderRadius:"5px"}}/>
+                <Tab label="Men" className='hover:bg-[#141414]' sx={{borderRadius:"5px"}}/>
+                <Tab label="Women" className='hover:bg-[#141414]' sx={{borderRadius:"5px"}}/>
+                <Tab label="Kids" className='hover:bg-[#141414]' sx={{borderRadius:"5px"}}/>
+                {/* <Tab label="Accessories" className='hover:bg-[#141414]' sx={{borderRadius:"5px"}}/> */}
               </Tabs>
             </div>
             <div className='h-[76.8%] mx-2 mt-2 bg-[#1E1E1E]'>
@@ -85,7 +96,7 @@ export default function AdminProducts() {
               </div>    
               <hr className='mb-4' />
 
-              <div className='h-[86%] overflow-y-scroll product-table'>
+              <div className='h-[86%] overflow-y-scroll hide-scrollbar'>
                 {productList.map((productDetails, index) => (
                     <AdminProductRow 
                       key={productDetails.productID} 

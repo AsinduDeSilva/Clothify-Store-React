@@ -7,11 +7,11 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-.product-table::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-.product-table {
+.hide-scrollbar {
   -ms-overflow-style: none; 
   scrollbar-width: none;
 }
