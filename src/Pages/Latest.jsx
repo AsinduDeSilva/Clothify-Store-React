@@ -20,7 +20,7 @@ export default function Latest() {
 
     setBackDropOpen(true);
 
-    fetch(`http://${backendAddress}/product/page/1`)
+    fetch(`http://${backendAddress}/product/category/all?page=1`)
      .then(res => res.json())
      .then(data => {
         setBackDropOpen(false);

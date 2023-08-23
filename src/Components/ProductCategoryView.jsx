@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ProductListView from './ProductListView'
-import {Backdrop, CircularProgress, Pagination } from '@mui/material';
+import { Pagination } from '@mui/material';
 import Heading from './Heading';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import { useSelector } from 'react-redux';
+import MyBackdrop from './MyBackdrop';
 
 
 export default function ProductCategoryView(props) {
@@ -46,12 +47,7 @@ export default function ProductCategoryView(props) {
 
       <Footer />
 
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={backDropOpen}   
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <MyBackdrop backDropOpen={backDropOpen} />
       
     </div>
   )

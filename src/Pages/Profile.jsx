@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar'
 import Heading from '../Components/Heading'
-import { Backdrop, Button, CircularProgress, Container } from '@mui/material'
+import { Button, Container } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import Footer from '../Components/Footer';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { setCustomerID, setLogged } from '../Redux/userInfo';
+import { logout, setCustomerID } from '../Redux/userInfo';
+import MyBackdrop from '../Components/MyBackdrop';
 
 
 export default function Profile() {
-  const {customerID, isLogged} = useSelector(state => state.userInfo);
+  const {customerID, isCustomer} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [customerDetails, setCustomerDetails] = useState({});
   const [backDropOpen, setBackDropOpen] = useState(false);
@@ -72,7 +73,7 @@ export default function Profile() {
             if(data.success){
                 Cookies.remove('jwt');
                 Cookies.remove('customerID')
-                dispatch(setLogged(false))
+                dispatch(logout())
                 dispatch(setCustomerID(undefined))
                 navigate('/', {replace: true})
                 Swal.fire(
@@ -88,7 +89,7 @@ export default function Profile() {
 
   return (
     <div>
-      {!isLogged ? null : (
+      {!isCustomer ? null : (
         <>
           <Navbar />
           <Heading name="Profile" />
@@ -168,12 +169,7 @@ export default function Profile() {
 
           <Footer/>
 
-          <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={backDropOpen}   
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
+          <MyBackdrop backDropOpen={backDropOpen} />
         </>
       )}
       

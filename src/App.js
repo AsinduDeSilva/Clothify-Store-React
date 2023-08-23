@@ -19,10 +19,14 @@ import Latest from './Pages/Latest';
 import AdminProducts from './Pages/AdminProducts';
 import AddProduct from './Pages/AddProduct';
 import UpdateProduct from './Pages/UpdateProduct';
+import { useSelector } from 'react-redux';
 
 
 
 function App() {
+
+  const {isAdmin} = useSelector(state => state.userInfo);
+
   return (
     <Routes>
       <Route path='/' Component={Homepage} />
@@ -31,7 +35,7 @@ function App() {
         <Route path='women' Component={Women}/>
         <Route path='kids' Component={Kids}/>
         <Route path='latest' Component={Latest}/>
-        <Route path='accessories' Component={Accessories}/>
+        {/* <Route path='accessories' Component={Accessories}/> */}
         <Route path=':productID' Component={AddToCart}/>
       </Route>
       <Route path='/cart' Component={Cart}/>
@@ -42,14 +46,16 @@ function App() {
         <Route path='update' Component={UpdateProfilePage}/>
         <Route path='change-password' Component={ChangePassword}/>
       </Route>
-      <Route path='admin'>
-        <Route path='products'>
-          <Route path='' Component={AdminProducts}/>
-          <Route path='add' Component={AddProduct}/>
-          <Route path='update' Component={UpdateProduct}/>
+      {!isAdmin ? null : (
+        <Route path='admin'>
+          <Route path='products'>
+            <Route path='' Component={AdminProducts}/>
+            <Route path='add' Component={AddProduct}/>
+            <Route path='update' Component={UpdateProduct}/>
+          </Route>
+          
         </Route>
-        
-      </Route>
+      )}
       <Route path='/login' Component={LogIn} />
       <Route path='/signup' Component={SignUp} />
       <Route path='/verify' Component={VerifyOTP} />

@@ -1,16 +1,17 @@
-import { Backdrop, Button, CircularProgress, Container, TextField } from '@mui/material';
+import { Button, Container, TextField } from '@mui/material';
 import React, { useState } from 'react'
 import Navbar from '../Components/Navbar';
 import Heading from '../Components/Heading';
 import Footer from '../Components/Footer';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
+import MyBackdrop from '../Components/MyBackdrop';
 
 export default function UpdateProfilePage() {
   
-  const {customerID, isLogged} = useSelector(state => state.userInfo);
+  const {customerID, isCustomer} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo); 
   const navigate = useNavigate(); 
   const customerDetails = useLocation().state?.customerDetails;  
@@ -90,7 +91,7 @@ export default function UpdateProfilePage() {
 
   return (
     <div>
-        { !isLogged || customerDetails === undefined ? null : (
+        { !isCustomer || customerDetails === undefined ? null : (
             <>
                 <Navbar />
                 <Heading name='Update Profile' />
@@ -154,12 +155,7 @@ export default function UpdateProfilePage() {
 
                 <Footer/>
 
-                <Backdrop
-                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                    open={backDropOpen}   
-                >
-                    <CircularProgress color="inherit" />
-                </Backdrop>
+                <MyBackdrop backDropOpen={backDropOpen} />
             </>
         )}
     </div>

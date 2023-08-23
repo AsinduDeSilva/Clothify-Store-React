@@ -3,9 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
 import Grid from '@mui/material/Unstable_Grid2';
 import Footer from '../Components/Footer';
-import { Backdrop, Button, CircularProgress } from '@mui/material';
+import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../Redux/userInfo';
+import MyBackdrop from '../Components/MyBackdrop';
 
 
 export default function AddToCart() {
@@ -26,7 +27,7 @@ export default function AddToCart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {backendAddress} = useSelector(state => state.backendInfo);
-  const {isLogged} = useSelector(state => state.userInfo)
+  const {isCustomer, isAdmin} = useSelector(state => state.userInfo)
   
 
   useEffect(() =>{
@@ -73,7 +74,7 @@ export default function AddToCart() {
 
   const buyNowBtnClicked = () => {
     if (qty === 0 )return;
-    !isLogged ? navigate("/login") : navigate("/checkout", {state: {cart:[{
+    !isCustomer ? navigate("/login") : navigate("/checkout", {state: {cart:[{
       productID: productID,
       size: size,
       qty: qty 
@@ -81,7 +82,9 @@ export default function AddToCart() {
   }
 
   return (
-    <div className='overflow-hidden'>
+    <>
+    {isAdmin ? null : (
+      <div className='overflow-hidden'>
         <Navbar/>
         
         <Grid container >
@@ -92,7 +95,7 @@ export default function AddToCart() {
                       src={productData.imgFileName === "" ? null : `http://${backendAddress}/product/image/${productData.imgFileName}`} 
                       alt="product" 
                       className='w-full h-full hover:scale-110 transition-time' 
-                    />
+                      />
                   </div>
                 </div>
             </Grid>
@@ -113,7 +116,7 @@ export default function AddToCart() {
                           variant="contained" 
                           onClick={e => {setSize("SMALL");setQty(0)}} 
                           sx={size === "SMALL" ? btnStyle1 : btnStyle2}
-                        >
+                          >
                           Small
                         </Button>
                       </div>
@@ -124,7 +127,7 @@ export default function AddToCart() {
                           variant="contained" 
                           onClick={e => {setSize("MEDIUM");setQty(0)}}
                           sx={size === "MEDIUM" ? btnStyle1 : btnStyle2}
-                        >
+                          >
                           Medium
                         </Button>
                       </div>
@@ -135,7 +138,7 @@ export default function AddToCart() {
                           variant="contained" 
                           onClick={e => {setSize("LARGE");setQty(0)}}
                           sx={size === "LARGE" ? btnStyle1 : btnStyle2}
-                        >
+                          >
                           Large
                         </Button>
                       </div>
@@ -168,7 +171,7 @@ export default function AddToCart() {
                           size='large'
                           sx={btnStyle1}
                           onClick={e => addToCartBtnClicked()}
-                        >
+                          >
                           Add to cart
                         </Button>
                       </div>
@@ -187,7 +190,7 @@ export default function AddToCart() {
                             }
                           }}
                           onClick={e => buyNowBtnClicked()}
-                        >
+                          >
                           Buy now
                         </Button>
                       </div>
@@ -200,14 +203,11 @@ export default function AddToCart() {
 
         <Footer/>
 
-        <Backdrop
-          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={backDropOpen}   
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <MyBackdrop backDropOpen={backDropOpen} />
         
-    </div>
+      </div>
+    )}
+    </>
   )
 }
 

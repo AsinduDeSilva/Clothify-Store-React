@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import Navbar from '../Components/Navbar'
 import Heading from '../Components/Heading'
-import { Backdrop, Button, CircularProgress, Container, TextField } from '@mui/material'
+import { Button, Container, TextField } from '@mui/material'
 import Footer from '../Components/Footer'
 import { useLocation, useNavigate } from 'react-router-dom'
 import bcrypt from 'bcryptjs';
 import { useDispatch, useSelector } from 'react-redux'
 import Cookies from 'js-cookie'
-import { setCustomerID, setLogged } from '../Redux/userInfo'
+import { logout, setCustomerID } from '../Redux/userInfo'
 import Swal from 'sweetalert2'
+import MyBackdrop from '../Components/MyBackdrop'
 
 
 export default function ChangePassword() {
 
   const customerDetails = useLocation().state?.customerDetails; 
-  const {customerID, isLogged} = useSelector(state => state.userInfo);
+  const {customerID, isCustomer} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ export default function ChangePassword() {
             if(data.success){
                 Cookies.remove('jwt');
                 Cookies.remove('customerID')
-                dispatch(setLogged(false))
+                dispatch(logout())
                 dispatch(setCustomerID(undefined))
                 navigate('/login', {replace: true})
                 Swal.fire({
@@ -98,7 +99,7 @@ export default function ChangePassword() {
 
   return (
     <div>
-        {!isLogged || customerDetails === undefined ? null : (
+        {!isCustomer || customerDetails === undefined ? null : (
             <>
                 <Navbar />
                 <Heading name='Change Password' />
@@ -152,12 +153,7 @@ export default function ChangePassword() {
 
                 <Footer/>
 
-                <Backdrop
-                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                    open={backDropOpen}   
-                >
-                    <CircularProgress color="inherit" />
-                </Backdrop>
+                <MyBackdrop backDropOpen={backDropOpen} />
             </>
         )}
     </div>

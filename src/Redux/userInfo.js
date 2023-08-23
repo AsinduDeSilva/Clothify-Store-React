@@ -2,8 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
 const initialState = {
-  isLogged: Cookies.get('jwt') !== undefined ,
   customerID: Cookies.get('customerID'),
+  isAdmin: Cookies.get('isAdmin') === undefined ? false : Cookies.get('isAdmin') === "true",
+  isCustomer: Cookies.get('isCustomer') === undefined ? false : Cookies.get('isCustomer') === "true",
   cart: Cookies.get('cart') === undefined ? [] : JSON.parse(Cookies.get('cart')),
 }
 
@@ -11,8 +12,18 @@ export const userInfoSlice = createSlice({
   name: 'userInfo',
   initialState,
   reducers: {
-    setLogged: (state, action) => {
-        state.isLogged = action.payload;
+    setRole: (state, action) => {
+      state.isCustomer = action.payload;
+      state.isAdmin = !state.isCustomer;
+
+      Cookies.set("isAdmin", state.isAdmin, {expires: 7});
+      Cookies.set("isCustomer", state.isCustomer, {expires: 7});
+    },
+    logout: (state) => {
+      state.isAdmin = false;
+      state.isCustomer = false;
+      Cookies.remove('isAdmin');
+      Cookies.remove('isCustomer');
     },
     setCustomerID: (state,action) => {
         state.customerID =action.payload;
@@ -40,6 +51,6 @@ export const userInfoSlice = createSlice({
   },
 })
 
-export const {setLogged, addToCart, setCustomerID, updateCart } = userInfoSlice.actions
+export const {addToCart, setCustomerID, updateCart, setRole, logout} = userInfoSlice.actions
 
 export default userInfoSlice.reducer

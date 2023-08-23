@@ -7,9 +7,7 @@ import { Badge, Button } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
-import { setCustomerID, setLogged } from '../Redux/userInfo';
-
-
+import { logout, setCustomerID } from '../Redux/userInfo';
 
 
 const navigation = [
@@ -18,7 +16,7 @@ const navigation = [
   { name: 'Men', to: '/products/men'},
   { name: 'Women', to: '/products/women'},
   { name: 'Kids', to: '/products/kids'},
-  { name: 'Accessories', to: '/products/accessories'},
+  //{ name: 'Accessories', to: '/products/accessories'},
 ]
 
 function classNames(...classes) {
@@ -28,7 +26,7 @@ function classNames(...classes) {
 
 export default function Navbar() {
 
-  const {isLogged, cart } = useSelector((state) => state.userInfo);
+  const {isAdmin, isCustomer, cart } = useSelector((state) => state.userInfo);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,12 +38,13 @@ export default function Navbar() {
   const logoutBtnClicked = () => {
     Cookies.remove('jwt');
     Cookies.remove('customerID')
-    dispatch(setLogged(false))
+    dispatch(logout())
     dispatch(setCustomerID(undefined))
     setTimeout(() => {
       navigate("/", {replace: true})  
     }, 100);
   }
+  
 
   return (
     <div className="sticky top-0 z-50">
@@ -96,31 +95,31 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0 ">
-                <Link to="/cart">
-                  <button
-                    type="button"
-                    className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white  "
-                  >
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">View notifications</span>
-                    <Badge badgeContent={cart.length} color='info' >
-                      <ShoppingCartOutlined className="h-6 w-6" aria-hidden="true"  />
-                    </Badge> 
-                  </button>
-                </Link> 
+                {isAdmin ? null : (
+                  <Link to="/cart">
+                    <button
+                      type="button"
+                      className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white  "
+                    >
+                      <span className="absolute -inset-1.5" />
+                      <Badge badgeContent={cart.length} color='info' >
+                        <ShoppingCartOutlined className="h-6 w-6" aria-hidden="true"  />
+                      </Badge> 
+                    </button>
+                  </Link> 
+                )}
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3 hidden md:block p-1 ">
                   <div >
-                    <Menu.Button onClick={!isLogged ? navigateToLogin : null} className="relative flex rounded-full bg-gray-800 text-gray-400 p-1 hover:text-white scale-[1.15]">
+                    <Menu.Button onClick={isAdmin || isCustomer ? null : navigateToLogin} className="relative flex rounded-full bg-gray-800 text-gray-400 p-1 hover:text-white scale-[1.15]">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       <AccountCircleOutlined aria-hidden="true" className="h-8 w-8 rounded-full" />
                       
                     </Menu.Button>
                   </div>
-                  {
-                    isLogged ? (
+                  {isAdmin || isCustomer ? (
                       <>
                         <Transition
                           as={Fragment}
@@ -132,27 +131,42 @@ export default function Navbar() {
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ">
-                            <Menu.Item>
-                              {( active ) => (
-                                <Link
-                                  to = '/orders'
-                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                >
-                                  Orders
-                                </Link>
-                              )}
-                            </Menu.Item>  
+                            { isCustomer ? (
+                              <>
+                                <Menu.Item>
+                                  {( active ) => (
+                                    <Link
+                                    to = '/orders'
+                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                    >
+                                      Orders
+                                    </Link>
+                                  )}
+                                </Menu.Item>  
 
-                            <Menu.Item>
-                              {( active ) => (
-                                <Link
-                                  to = '/profile/overview'
-                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                >
-                                  Profile
-                                </Link>
-                              )}
-                            </Menu.Item>
+                                <Menu.Item>
+                                  {( active ) => (
+                                    <Link
+                                    to = '/profile/overview'
+                                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                    >
+                                      Profile
+                                    </Link>
+                                  )}
+                                </Menu.Item>
+                              </>
+                            ) : (
+                              <Menu.Item>
+                                {( active ) => (
+                                  <Link
+                                    to = '/admin'
+                                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                    >
+                                      Admin Panel
+                                  </Link>
+                                )}
+                              </Menu.Item>
+                            )}
 
                             <Menu.Item>
                               {( active ) => (
@@ -198,7 +212,7 @@ export default function Navbar() {
             </div>
             
             <div className="pt-4 pb-3 border-t border-gray-700 px-2 space-y-1">
-                {isLogged ?   (
+                {isAdmin || isCustomer ?   (
                   <> 
                       <Disclosure.Button
                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"

@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar'
 import Heading from '../Components/Heading'
-import { Backdrop, Button, CircularProgress, Container, TextField } from '@mui/material'
+import { Button, Container, TextField } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import { updateCart } from '../Redux/userInfo';
 import { useLocation, useNavigate } from 'react-router-dom';
+import MyBackdrop from '../Components/MyBackdrop';
 
 const SHIPPING_FEE = 500.00;
 
 export default function Checkout() {
 
-  const {customerID, isLogged} = useSelector(state => state.userInfo);
+  const {customerID, isCustomer} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const {cart} = useSelector((state) => state.userInfo);  
   const dispatch = useDispatch(); 
@@ -35,7 +36,7 @@ export default function Checkout() {
   const [checkoutCart, setCheckoutCart] = useState(cart);
 
   useEffect(() => {
-    if(isLogged){
+    if(isCustomer){
       if(tempCart != undefined){
         setCheckoutCart(tempCart);
       }
@@ -178,7 +179,7 @@ export default function Checkout() {
   return (
     <div>
         {
-          checkoutCart.length === 0 || !isLogged ? null : (
+          checkoutCart.length === 0 || !isCustomer ? null : (
             <>
               <Navbar/>
               <Heading name="Checkout" />
@@ -276,12 +277,7 @@ export default function Checkout() {
               
               <Footer/>
 
-              <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={backDropOpen}   
-              >
-                <CircularProgress color="inherit" />
-              </Backdrop>
+              <MyBackdrop backDropOpen={backDropOpen} />
             </>
           )
         }

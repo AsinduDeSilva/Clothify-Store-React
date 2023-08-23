@@ -13,12 +13,11 @@ import Typography from '@mui/material/Typography';
 import logo from '../assets/logo-full.png';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCustomerID, setLogged } from '../Redux/userInfo';
+import { setCustomerID, setRole } from '../Redux/userInfo';
+import MyBackdrop from '../Components/MyBackdrop';
 
 
 function Copyright(props) {
@@ -40,6 +39,7 @@ export default function LogIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {isCustomer, isAdmin} = useSelector(state => state.userInfo);
 
 
   const loginClicked = () =>{
@@ -70,13 +70,13 @@ export default function LogIn() {
 
         if(data.success){
           if(data.customer){
-            loadCustomerDetails(data.jwt)
-            navigate("/", {replace: true})
+            loadCustomerDetails(data.jwt);
+            navigate("/", {replace: true});
           }else{
-            /*Navigate to Admin panel */ 
+            navigate("/admin", {replace: true}); 
           }
+          dispatch(setRole(data.customer));
           Cookies.set('jwt', data.jwt, { expires: 7 });
-          dispatch(setLogged(true));
           return;
         }
 
@@ -111,108 +111,107 @@ export default function LogIn() {
 
   return (
     <>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={backDropOpen}   
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      {isAdmin || isCustomer ? null : (
+        <>   
+          <Grid container component="main" sx={{ height: '100vh'}}>
+            <CssBaseline />
+            
+            <Grid
+              item
+              lg={8}
+              sx={{
+                backgroundImage: `url(${logo})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundColor: (t) =>
+                  t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
     
-      <Grid container component="main" sx={{ height: '100vh'}}>
-        <CssBaseline />
-        
-        <Grid
-          item
-          lg={8}
-          sx={{
-            backgroundImage: `url(${logo})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-
-        
-        <Grid item xs={12} lg={4} component={Paper} elevation={6} square >
-          <Box
-            sx={{
-              my: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-            className='xl:mx-12 sm:mx-[20%] mx-4 '
-          >
-            <Avatar sx={{ m: 1, bgcolor: '#000000' }}>
-              <LockOutlinedIcon className='text-[#00C2BE]' />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Log In
-            </Typography>
-            {
-              credentialsInvalidError ? (
-                <Alert severity="error" className='w-full mt-4'>
-                  Incorrect email or password
-                </Alert>
-              ): null
-            }
-            <Box component="form" noValidate sx={{ mt: 1 }}>
-              <TextField
-                error={emailFieldEmptyError ? true : false}
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                onChange={(e) => setEmail(e.target.value)}
-                
-              />
-              <TextField
-                error={passwordFieldEmptyError ? true : false}
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor:"#262626", ":hover":{backgroundColor:'#000000'} }}
-                onClick={loginClicked}
+            
+            <Grid item xs={12} lg={4} component={Paper} elevation={6} square >
+              <Box
+                sx={{
+                  my: 8,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+                className='xl:mx-12 sm:mx-[20%] mx-4 '
               >
-                Log In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                <Link to="/login" className='text-[#1976D2] underline text-sm underline-["red"]'> 
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link to="/signup" className='text-[#1976D2] underline text-sm underline-["red"]'> 
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </>  
+                <Avatar sx={{ m: 1, bgcolor: '#000000' }}>
+                  <LockOutlinedIcon className='text-[#00C2BE]' />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Log In
+                </Typography>
+                {
+                  credentialsInvalidError ? (
+                    <Alert severity="error" className='w-full mt-4'>
+                      Incorrect email or password
+                    </Alert>
+                  ): null
+                }
+                <Box component="form" noValidate sx={{ mt: 1 }}>
+                  <TextField
+                    error={emailFieldEmptyError ? true : false}
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    onChange={(e) => setEmail(e.target.value)}
+                    
+                  />
+                  <TextField
+                    error={passwordFieldEmptyError ? true : false}
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                  />
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, backgroundColor:"#262626", ":hover":{backgroundColor:'#000000'} }}
+                    onClick={loginClicked}
+                  >
+                    Log In
+                  </Button>
+                  <Grid container>
+                    <Grid item xs>
+                    <Link to="/login" className='text-[#1976D2] underline text-sm underline-["red"]'> 
+                        Forgot password?
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Link to="/signup" className='text-[#1976D2] underline text-sm underline-["red"]'> 
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
+                  </Grid>
+                  <Copyright sx={{ mt: 5 }} />
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+    
+          <MyBackdrop backDropOpen={backDropOpen} />
+        </>  
+      )}
+    </>
   );
 }

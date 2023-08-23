@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Alert, Avatar, Backdrop, Box, CircularProgress, Container, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import PageNotFound from './PageNotFound';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCustomerID, setLogged } from '../Redux/userInfo';
+import { setCustomerID, setRole } from '../Redux/userInfo';
 import Cookies from 'js-cookie';
+import MyBackdrop from '../Components/MyBackdrop';
 
 export default function VerifyOTP() {
   const[otp,setOtp] = useState("");
@@ -79,10 +79,10 @@ export default function VerifyOTP() {
             loadCustomerDetails(data.jwt)
             navigate("/", {replace: true})
           }else{
-            /*Navigate to Admin panel */ 
+            navigate("/admin", {replace: true});
           }
+          dispatch(setRole(data.customer));
           Cookies.set('jwt', data.jwt, { expires: 7 });
-          dispatch(setLogged(true));
           return;
         }
 
@@ -128,14 +128,8 @@ export default function VerifyOTP() {
 
   return (
     <>  
-      {email === undefined ? (<PageNotFound/>):(
+      {email === undefined ? null : (
         <>
-          <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={backDropOpen}   
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
           <Container component="main" maxWidth="xs">
           <Box
             sx={{
@@ -200,6 +194,8 @@ export default function VerifyOTP() {
             )}
           </Box>
           </Container>
+
+          <MyBackdrop backDropOpen={backDropOpen} />
         </>
       )}
     </>
