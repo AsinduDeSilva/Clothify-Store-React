@@ -196,10 +196,10 @@ export default function AddProduct() {
                                 onChange={e => setCategory(e.target.value)}
                                 sx={{width: 150, backgroundColor: '#e5e5e5', borderRadius: 1}}
                             >
-                            <MenuItem value="">Select</MenuItem>    
-                            <MenuItem value={"MEN"}>Men</MenuItem>
-                            <MenuItem value={"WOMEN"}>Women</MenuItem>
-                            <MenuItem value={"KIDS"}>Kids</MenuItem>
+                              <MenuItem value="">Select</MenuItem>    
+                              <MenuItem value={"MEN"}>Men</MenuItem>
+                              <MenuItem value={"WOMEN"}>Women</MenuItem>
+                              <MenuItem value={"KIDS"}>Kids</MenuItem>
                             </Select>
                         </FormControl>  
                     </div>

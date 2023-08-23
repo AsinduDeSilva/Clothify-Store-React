@@ -69,7 +69,7 @@ export default function AdminProducts() {
                     </Button>
                   </Link>
               </div>
-              <div className='text-white bg-[#1E1E1E] mx-2 py-2 h-[9%]'>
+              <div className='text-white bg-[#1E1E1E] mx-2 py-2 h-[9%] rounded'>
                 <Tabs 
                   value={activeTab} 
                   centered 
@@ -88,8 +88,8 @@ export default function AdminProducts() {
                   {/* <Tab label="Accessories" className='hover:bg-[#141414]' sx={{borderRadius:"5px"}}/> */}
                 </Tabs>
               </div>
-              <div className='h-[76.8%] mx-2 mt-2 bg-[#1E1E1E]'>
-                <div className='flex flex-row text-white mx-5 h-[10%] font-semibold text-lg'>
+              <div className='h-[76.8%] mx-2 mt-2 bg-[#1E1E1E] rounded'>
+                <div className='flex flex-row text-white mx-5 h-[10%] font-semibold text-[17px]'>
                   <div className='flex-[2] flex items-center justify-center '>Product ID</div>
                   <div className='flex-[2] flex items-center justify-center '>Image</div>
                   <div className='flex-[4] flex items-center  '>Name</div>

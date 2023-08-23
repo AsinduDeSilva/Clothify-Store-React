@@ -10,6 +10,7 @@ export default function AdminOrders() {
 
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [orderList, setOrderList] = useState([]);
+  const [customerNameList, setCustomerNameList] = useState([]);
   const [pageCount, setPageCount] = useState(0); 
   const [activeCategory, setActiveCategory] = useState(0);
   const [backDropOpen, setBackDropOpen] = useState(false);
@@ -27,6 +28,7 @@ export default function AdminOrders() {
         setBackDropOpen(false);
         setOrderList(data.content);
         setPageCount(data.totalPages);
+        loadCustomerNames();
     })
   }
 
@@ -37,6 +39,30 @@ export default function AdminOrders() {
   useEffect(() => {
     loadOrders(1);
   },[activeCategory])
+
+  useEffect(() => {
+    loadCustomerNames();
+  },[orderList])
+
+  async function loadCustomerNames() {
+    setCustomerNameList([]);
+    setBackDropOpen(true)
+  
+    const fetchPromises = orderList.map(async (order) => {
+      const response = await fetch(`http://${backendAddress}/customer/${order.customerID}`,{
+        headers: {
+          'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        },
+      });
+      if(response.status === 400) return "Deleted Customer";
+      const data = await response.json();
+      return data.firstName + " " + data.lastName ;
+    });
+  
+    const customerNamesArray = await Promise.all(fetchPromises);
+    setBackDropOpen(false)
+    setCustomerNameList(customerNamesArray);
+  }
  
 
   return (
@@ -44,7 +70,7 @@ export default function AdminOrders() {
       <div className='flex-[3] '><AdminSidePanel/></div>
       <div className='flex-[11] bg-[#141414] -ml-1'>
         <div className='h-[13%] flex items-center'>
-          <div className='text-white bg-[#1E1E1E] mx-2 py-3 h-[80%] w-full'>
+          <div className='text-white bg-[#1E1E1E] mx-2 py-3 h-[80%] w-full rounded'>
             <Tabs 
               value={activeCategory} 
               centered 
@@ -65,10 +91,11 @@ export default function AdminOrders() {
             </Tabs> 
           </div>
         </div>
-        <div className='h-[87%] mx-2 bg-[#1E1E1E]'>
-          <div className='flex flex-row text-white mx-5 h-[10%] font-semibold text-lg'>
+        <div className='h-[87%] mx-2 bg-[#1E1E1E] rounded'>
+          <div className='flex flex-row text-white mx-5 h-[10%] font-semibold text-[17px]'>
             <div className='flex-[2] flex items-center justify-center '>Order ID</div>
-            <div className='flex-[3] flex items-center  '>Customer Name</div>
+            <div className='flex-[2] flex items-center justify-center'>Customer ID</div>
+            <div className='flex-[4] flex items-center'>Customer Name</div>
             <div className='flex-[2] flex items-center justify-center'>Order Date</div>
             <div className='flex-[2] flex items-center justify-center'>Status</div>
             <div className='flex-[2] flex items-center justify-center '>More</div> 
@@ -76,8 +103,8 @@ export default function AdminOrders() {
           <hr className='mb-4' />
           <div className='h-[86%] overflow-y-scroll hide-scrollbar'>
 
-            {orderList.map((order) => (
-                <AdminOrderRow key={order.orderID} order={order} />
+            {orderList.map((order, index) => (
+                <AdminOrderRow key={order.orderID} order={order} customerName={customerNameList[index]} />
             ))}    
 
             <div className='w-full flex justify-center py-3'>

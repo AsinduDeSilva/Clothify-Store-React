@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 
-export default function AdminOrderRow({order}) {
+export default function AdminOrderRow({order, customerName}) {
 
   const navigate = useNavigate();
   const {backendAddress} = useSelector(state => state.backendInfo);
@@ -69,11 +69,13 @@ export default function AdminOrderRow({order}) {
     })  
   }
 
+
   return (
-    <div className='flex flex-row text-white mx-5 h-[12%] rounded-[12px] bg-[#141414] mb-3'>
+    <div className='flex flex-row text-white mx-5 h-[12%] rounded-[12px] bg-[#141414] mb-3 '>
         <div className='flex-[2] flex items-center justify-center '>{order.orderID}</div>
-        <div className='flex-[3] flex items-center'>
-            name
+        <div className='flex-[2] flex items-center justify-center '>{order.customerID}</div>
+        <div className='flex-[4] flex items-center '>
+            <span className='ml-2'>{customerName}</span>
         </div>
         <div className='flex-[2] flex items-center justify-center'>{order.dateAndTime.substring(0,10)}</div>
         <div className='flex-[2] flex justify-center items-center flex-col text-sm'>
@@ -97,7 +99,7 @@ export default function AdminOrderRow({order}) {
         <div className='flex-[2] flex items-center justify-center text-white'>
             <IconButton 
               sx={{"&:hover, &.Mui-focusVisible": { backgroundColor: "#484848" }}}
-              //onClick={btnMoreOnClick}
+              onClick={e => navigate(`${order.orderID}`)}
             >
               <ExpandCircleDownOutlined className='text-white -rotate-90'/>
             </IconButton>

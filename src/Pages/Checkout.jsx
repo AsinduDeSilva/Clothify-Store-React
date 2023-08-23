@@ -85,6 +85,8 @@ export default function Checkout() {
     return total;
   }
 
+  const total = (getTotal() + SHIPPING_FEE).toFixed(2);
+
   const btnPlaceOrderOnClick = () => {
     
     if(!checkValidity()) return;
@@ -124,6 +126,7 @@ export default function Checkout() {
         receiverName: firstName+" "+lastName,
         customerID: customerID,
         shippingFee: SHIPPING_FEE,
+        total: total,
         orderDetails: orderDetails,
       }),
       headers: {
@@ -258,7 +261,7 @@ export default function Checkout() {
                     <hr />
                     <div className='flex justify-between items-center mb-5 mt-3 text-[18px]'>
                       <p className='font-medium'>Total</p>
-                      <p className='font-medium'>LKR {(getTotal()+SHIPPING_FEE).toFixed(2)}</p>
+                      <p className='font-medium'>LKR {total}</p>
                     </div>   
                     <div className='flex justify-end items-center'>
                       <Button 

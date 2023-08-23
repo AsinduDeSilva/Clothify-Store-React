@@ -22,6 +22,7 @@ import UpdateProduct from './Pages/UpdateProduct';
 import { useSelector } from 'react-redux';
 import AdminDashboard from './Pages/AdminDashboard';
 import AdminOrders from './Pages/AdminOrders';
+import AdminOrderDetails from './Pages/AdminOrderDetails';
 
 
 
@@ -56,7 +57,10 @@ function App() {
             <Route path='add' Component={AddProduct}/>
             <Route path='update' Component={UpdateProduct}/>
           </Route>
-          <Route path='orders' Component={AdminOrders}/>
+          <Route path='orders'>
+            <Route path='' Component={AdminOrders}/>
+            <Route path=':orderID' Component={AdminOrderDetails}/>
+          </Route>
           
         </Route>
       )}
