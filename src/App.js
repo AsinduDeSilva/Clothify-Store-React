@@ -20,6 +20,8 @@ import AdminProducts from './Pages/AdminProducts';
 import AddProduct from './Pages/AddProduct';
 import UpdateProduct from './Pages/UpdateProduct';
 import { useSelector } from 'react-redux';
+import AdminDashboard from './Pages/AdminDashboard';
+import AdminOrders from './Pages/AdminOrders';
 
 
 
@@ -48,11 +50,13 @@ function App() {
       </Route>
       {!isAdmin ? null : (
         <Route path='admin'>
+          <Route path='' Component={AdminDashboard}/>
           <Route path='products'>
             <Route path='' Component={AdminProducts}/>
             <Route path='add' Component={AddProduct}/>
             <Route path='update' Component={UpdateProduct}/>
           </Route>
+          <Route path='orders' Component={AdminOrders}/>
           
         </Route>
       )}

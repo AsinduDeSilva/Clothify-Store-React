@@ -6,9 +6,9 @@ import { Dashboard, ExitToApp, Inventory2, Settings, ShoppingCart } from '@mui/i
 const navigation = [
   { name: 'Dashboard', icon: Dashboard,  to: '/admin'},
   { name: 'Products', icon: Inventory2,  to: '/admin/products' },
-  { name: 'Orders', icon: ShoppingCart,  to: '/admin'},
-  { name: 'Settings', icon: Settings,  to: '/admin'},
-  { name: 'Logout', icon: ExitToApp,  to: '/admin' },
+  { name: 'Orders', icon: ShoppingCart,  to: '/admin/orders'},
+  { name: 'Settings', icon: Settings,  to: '/admin/settings'},
+  { name: 'Logout', icon: ExitToApp,  to: '' },
  
 ]
 

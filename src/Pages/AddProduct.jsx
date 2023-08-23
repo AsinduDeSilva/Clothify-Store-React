@@ -163,7 +163,7 @@ export default function AddProduct() {
                           value={productName}
                           error={txtProductNameError} 
                           onChange={e => setProductName(e.target.value)}
-                          sx={{backgroundColor: 'white', borderRadius: 1, width:'80%'}}
+                          sx={{backgroundColor: '#e5e5e5', borderRadius: 1, width:'80%'}}
                         />
                     </div>
                 </div>
@@ -178,7 +178,7 @@ export default function AddProduct() {
                           value={unitPrice}
                           error={txtUnitPriceError}
                           onChange={e => setUnitPrice(e.target.value)}
-                          sx={{backgroundColor: 'white', borderRadius: 1, width: 150}}
+                          sx={{backgroundColor: '#e5e5e5', borderRadius: 1, width: 150}}
                         />
                     </div>
                 </div>
@@ -194,7 +194,7 @@ export default function AddProduct() {
                                 size='small'
                                 displayEmpty
                                 onChange={e => setCategory(e.target.value)}
-                                sx={{width: 150, backgroundColor: 'white', borderRadius: 1}}
+                                sx={{width: 150, backgroundColor: '#e5e5e5', borderRadius: 1}}
                             >
                             <MenuItem value="">Select</MenuItem>    
                             <MenuItem value={"MEN"}>Men</MenuItem>
@@ -217,7 +217,7 @@ export default function AddProduct() {
                               value={qtySmall}
                               error={txtQtySmallError}
                               onChange={e => setQtySmall(e.target.value)}
-                              sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
+                              sx={{backgroundColor: '#e5e5e5', borderRadius: 1, width: 100, scale: '0.9'}}
                             />
                         </div>
                         <div className='flex items-center'>
@@ -230,7 +230,7 @@ export default function AddProduct() {
                               value={qtyMedium}
                               error={txtQtyMediumError}
                               onChange={e => setQtyMedium(e.target.value)}
-                              sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
+                              sx={{backgroundColor: '#e5e5e5', borderRadius: 1, width: 100, scale: '0.9'}}
                             />
                         </div>
                         <div className='flex items-center'>
@@ -243,7 +243,7 @@ export default function AddProduct() {
                               value={qtyLarge}
                               error={txtQtyLargeError}
                               onChange={e => setQtyLarge(e.target.value)}
-                              sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
+                              sx={{backgroundColor: '#e5e5e5', borderRadius: 1, width: 100, scale: '0.9'}}
                             />
                         </div>
                     </div>
@@ -253,7 +253,7 @@ export default function AddProduct() {
                     <div className='flex-[2]'>
                         <div {...getRootProps({className: 'dropzone'})}>
                             <input {...getInputProps()}/>
-                            <p className='bg-white text-black h-[110px] font-semibold flex items-center justify-center rounded'>
+                            <p className='bg-[#e5e5e5] text-black h-[110px] font-semibold flex items-center justify-center rounded'>
                                 Drag your Image here or click to select Image
                             </p>
                             {image === null || acceptedFiles.length === 0 ? null : (
