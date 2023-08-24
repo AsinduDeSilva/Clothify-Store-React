@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from '../assets/logo.jpg';
-import { AccountCircleOutlined, ShoppingCartOutlined } from '@mui/icons-material';
+import { AccountCircleOutlined, ExitToApp, HistoryOutlined, ShoppingCartOutlined, SupervisorAccountOutlined } from '@mui/icons-material';
 import { Badge, Button } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -134,52 +134,46 @@ export default function Navbar() {
                             { isCustomer ? (
                               <>
                                 <Menu.Item>
-                                  {( active ) => (
-                                    <Link
+                                  <Link
                                     to = '/orders'
-                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                    >
-                                      Orders
-                                    </Link>
-                                  )}
+                                    className={'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200'}
+                                  >
+                                      <HistoryOutlined className='mr-3 text-gray-700'/>
+                                      My Orders
+                                  </Link>              
                                 </Menu.Item>  
 
                                 <Menu.Item>
-                                  {( active ) => (
-                                    <Link
+                                  <Link
                                     to = '/profile/overview'
-                                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                    >
+                                    className={'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200'}
+                                  >
+                                      <AccountCircleOutlined className='mr-3 text-gray-700'/>
                                       Profile
-                                    </Link>
-                                  )}
+                                  </Link>
                                 </Menu.Item>
                               </>
                             ) : (
                               <Menu.Item>
-                                {( active ) => (
                                   <Link
                                     to = '/admin/dashboard'
-                                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                    >
+                                    className={'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200'}
+                                  >
+                                      <SupervisorAccountOutlined className='mr-3 text-gray-700'/>
                                       Admin Panel
                                   </Link>
-                                )}
                               </Menu.Item>
                             )}
 
                             <Menu.Item>
-                              {( active ) => (
                                 <Link
                                   onClick={logoutBtnClicked}   
-                                  className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                  className={'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200'}
                                 >
+                                  <ExitToApp className='mr-3 text-gray-700'/>
                                   Logout
                                 </Link>
-                              )}
-                            </Menu.Item>
-                              
-                            
+                            </Menu.Item>  
                           </Menu.Items>
                         </Transition>
                       </>
