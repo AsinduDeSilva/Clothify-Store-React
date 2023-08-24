@@ -79,14 +79,14 @@ export default function AdminOrderRow({order, customerName}) {
         </div>
         <div className='flex-[2] flex items-center justify-center'>{order.dateAndTime.substring(0,10)}</div>
         <div className='flex-[2] flex justify-center items-center flex-col text-sm'>
-            <FormControl sx={{scale: '0.9'}}>
+            <FormControl sx={{scale: '0.9', width: '100%'}}>
                 <Select    
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"   
                   value={status}
                   size='small'
                   onChange={e => selectStatusOnChange(e.target.value)}
-                  sx={{width: 175, backgroundColor: '#e5e5e5', borderRadius: 1}}
+                  sx={{backgroundColor: '#e5e5e5', borderRadius: 1}}
                 >    
                   <MenuItem value={"PENDING"}>Pending</MenuItem>
                   <MenuItem value={"PROCESSING"}>Processing</MenuItem>

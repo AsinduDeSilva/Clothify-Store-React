@@ -88,7 +88,7 @@ export default function AdminProducts() {
                   {/* <Tab label="Accessories" className='hover:bg-[#141414]' sx={{borderRadius:"5px"}}/> */}
                 </Tabs>
               </div>
-              <div className='h-[76.8%] mx-2 mt-2 bg-[#1E1E1E] rounded'>
+              <div className='h-[76.8%] mx-2 mt-2 bg-[#1E1E1E] rounded-t'>
                 <div className='flex flex-row text-white mx-5 h-[10%] font-semibold text-[17px]'>
                   <div className='flex-[2] flex items-center justify-center '>Product ID</div>
                   <div className='flex-[2] flex items-center justify-center '>Image</div>

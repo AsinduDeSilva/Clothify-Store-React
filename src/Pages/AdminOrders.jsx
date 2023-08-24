@@ -91,7 +91,7 @@ export default function AdminOrders() {
             </Tabs> 
           </div>
         </div>
-        <div className='h-[87%] mx-2 bg-[#1E1E1E] rounded'>
+        <div className='h-[87%] mx-2 bg-[#1E1E1E] rounded-t'>
           <div className='flex flex-row text-white mx-5 h-[10%] font-semibold text-[17px]'>
             <div className='flex-[2] flex items-center justify-center '>Order ID</div>
             <div className='flex-[2] flex items-center justify-center'>Customer ID</div>
