@@ -82,7 +82,8 @@ export default function UpdateProfilePage() {
                 Swal.fire({
                     icon: 'success',
                     text: 'Successfully Updated',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#636C74',
                 })
             }
         })

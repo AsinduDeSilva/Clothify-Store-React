@@ -8,6 +8,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import { logout, setCustomerID } from '../Redux/userInfo';
+import Swal from 'sweetalert2';
 
 
 const navigation = [
@@ -36,13 +37,22 @@ export default function Navbar() {
   }
 
   const logoutBtnClicked = () => {
-    Cookies.remove('jwt');
-    Cookies.remove('customerID')
-    dispatch(logout())
-    dispatch(setCustomerID(undefined))
-    setTimeout(() => {
-      navigate("/", {replace: true})  
-    }, 100);
+    Swal.fire({
+      title: 'Are you sure?',   
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Logout',
+      confirmButtonColor: '#026472',
+    })
+     .then((result) => {
+      if (result.isConfirmed) {
+        Cookies.remove('jwt');
+        Cookies.remove('customerID')
+        dispatch(logout())
+        dispatch(setCustomerID(undefined))
+        navigate("/", {replace: true})  
+      }
+    })
   }
   
 
@@ -214,13 +224,15 @@ export default function Navbar() {
                           className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                         >
                           <Link to="/orders">
-                            Orders
+                            <HistoryOutlined className='mr-3 '/>
+                            My Orders
                           </Link>
                         </Disclosure.Button>    
                         <Disclosure.Button
                           className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                         >
                           <Link to="/profile/overview">
+                            <AccountCircleOutlined className='mr-3'/>
                             Profile
                           </Link>
                         </Disclosure.Button> 
@@ -230,6 +242,7 @@ export default function Navbar() {
                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                         onClick={logoutBtnClicked}
                       >
+                        <ExitToApp className='mr-3'/>
                         Logout
                       </Disclosure.Button>              
                   </>

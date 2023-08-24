@@ -57,7 +57,8 @@ export default function ChangePassword() {
                     icon: 'success',
                     title: 'Password Changed',
                     text: 'Please login again',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#636C74'
                 })
             }
         })

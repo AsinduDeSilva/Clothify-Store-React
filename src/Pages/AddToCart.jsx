@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
 import Grid from '@mui/material/Unstable_Grid2';
 import Footer from '../Components/Footer';
-import { Button } from '@mui/material';
+import { Alert, Button, Snackbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../Redux/userInfo';
 import MyBackdrop from '../Components/MyBackdrop';
@@ -24,10 +24,12 @@ export default function AddToCart() {
   const [qty, setQty] = useState(0);
   const [size, setSize] = useState("");
   const [backDropOpen, setBackDropOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSettings, setSnackbarSettings] = useState({message: null, type: null});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {backendAddress} = useSelector(state => state.backendInfo);
-  const {isCustomer, isAdmin} = useSelector(state => state.userInfo)
+  const {isCustomer, isAdmin} = useSelector(state => state.userInfo);
   
 
   useEffect(() =>{
@@ -54,6 +56,10 @@ export default function AddToCart() {
   }
   
   const increment = () => {
+    if(size === "" ){
+      setSnackbarSettings({message: "Please select a size", type: "error"});
+      setSnackbarOpen(true);
+    }
     if(qty === qtyOnHandOf(size))return;   
     setQty(prev => ++prev)
   }
@@ -64,16 +70,26 @@ export default function AddToCart() {
   }
 
   const addToCartBtnClicked = () => {
-    if (qty === 0 )return;
+    if (qty === 0 ){
+      setSnackbarSettings({message: "Please select a quantity", type: "error"});
+      setSnackbarOpen(true);
+      return;
+    } 
     dispatch(addToCart({
       productID: productID,
       size: size,
       qty: qty 
     }))
+    setSnackbarSettings({message: "Added to cart", type: "success"});
+    setSnackbarOpen(true);
   }
 
   const buyNowBtnClicked = () => {
-    if (qty === 0 )return;
+    if (qty === 0 ){
+      setSnackbarSettings({message: "Please select a quantity", type: "error"});
+      setSnackbarOpen(true);
+      return;
+    }  
     !isCustomer ? navigate("/login") : navigate("/checkout", {state: {cart:[{
       productID: productID,
       size: size,
@@ -100,7 +116,7 @@ export default function AddToCart() {
                 </div>
             </Grid>
             <Grid xs={12} md={6} >
-                <div className='md:h-[500px] h-[400px] mb-10 md:my-10 md:ml-10 md:scale-110 flex items-center md:justify-normal justify-center border-t-4 md:border-none '>
+                <div className='md:h-[500px] h-[400px] mb-10 md:my-10 md:ml-10 md:scale-110 flex items-center md:justify-normal justify-center'>
                   <div className='h-[80%]'>
                     <p className='text-4xl font-semibold'>{productData.name}</p>
                     <p className='text-lg font-medium text-gray-600 mt-4 mb-6' >
@@ -204,6 +220,12 @@ export default function AddToCart() {
         <Footer/>
 
         <MyBackdrop backDropOpen={backDropOpen} />
+                          
+        <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={e => setSnackbarOpen(false)} anchorOrigin={{vertical: 'top', horizontal:'right'}}>
+          <Alert severity={snackbarSettings.type} sx={{ width: '100%' }}>
+            {snackbarSettings.message}
+          </Alert>
+        </Snackbar>
         
       </div>
     )}

@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { updateCart } from '../Redux/userInfo';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MyBackdrop from '../Components/MyBackdrop';
+import Swal from 'sweetalert2';
 
 const SHIPPING_FEE = 500.00;
 
@@ -139,9 +140,30 @@ export default function Checkout() {
       setBackDropOpen(false);
 
       if(data.success){
-        dispatch(updateCart([]))
-        Cookies.remove('cart')
+        Swal.fire({
+          title: 'Thank you!',
+          text: 'Your order has been placed',
+          icon: 'success',
+          confirmButtonColor: '#636C74',
+        })
+        dispatch(updateCart([]));
+        Cookies.remove('cart');
         navigate("/", {replace: true})
+        
+      }else if (data.message === "Some products not found") {
+        Swal.fire({
+          title: 'Order Failed!',
+          text: data.message + ". Please check your cart again.",
+          icon: 'error',
+          confirmButtonColor: '#636C74',
+        })
+      }else{
+        Swal.fire({
+          title: 'Order Failed!',
+          text: data.message + ". Please check your cart again.",
+          icon: 'error',
+          confirmButtonColor: '#636C74',
+        })
       }
 
     })

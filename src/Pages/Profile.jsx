@@ -76,11 +76,13 @@ export default function Profile() {
                 dispatch(logout())
                 dispatch(setCustomerID(undefined))
                 navigate('/', {replace: true})
-                Swal.fire(
-                  'Deleted!',
-                  'Your account has been deleted.',
-                  'success'
-                )
+                Swal.fire({
+                  title: 'Deleted!',
+                  text: 'Your account has been deleted.',
+                  icon: 'success',
+                  confirmButtonText: 'OK',
+                  confirmButtonColor: '#636C74'
+                })
             }
         })
       }
