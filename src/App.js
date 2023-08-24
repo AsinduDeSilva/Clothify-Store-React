@@ -23,6 +23,7 @@ import { useSelector } from 'react-redux';
 import AdminDashboard from './Pages/AdminDashboard';
 import AdminOrders from './Pages/AdminOrders';
 import AdminOrderDetails from './Pages/AdminOrderDetails';
+import AdminSettings from './Pages/AdminSettings';
 
 
 
@@ -51,7 +52,7 @@ function App() {
       </Route>
       {!isAdmin ? null : (
         <Route path='admin'>
-          <Route path='' Component={AdminDashboard}/>
+          <Route path='dashboard' Component={AdminDashboard}/>
           <Route path='products'>
             <Route path='' Component={AdminProducts}/>
             <Route path='add' Component={AddProduct}/>
@@ -61,7 +62,7 @@ function App() {
             <Route path='' Component={AdminOrders}/>
             <Route path=':orderID' Component={AdminOrderDetails}/>
           </Route>
-          
+          <Route path='settings' Component={AdminSettings}/>
         </Route>
       )}
       <Route path='/login' Component={LogIn} />

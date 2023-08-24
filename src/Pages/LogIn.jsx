@@ -73,7 +73,7 @@ export default function LogIn() {
             loadCustomerDetails(data.jwt);
             navigate("/", {replace: true});
           }else{
-            navigate("/admin", {replace: true}); 
+            navigate("/admin/dashboard", {replace: true}); 
           }
           dispatch(setRole(data.customer));
           Cookies.set('jwt', data.jwt, { expires: 7 });

@@ -11,7 +11,7 @@ import MyBackdrop from '../Components/MyBackdrop';
 
 export default function ShoppingCart() {
 
-  const {cart, isCustomer} = useSelector((state) => state.userInfo);   
+  const {cart, isAdmin, isCustomer} = useSelector((state) => state.userInfo);   
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [productDetailsList, setProductDetailsList] = useState([]); 
   const [backDropOpen, setBackDropOpen] = useState(false);
@@ -101,7 +101,7 @@ export default function ShoppingCart() {
     
   return (
     <div>
-       {!isCustomer ? null : (
+       {isAdmin ? null : (
           <>
             <Navbar />
             <Heading name="Your Cart"/>

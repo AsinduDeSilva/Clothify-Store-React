@@ -2,14 +2,16 @@ import React from 'react'
 import logo from '../assets/logo.jpg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Dashboard, ExitToApp, Inventory2, Settings, ShoppingCart } from '@mui/icons-material';
+import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
+import { logout, setCustomerID } from '../Redux/userInfo';
+import { useDispatch } from 'react-redux';
 
 const navigation = [
-  { name: 'Dashboard', icon: Dashboard,  to: '/admin'},
+  { name: 'Dashboard', icon: Dashboard,  to: '/admin/dashboard'},
   { name: 'Products', icon: Inventory2,  to: '/admin/products' },
   { name: 'Orders', icon: ShoppingCart,  to: '/admin/orders'},
   { name: 'Settings', icon: Settings,  to: '/admin/settings'},
-  { name: 'Logout', icon: ExitToApp,  to: '' },
- 
 ]
 
 function classNames(...classes) {
@@ -20,6 +22,29 @@ export default function AdminSidePanel() {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const btnLogoutOnClick = () => {
+    Swal.fire({
+      title: 'Are you sure?',   
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#484848',
+      confirmButtonText: 'Logout',
+      confirmButtonColor: '#026472',
+      customClass:{
+        popup: 'bg-[#1E1E1E] text-white'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Cookies.remove('jwt');
+        Cookies.remove('customerID')
+        dispatch(logout())
+        dispatch(setCustomerID(undefined))
+        navigate("/", {replace: true})  
+      }
+    })   
+  }
 
   return (
     <div className="flex flex-col flex-grow border-r pb-4  overflow-y-auto bg-[#1E1E1E] h-[100vh] w-full">
@@ -30,17 +55,16 @@ export default function AdminSidePanel() {
           alt="Workflow"
         />
       </div>
-      <div className="mt-20 flex-grow flex flex-col bg-[#1E1E1E]">
-        <nav className="flex-1 px-12  space-y-4" aria-label="Sidebar">
+      <div className="mt-14 flex-grow flex flex-col bg-[#1E1E1E]">
+        <nav className="flex-1 px-12 space-y-3" aria-label="Sidebar">
           {navigation.map((item) => {
-            const str = item.to.substring(6);
-            const isActive = location.pathname.startsWith(str === "" ? undefined : str, 6);
+            const isActive = location.pathname.startsWith(item.to);
             return(
               <Link
                 key={item.name}
                 to={item.to}
                 className={classNames(
-                    isActive ? 'bg-[#141414] text-white' : 'text-gray-400  hover:bg-[#141414] hover:text-',
+                    isActive ? 'bg-[#141414] text-white' : 'text-gray-400  hover:bg-[#141414]',
                     'group flex items-center px-2 py-3 text-sm font-medium rounded-md '
                 )}
               >   
@@ -55,6 +79,18 @@ export default function AdminSidePanel() {
               </Link>
             )
           })}
+          <div className='relative top-[40%]'>
+              <div
+                className='text-gray-400 group flex items-center px-2 py-3 text-sm font-medium hover:cursor-pointer'
+                onClick={btnLogoutOnClick}
+              >   
+                  <ExitToApp
+                    className='mr-3 flex-shrink-0 h-6 w-6'
+                    aria-hidden="true"
+                  />
+                    Logout
+              </div>
+          </div>
         </nav>
       </div>
     </div>

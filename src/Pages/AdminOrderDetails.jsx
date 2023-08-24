@@ -27,8 +27,7 @@ export default function AdminOrderDetails() {
      .then(res => res.json())
      .then(data => {
         setBackDropOpen(false);
-        setOrder(data);
-        
+        setOrder(data);     
     })
   }
 

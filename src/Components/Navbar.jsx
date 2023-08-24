@@ -159,7 +159,7 @@ export default function Navbar() {
                               <Menu.Item>
                                 {( active ) => (
                                   <Link
-                                    to = '/admin'
+                                    to = '/admin/dashboard'
                                       className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                     >
                                       Admin Panel
@@ -214,20 +214,24 @@ export default function Navbar() {
             <div className="pt-4 pb-3 border-t border-gray-700 px-2 space-y-1">
                 {isAdmin || isCustomer ?   (
                   <> 
-                      <Disclosure.Button
-                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                      >
-                        <Link to="/orders">
-                          Orders
-                        </Link>
-                      </Disclosure.Button>    
-                      <Disclosure.Button
-                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                      >
-                        <Link to="/profile/overview">
-                          Profile
-                        </Link>
-                      </Disclosure.Button>  
+                    {isAdmin ? null : (
+                      <>
+                        <Disclosure.Button
+                          className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                        >
+                          <Link to="/orders">
+                            Orders
+                          </Link>
+                        </Disclosure.Button>    
+                        <Disclosure.Button
+                          className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                        >
+                          <Link to="/profile/overview">
+                            Profile
+                          </Link>
+                        </Disclosure.Button> 
+                      </>
+                    )}   
                       <Disclosure.Button
                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                         onClick={logoutBtnClicked}
