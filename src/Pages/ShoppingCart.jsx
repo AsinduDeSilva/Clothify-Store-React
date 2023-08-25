@@ -24,13 +24,45 @@ export default function ShoppingCart() {
   
     const fetchPromises = cart.map(async (cartItem) => {
       const response = await fetch(`http://${backendAddress}/product/${cartItem.productID}`);
+      if(response.status === 400) return undefined;
       const data = await response.json();
       return data;
     });
   
     const productDetailsArray = await Promise.all(fetchPromises);
-    setBackDropOpen(false)
+    validateCart(productDetailsArray);
+    setBackDropOpen(false);
     setProductDetailsList(productDetailsArray);
+  }
+
+  const validateCart = (productDetailsArray) => {
+    const indexesToRemove = [];
+    const tempCart = [...cart];
+
+    for (let i = 0; i < productDetailsArray.length; i++) {
+      if (productDetailsArray[i] === undefined || cart[i].qty > qtyOnHand(cart[i].size, productDetailsArray[i])) {
+        indexesToRemove.push(i);
+      }
+    }
+
+    if(indexesToRemove.length === 0) return;
+
+    for (let i = indexesToRemove.length - 1; i >= 0; i--) {
+      const indexToRemove = indexesToRemove[i];
+      productDetailsArray.splice(indexToRemove, 1);
+      tempCart.splice(indexToRemove, 1);
+    }
+
+    dispatch(updateCart(tempCart));
+  }
+
+  const qtyOnHand = (size, productData) => {
+    switch (size){
+      case "SMALL" : return productData.smallQty;
+      case "MEDIUM" : return productData.mediumQty;
+      case "LARGE" : return productData.largeQty;
+      default : return 0;
+    }
   }
 
   useEffect(() => {
@@ -39,7 +71,7 @@ export default function ShoppingCart() {
 
   const removefromCart = (index) => {
     const updatedCart = [...cart];
-    updatedCart.splice(index,1);
+    updatedCart.splice(index, 1);
     dispatch(updateCart(updatedCart))
 
     productDetailsList.splice(index,1)
@@ -80,7 +112,7 @@ export default function ShoppingCart() {
   }
 
   const decremnet = (index) => {
-    if(cart[index].qty == 1) return;
+    if(cart[index].qty === 1) return;
  
     const cartDetail = cart[index];
 
@@ -132,7 +164,7 @@ export default function ShoppingCart() {
                                     </Link>
                                 </h3>
                                 
-                                <p className="mt-1 text-sm text-gray-500">{"LKR "+productDetailsList[index]?.unitPrice.toFixed(2)}</p> 
+                                <p className="mt-1 text-sm text-gray-500">{"LKR "+productDetailsList[index]?.unitPrice?.toFixed(2)}</p> 
                                 <p className="mt-1 text-sm text-gray-500">{cartItem.size}</p> 
                                 </div>
 

@@ -59,8 +59,13 @@ export default function AddToCart() {
     if(size === "" ){
       setSnackbarSettings({message: "Please select a size", type: "error"});
       setSnackbarOpen(true);
+      return;
     }
-    if(qty === qtyOnHandOf(size))return;   
+    if(qty === qtyOnHandOf(size)){
+      setSnackbarSettings({message: "You have selected the available quantity", type: "error"});
+      setSnackbarOpen(true);
+      return;
+    };   
     setQty(prev => ++prev)
   }
 
