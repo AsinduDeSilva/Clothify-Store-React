@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../assets/logo.jpg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Dashboard, ExitToApp, Inventory2, Settings, ShoppingCart } from '@mui/icons-material';
+import { Dashboard, ExitToApp, Inventory2, Person2Outlined, Settings, ShoppingCart } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import { logout, setCustomerID } from '../Redux/userInfo';
@@ -79,18 +79,30 @@ export default function AdminSidePanel() {
               </Link>
             )
           })}
-          <div className='relative top-[40%]'>
-              <div
-                className='text-gray-400 group flex items-center px-2 py-3 text-sm font-medium hover:cursor-pointer'
-                onClick={btnLogoutOnClick}
-              >   
-                  <ExitToApp
-                    className='mr-3 flex-shrink-0 h-6 w-6'
-                    aria-hidden="true"
-                  />
-                    Logout
-              </div>
+          <hr className='border-gray-400' />
+
+          <Link
+            className='text-gray-400 group flex items-center px-2 py-3 text-sm font-medium hover:cursor-pointer'
+            to="/"
+          >   
+              <Person2Outlined
+                className='mr-3 flex-shrink-0 h-6 w-6'
+                aria-hidden="true"
+              />
+                User Panel
+          </Link>
+
+          <div
+            className='text-gray-400 group flex items-center px-2 py-3 text-sm font-medium hover:cursor-pointer'
+            onClick={btnLogoutOnClick}
+          >   
+              <ExitToApp
+                className='mr-3 flex-shrink-0 h-6 w-6'
+                aria-hidden="true"
+              />
+                Logout
           </div>
+
         </nav>
       </div>
     </div>

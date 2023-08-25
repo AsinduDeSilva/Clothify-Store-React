@@ -46,9 +46,9 @@ export default function Orders() {
       });
     
       const productDetailsArray = await Promise.all(fetchPromises);
-      setBackDropOpen(false)
       orderProductList.push(productDetailsArray);
     }
+    setBackDropOpen(false)
     setProductDetailsList(orderProductList)
 
   } 
@@ -76,13 +76,15 @@ export default function Orders() {
 
           <div className="bg-white">
           <div className="max-w-7xl mx-auto pb-16 px-4 sm:px-6 lg:pb-24 lg:px-8">
-
-    
             <div>
               <h2 className="sr-only">Recent orders</h2>
-    
-              <div className="space-y-20">
-                  {orderList.map((order, orderIndex) => (
+              {orderList.length === 0 ? (
+                <div className='h-[70px] mt-12 flex items-center justify-center'>
+                  Empty
+                </div>
+              ) : (
+              <div className="space-y-20">                
+                  {orderList.map((order, orderIndex) => (                   
                     <div key={order.orderID}>   
                       <div className="bg-gray-50 rounded-lg py-6 px-4 sm:px-6 sm:flex sm:items-center sm:justify-between sm:space-x-6 lg:space-x-8">
                         <dl className="divide-y divide-gray-200 space-y-6 text-sm text-gray-600 flex-auto sm:divide-y-0 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-x-6 lg:w-1/2 lg:flex-none lg:gap-x-8">
@@ -154,6 +156,7 @@ export default function Orders() {
                     </div>
                   ))}
                 </div>
+              )}
               </div>
             </div>
           </div> 

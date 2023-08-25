@@ -28,22 +28,22 @@ export function HomeCarousel() {
       <img
         src={window.innerWidth > 700 ? swiper4 : swiper5}
         alt="image 1"
-        className="h-[500px] sm:h-[550px] w-full sm:object-cover object-left "
+        className="h-[500px] sm:h-[74vh] w-full sm:object-cover object-left "
       />
       <img
         src={swiper2}
         alt="image 2"
-        className="h-[500px] sm:h-[550px] w-full object-cover object-left"
+        className="h-[500px] sm:h-[74vh] w-full object-cover object-left"
       />
       <img
         src={swiper3}
         alt="image 3"
-        className="h-[500px] sm:h-[550px] w-full object-cover object-left-top"
+        className="h-[500px] sm:h-[74vh] w-full object-cover object-left-top"
       />
       <img
         src={swiper1}
         alt="image 3"
-        className="h-[500px] sm:h-[550px] w-full object-cover object-left-top"
+        className="h-[500px] sm:h-[74vh] w-full object-cover object-left-top"
       />
     </Carousel>
   );

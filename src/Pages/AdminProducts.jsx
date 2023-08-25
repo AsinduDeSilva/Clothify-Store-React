@@ -63,7 +63,6 @@ export default function AdminProducts() {
                       variant='contained' 
                       startIcon={<Add/>} 
                       sx={{py: 1.5, px: 4, background: '#026472', ":hover":{background: '#026C7B'}}} 
-                      className='hover:bg-red-400' 
                     >
                       Add Product
                     </Button>
