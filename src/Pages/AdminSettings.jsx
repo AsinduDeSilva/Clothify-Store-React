@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import bcrypt from 'bcryptjs';
 import MyBackdrop from '../Components/MyBackdrop';
+import isDesktop from '../CheckDevice';
 
 
 
@@ -115,63 +116,67 @@ export default function AdminSettings() {
   }
 
   return (
-    <div className='flex-row flex h-[100vh] '>
-      <div className='flex-[3] '><AdminSidePanel/></div>
-      <div className='flex-[11] bg-[#141414] -ml-1'>
-        <div className='bg-[#1E1E1E] h-full mx-2'>
-          <div className='mx-3 h-[40%] text-white'>
-            <p className='pt-4 ml-4 text-2xl font-semibold'>Change Password</p>
-
-            <div className='ml-[2%] w-[40%] flex justify-between items-center mt-8'>
-              <span className='text-[15px]'>Current Password</span>
-              <CssTextField 
-                variant="outlined" 
-                size='small' 
-                type='password'
-                value={currentPassword}
-                onChange={e => setCurrentPassword(e.target.value)} 
-                error={txtCurrentPasswordError}
-                helperText = {txtCurrentPasswordError ? "Wrong password" : null}
-              />
+    <>
+      {!isDesktop ? null : (
+        <div className='flex-row flex h-[100vh] '>
+          <div className='flex-[3] '><AdminSidePanel/></div>
+          <div className='flex-[11] bg-[#141414] -ml-1'>
+            <div className='bg-[#1E1E1E] h-full mx-2'>
+              <div className='mx-3 h-[40%] text-white'>
+                <p className='pt-4 ml-4 text-2xl font-semibold'>Change Password</p>
+    
+                <div className='ml-[2%] w-[40%] flex justify-between items-center mt-8'>
+                  <span className='text-[15px]'>Current Password</span>
+                  <CssTextField 
+                    variant="outlined" 
+                    size='small' 
+                    type='password'
+                    value={currentPassword}
+                    onChange={e => setCurrentPassword(e.target.value)} 
+                    error={txtCurrentPasswordError}
+                    helperText = {txtCurrentPasswordError ? "Wrong password" : null}
+                  />
+                </div>
+                <div className='ml-[2%] w-[40%]  flex justify-between items-center mt-3'>
+                  <span className='text-[15px]'>New Password</span>
+                  <CssTextField  
+                    variant="outlined" 
+                    size='small' 
+                    type='password'
+                    value={newPassword}
+                    onChange={e => setNewPassword(e.target.value)} 
+                    error={txtNewPasswordError}
+                  />
+                </div>
+                <div className='ml-[2%] w-[40%]  flex justify-between items-center mt-3'>
+                  <span className='text-[15px]'>Confirm Password</span>
+                  <CssTextField  
+                    variant="outlined" 
+                    size='small'
+                    type='password' 
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)} 
+                    error={txtConfirmPasswordError}
+                  />
+                </div>
+                <div className='ml-[2%] w-[40%]  flex justify-end my-6'>
+                  <Button 
+                    variant='contained' 
+                    sx={{py: 1.5, px: 1, background: '#026472', ":hover":{background: '#026C7B'}}} 
+                    size='small'
+                    onClick={btnChangePasswordOnClick} 
+                  >
+                      Change Password
+                  </Button>
+                </div>
+                <hr/>
+              </div>
             </div>
-            <div className='ml-[2%] w-[40%]  flex justify-between items-center mt-3'>
-              <span className='text-[15px]'>New Password</span>
-              <CssTextField  
-                variant="outlined" 
-                size='small' 
-                type='password'
-                value={newPassword}
-                onChange={e => setNewPassword(e.target.value)} 
-                error={txtNewPasswordError}
-              />
-            </div>
-            <div className='ml-[2%] w-[40%]  flex justify-between items-center mt-3'>
-              <span className='text-[15px]'>Confirm Password</span>
-              <CssTextField  
-                variant="outlined" 
-                size='small'
-                type='password' 
-                value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)} 
-                error={txtConfirmPasswordError}
-              />
-            </div>
-            <div className='ml-[2%] w-[40%]  flex justify-end my-6'>
-              <Button 
-                variant='contained' 
-                sx={{py: 1.5, px: 1, background: '#026472', ":hover":{background: '#026C7B'}}} 
-                size='small'
-                onClick={btnChangePasswordOnClick} 
-              >
-                  Change Password
-              </Button>
-            </div>
-            <hr/>
           </div>
+          <MyBackdrop backDropOpen={backDropOpen} />
         </div>
-      </div>
-      <MyBackdrop backDropOpen={backDropOpen} />
-    </div>
+      )}
+    </>
   )
 }
 

@@ -8,6 +8,7 @@ import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
 import { useDropzone } from 'react-dropzone'
 import MyBackdrop from '../Components/MyBackdrop'
+import isDesktop from '../CheckDevice'
 
 
 export default function UpdateProduct() {
@@ -164,157 +165,161 @@ export default function UpdateProduct() {
 
 
   return (
-    <div className='flex-row flex h-[100vh] '>
-        <div className='flex-[3] '><AdminSidePanel/></div>
-        <div className='flex-[11] bg-[#141414] -ml-1'>
-            <div className='h-[13%] flex items-center mr-5'>
-                <Link to={'..'}>
-                    <IconButton sx={{ml:2}}>
-                        <ExpandCircleDownOutlined fontSize='large' className='text-white rotate-90'/> 
-                    </IconButton>
-                </Link>
-            </div>
-            <div className='text-white bg-[#1E1E1E] mx-2 h-[87%] flex flex-col overflow-y-scroll hide-scrollbar'>
-                <div className='mx-16 flex items-center mt-7 '>
-                    <span className='flex-1 font-medium'>Product Name </span>
-                    <div className='flex-[2]'>
-                        <TextField 
-                          variant="outlined" 
-                          size='small'
-                          value={productName}
-                          error={txtProductNameError} 
-                          onChange={e => setProductName(e.target.value)}
-                          sx={{backgroundColor: 'white', borderRadius: 1, width:'80%'}}
-                        />
-                    </div>
-                </div>
-                <div className='mx-16 flex items-center mt-7 '>
-                    <span className='flex-1 font-medium'>Unit Price (LKR)</span>
-                    <div className='flex-[2]'>
-                        <TextField 
-                          type='number'
-                          inputProps={{min: 0}}
-                          variant="outlined" 
-                          size='small'
-                          value={unitPrice}
-                          error={txtUnitPriceError}
-                          onChange={e => setUnitPrice(e.target.value)}
-                          sx={{backgroundColor: 'white', borderRadius: 1, width: 150}}
-                        />
-                    </div>
-                </div>
-                <div className='mx-16 flex items-center mt-7 '>
-                    <span className='flex-1 font-medium'>Category</span>
-                    <div className='flex-[2]'>
-                        <FormControl >
-                            <Select    
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                error={categoryError}    
-                                value={category}
+    <>
+      {!isDesktop ? null : (
+        <div className='flex-row flex h-[100vh] '>
+          <div className='flex-[3] '><AdminSidePanel/></div>
+          <div className='flex-[11] bg-[#141414] -ml-1'>
+              <div className='h-[13%] flex items-center mr-5'>
+                  <Link to={'..'}>
+                      <IconButton sx={{ml:2}}>
+                          <ExpandCircleDownOutlined fontSize='large' className='text-white rotate-90'/> 
+                      </IconButton>
+                  </Link>
+              </div>
+              <div className='text-white bg-[#1E1E1E] mx-2 h-[87%] flex flex-col overflow-y-scroll hide-scrollbar'>
+                  <div className='mx-16 flex items-center mt-7 '>
+                      <span className='flex-1 font-medium'>Product Name </span>
+                      <div className='flex-[2]'>
+                          <TextField 
+                            variant="outlined" 
+                            size='small'
+                            value={productName}
+                            error={txtProductNameError} 
+                            onChange={e => setProductName(e.target.value)}
+                            sx={{backgroundColor: 'white', borderRadius: 1, width:'80%'}}
+                          />
+                      </div>
+                  </div>
+                  <div className='mx-16 flex items-center mt-7 '>
+                      <span className='flex-1 font-medium'>Unit Price (LKR)</span>
+                      <div className='flex-[2]'>
+                          <TextField 
+                            type='number'
+                            inputProps={{min: 0}}
+                            variant="outlined" 
+                            size='small'
+                            value={unitPrice}
+                            error={txtUnitPriceError}
+                            onChange={e => setUnitPrice(e.target.value)}
+                            sx={{backgroundColor: 'white', borderRadius: 1, width: 150}}
+                          />
+                      </div>
+                  </div>
+                  <div className='mx-16 flex items-center mt-7 '>
+                      <span className='flex-1 font-medium'>Category</span>
+                      <div className='flex-[2]'>
+                          <FormControl >
+                              <Select    
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  error={categoryError}    
+                                  value={category}
+                                  size='small'
+                                  displayEmpty
+                                  onChange={e => setCategory(e.target.value)}
+                                  sx={{width: 150, backgroundColor: 'white', borderRadius: 1}}
+                              >
+                              <MenuItem value="">Select</MenuItem>    
+                              <MenuItem value={"MEN"}>Men</MenuItem>
+                              <MenuItem value={"WOMEN"}>Women</MenuItem>
+                              <MenuItem value={"KIDS"}>Kids</MenuItem>
+                              </Select>
+                          </FormControl>  
+                      </div>
+                  </div>
+                  <div className='mx-16 flex items-center mt-7 '>
+                      <span className='flex-1 font-medium'>Quantity</span>
+                      <div className='flex-[2] flex justify-between'>
+                          <div className='flex items-center'>
+                              <span className='mr-5'>Small</span> 
+                              <TextField 
+                                type='number'
+                                inputProps={{min: 0}}
+                                variant="outlined" 
                                 size='small'
-                                displayEmpty
-                                onChange={e => setCategory(e.target.value)}
-                                sx={{width: 150, backgroundColor: 'white', borderRadius: 1}}
-                            >
-                            <MenuItem value="">Select</MenuItem>    
-                            <MenuItem value={"MEN"}>Men</MenuItem>
-                            <MenuItem value={"WOMEN"}>Women</MenuItem>
-                            <MenuItem value={"KIDS"}>Kids</MenuItem>
-                            </Select>
-                        </FormControl>  
-                    </div>
-                </div>
-                <div className='mx-16 flex items-center mt-7 '>
-                    <span className='flex-1 font-medium'>Quantity</span>
-                    <div className='flex-[2] flex justify-between'>
-                        <div className='flex items-center'>
-                            <span className='mr-5'>Small</span> 
-                            <TextField 
-                              type='number'
-                              inputProps={{min: 0}}
-                              variant="outlined" 
-                              size='small'
-                              value={qtySmall}
-                              error={txtQtySmallError}
-                              onChange={e => setQtySmall(e.target.value)}
-                              sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
-                            />
-                        </div>
-                        <div className='flex items-center'>
-                            <span className='mr-5'>Medium</span>
-                            <TextField 
-                              type='number'
-                              inputProps={{min: 0}}
-                              variant="outlined" 
-                              size='small'
-                              value={qtyMedium}
-                              error={txtQtyMediumError}
-                              onChange={e => setQtyMedium(e.target.value)}
-                              sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
-                            />
-                        </div>
-                        <div className='flex items-center'>
-                            <span className='mr-5'>Large</span>
-                            <TextField 
-                              type='number'
-                              inputProps={{min: 0}}
-                              variant="outlined" 
-                              size='small'
-                              value={qtyLarge}
-                              error={txtQtyLargeError}
-                              onChange={e => setQtyLarge(e.target.value)}
-                              sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className='mx-16 flex justify-end my-7 '>
-                    <Button 
-                      variant='contained' 
-                      sx={{py: 1.5, px: 4, background: '#026472', ":hover":{background: '#026C7B'}}} 
-                      onClick={updateProductDetails} 
-                    >
-                      Update Details
-                    </Button>
-                </div>
-                    <hr className='mx-16' />
-                <div className='mx-16 flex  mt-7 '>
-                    <span className='flex-1 font-medium'>Image</span>
-                    <div className='flex-[2]'>
-                        <div {...getRootProps({className: 'dropzone'})}>
-                            <input {...getInputProps()}/>
-                            <p className='bg-white text-black h-[110px] font-semibold flex items-center justify-center rounded'>
-                                Drag your Image here or click to select Image
-                            </p>
-                            {image === null || acceptedFiles.length === 0 ? null : (
-                                <>
-                                  <p className='text-sm my-2'>
-                                    Selected File : {acceptedFiles?.[0].name}
+                                value={qtySmall}
+                                error={txtQtySmallError}
+                                onChange={e => setQtySmall(e.target.value)}
+                                sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
+                              />
+                          </div>
+                          <div className='flex items-center'>
+                              <span className='mr-5'>Medium</span>
+                              <TextField 
+                                type='number'
+                                inputProps={{min: 0}}
+                                variant="outlined" 
+                                size='small'
+                                value={qtyMedium}
+                                error={txtQtyMediumError}
+                                onChange={e => setQtyMedium(e.target.value)}
+                                sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
+                              />
+                          </div>
+                          <div className='flex items-center'>
+                              <span className='mr-5'>Large</span>
+                              <TextField 
+                                type='number'
+                                inputProps={{min: 0}}
+                                variant="outlined" 
+                                size='small'
+                                value={qtyLarge}
+                                error={txtQtyLargeError}
+                                onChange={e => setQtyLarge(e.target.value)}
+                                sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
+                              />
+                          </div>
+                      </div>
+                  </div>
+                  <div className='mx-16 flex justify-end my-7 '>
+                      <Button 
+                        variant='contained' 
+                        sx={{py: 1.5, px: 4, background: '#026472', ":hover":{background: '#026C7B'}}} 
+                        onClick={updateProductDetails} 
+                      >
+                        Update Details
+                      </Button>
+                  </div>
+                      <hr className='mx-16' />
+                  <div className='mx-16 flex  mt-7 '>
+                      <span className='flex-1 font-medium'>Image</span>
+                      <div className='flex-[2]'>
+                          <div {...getRootProps({className: 'dropzone'})}>
+                              <input {...getInputProps()}/>
+                              <p className='bg-white text-black h-[110px] font-semibold flex items-center justify-center rounded'>
+                                  Drag your Image here or click to select Image
+                              </p>
+                              {image === null || acceptedFiles.length === 0 ? null : (
+                                  <>
+                                    <p className='text-sm my-2'>
+                                      Selected File : {acceptedFiles?.[0].name}
+                                    </p>
+                                    <img src={URL.createObjectURL(acceptedFiles[0])} alt="product" className='h-[100px]'/>
+                                  </>
+                              )}
+                              {!imageError ? null : (
+                                  <p className='text-[#C62828] text-sm mt-2'>
+                                      Please Select an Image
                                   </p>
-                                  <img src={URL.createObjectURL(acceptedFiles[0])} alt="product" className='h-[100px]'/>
-                                </>
-                            )}
-                            {!imageError ? null : (
-                                <p className='text-[#C62828] text-sm mt-2'>
-                                    Please Select an Image
-                                </p>
-                            )}        
-                        </div>
-                    </div>
-                </div>
-                <div className='mx-16 flex justify-end my-7 '>
-                    <Button 
-                      variant='contained' 
-                      sx={{py: 1.5, px: 4, background: '#026472', ":hover":{background: '#026C7B'}, width: 188}} 
-                      onClick={updateProductImage} 
-                    >
-                      Update Image
-                    </Button>
-                </div>
-            </div>
-        </div>
-        <MyBackdrop backDropOpen={backDropOpen}/>
-    </div>        
+                              )}        
+                          </div>
+                      </div>
+                  </div>
+                  <div className='mx-16 flex justify-end my-7 '>
+                      <Button 
+                        variant='contained' 
+                        sx={{py: 1.5, px: 4, background: '#026472', ":hover":{background: '#026C7B'}, width: 188}} 
+                        onClick={updateProductImage} 
+                      >
+                        Update Image
+                      </Button>
+                  </div>
+              </div>
+          </div>
+          <MyBackdrop backDropOpen={backDropOpen}/>
+      </div> 
+      )}
+    </>       
   )
 }

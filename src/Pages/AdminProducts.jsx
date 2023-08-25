@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import MyBackdrop from '../Components/MyBackdrop';
 import { Add } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import isDesktop from '../CheckDevice';
 
 
 export default function AdminProducts() {
@@ -16,7 +17,6 @@ export default function AdminProducts() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeTab, setActiveTab] = useState(0);
   const [backDropOpen, setBackDropOpen] = useState(false);
-  const isDesktop = !/Mobi|Android|Tablet|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   const loadProducts = (page) => {
     setBackDropOpen(true)

@@ -91,7 +91,7 @@ export default function Orders() {
                           <div className="flex justify-between sm:block">
                             <dt className="font-medium text-gray-900">Date placed</dt>
                             <dd className="sm:mt-1">
-                              <time dateTime={order.dateAndTime}>{order.dateAndTime.substring(0,10)}</time>
+                              <time dateTime={order.date}>{order.date}</time>
                             </dd>
                           </div>
                           <div className="flex justify-between pt-6 sm:block sm:pt-0">

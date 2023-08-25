@@ -8,6 +8,7 @@ import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
 import { useDropzone } from 'react-dropzone'
 import MyBackdrop from '../Components/MyBackdrop'
+import isDesktop from '../CheckDevice'
 
 
 export default function AddProduct() {
@@ -143,7 +144,9 @@ export default function AddProduct() {
   }
 
   return (
-    <div className='flex-row flex h-[100vh] '>
+   <>
+    {!isDesktop ? null : (
+       <div className='flex-row flex h-[100vh] '>
         <div className='flex-[3] '><AdminSidePanel/></div>
         <div className='flex-[11] bg-[#141414] -ml-1'>
             <div className='h-[13%] flex items-center mr-5'>
@@ -284,6 +287,8 @@ export default function AddProduct() {
             </div>
         </div>
         <MyBackdrop backDropOpen={backDropOpen}/>
-    </div>        
+      </div>
+    )} 
+   </>        
   )
 }

@@ -77,7 +77,7 @@ export default function AdminOrderRow({order, customerName}) {
         <div className='flex-[4] flex items-center '>
             <span className='ml-2'>{customerName}</span>
         </div>
-        <div className='flex-[2] flex items-center justify-center'>{order.dateAndTime.substring(0,10)}</div>
+        <div className='flex-[2] flex items-center justify-center'>{order.date}</div>
         <div className='flex-[2] flex justify-center items-center flex-col text-sm'>
             <FormControl sx={{scale: '0.9', width: '100%'}}>
                 <Select    

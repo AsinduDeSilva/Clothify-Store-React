@@ -47,7 +47,7 @@ import MyBackdrop from './MyBackdrop';
     labels.push(ISTTime.getMonth() + "/" + (ISTTime.getDate() - i));
   }
 
-export default function AdminLineChart() {
+export default function WeeklySalesChart() {
 
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [orderCountList, setOrderCountList] = useState([]);  
