@@ -85,6 +85,7 @@ export default function AdminOrderRow({order, customerName}) {
                   id="demo-simple-select"   
                   value={status}
                   size='small'
+                  disabled={status === "DELIVERED" || status === "CANCELLED"}
                   onChange={e => selectStatusOnChange(e.target.value)}
                   sx={{backgroundColor: '#e5e5e5', borderRadius: 1}}
                 >    
