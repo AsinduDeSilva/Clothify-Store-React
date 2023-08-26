@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 import { useDropzone } from 'react-dropzone'
 import MyBackdrop from '../Components/MyBackdrop'
 import isDesktop from '../CheckDevice'
+import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning'
 
 
 export default function UpdateProduct() {
@@ -166,7 +167,7 @@ export default function UpdateProduct() {
 
   return (
     <>
-      {!isDesktop ? null : (
+      {!isDesktop ? <AdminPanelMobileWarning /> : (
         <div className='flex-row flex h-[100vh] '>
           <div className='flex-[3] '><AdminSidePanel/></div>
           <div className='flex-[11] bg-[#141414] -ml-1'>

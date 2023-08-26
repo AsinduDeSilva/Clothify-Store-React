@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import MyBackdrop from '../Components/MyBackdrop';
 import isDesktop from '../CheckDevice';
 import WeeklySalesChart from '../Components/WeeklySalesChart';
+import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning';
 
 export default function AdminDashboard() {
 
@@ -39,7 +40,7 @@ export default function AdminDashboard() {
   }, []);
   return (
     <>
-      {!isDesktop ? null : (
+      {!isDesktop ? <AdminPanelMobileWarning /> : (
         <div className='flex-row flex h-[100vh] '>
           <div className='flex-[3]'><AdminSidePanel/></div>
           <div className='flex-[11] bg-[#141414] -ml-1'>
@@ -103,7 +104,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
               <div className='h-[52%] mx-10 flex items-center justify-center'>
-                <div className='w-[60%] h-full bg-[#141414] rounded-lg'>
+                <div className='w-[60%] h-full bg-[#141414] rounded-lg px-4'>
                   <p className='text-white font-medium p-4'>Weekly Sales</p>
                   <div className='-mt-2'>
                     <WeeklySalesChart />

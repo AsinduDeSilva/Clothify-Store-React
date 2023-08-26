@@ -7,6 +7,7 @@ import MyBackdrop from '../Components/MyBackdrop';
 import { Add } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import isDesktop from '../CheckDevice';
+import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning';
 
 
 export default function AdminProducts() {
@@ -53,7 +54,7 @@ export default function AdminProducts() {
 
   return (
     <>
-      {isDesktop ? (
+      {!isDesktop ? <AdminPanelMobileWarning /> : (
         <div className='flex-row flex h-[100vh] '>
           <div className='flex-[3] '><AdminSidePanel/></div>
           <div className='flex-[11] bg-[#141414] -ml-1'>
@@ -125,7 +126,7 @@ export default function AdminProducts() {
           </div>
           <MyBackdrop backDropOpen={backDropOpen}/>
       </div>
-      ) : null}
+      )}
     </>
   )
 }
