@@ -4,7 +4,6 @@ import { ExpandCircleDownOutlined } from '@mui/icons-material'
 import { Button, FormControl, IconButton, MenuItem, Select, TextField} from '@mui/material'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
 import { useDropzone } from 'react-dropzone'
 import MyBackdrop from '../Components/MyBackdrop'
@@ -15,6 +14,7 @@ import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning'
 export default function UpdateProduct() {
   
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {jwt} = useSelector(state => state.userInfo);
   const productDetails = useLocation().state?.productDetails; 
   const [productName, setProductName] = useState(productDetails.name); 
   const [unitPrice, setUnitPrice] = useState(productDetails.unitPrice.toFixed(2));
@@ -60,10 +60,10 @@ export default function UpdateProduct() {
 
     setBackDropOpen(true)
 
-    fetch(`http://${backendAddress}/product/${productDetails.productID}`, {
+    fetch(`${backendAddress}/product/${productDetails.productID}`, {
         method: 'PUT',
         headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
         },
         body: formData
     })
@@ -97,10 +97,10 @@ export default function UpdateProduct() {
 
     setBackDropOpen(true)
 
-    fetch(`http://${backendAddress}/product/image/${productDetails.productID}`, {
+    fetch(`${backendAddress}/product/image/${productDetails.productID}`, {
         method: 'PUT',
         headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
         },
         body: formData
     })

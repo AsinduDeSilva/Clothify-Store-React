@@ -4,7 +4,6 @@ import { ExpandCircleDownOutlined } from '@mui/icons-material'
 import { Button, FormControl, IconButton, MenuItem, Select, TextField} from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
 import { useDropzone } from 'react-dropzone'
 import MyBackdrop from '../Components/MyBackdrop'
@@ -15,6 +14,7 @@ import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning'
 export default function AddProduct() {
   
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {jwt} = useSelector(state => state.userInfo);
   const [productName, setProductName] = useState(""); 
   const [unitPrice, setUnitPrice] = useState(0);
   const [category, setCategory] = useState(""); 
@@ -60,10 +60,10 @@ export default function AddProduct() {
 
     setBackDropOpen(true)
 
-    fetch(`http://${backendAddress}/product`, {
+    fetch(`${backendAddress}/product`, {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
         },
         body: formData
     })

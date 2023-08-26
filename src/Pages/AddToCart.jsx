@@ -38,7 +38,7 @@ export default function AddToCart() {
 
   const loadProductDeatils = () => {
     setBackDropOpen(true)
-    fetch(`http://${backendAddress}/product/${productID}`)
+    fetch(`${backendAddress}/product/${productID}`)
      .then(res => res.json())
      .then(data => {
       setBackDropOpen(false)
@@ -113,7 +113,7 @@ export default function AddToCart() {
                 <div className='md:h-[500px] h-[400px] flex items-center justify-center md:my-10 '>
                   <div className='h-[90%] rounded-[20px] shadow-xl hover:shadow-2xl transition-time overflow-hidden'>
                     <img 
-                      src={productData.imgFileName === "" ? null : `http://${backendAddress}/product/image/${productData.imgFileName}`} 
+                      src={productData.imgFileName === "" ? null : `${backendAddress}/product/image/${productData.imgFileName}`} 
                       alt="product" 
                       className='w-full h-full hover:scale-110 transition-time' 
                       />

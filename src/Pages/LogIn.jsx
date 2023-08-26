@@ -16,7 +16,7 @@ import Alert from '@mui/material/Alert';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCustomerID, setRole } from '../Redux/userInfo';
+import { login, setCustomerID } from '../Redux/userInfo';
 import MyBackdrop from '../Components/MyBackdrop';
 
 
@@ -36,6 +36,7 @@ export default function LogIn() {
   const [backDropOpen, setBackDropOpen] = useState(false);
   const [emailFieldEmptyError, setEmailFieldEmptyError] = useState(false);
   const [passwordFieldEmptyError, setPasswordFieldEmptyError] = useState(false);
+  const [remember, setRemember] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {backendAddress} = useSelector(state => state.backendInfo);
@@ -54,7 +55,7 @@ export default function LogIn() {
     }
 
     setBackDropOpen(true);
-    fetch(`http://${backendAddress}/authenticate`,{
+    fetch(`${backendAddress}/authenticate`,{
       method: 'POST',
       body: JSON.stringify({
         email: email,
@@ -69,14 +70,15 @@ export default function LogIn() {
         setBackDropOpen(false);
 
         if(data.success){
+          dispatch(login({isCustomer: data.customer, jwt: data.jwt, remember: remember}));
+
           if(data.customer){
             loadCustomerDetails(data.jwt);
             navigate("/", {replace: true});
           }else{
             navigate("/admin/dashboard", {replace: true}); 
           }
-          dispatch(setRole(data.customer));
-          Cookies.set('jwt', data.jwt, { expires: 7 });
+          
           return;
         }
 
@@ -90,7 +92,7 @@ export default function LogIn() {
 
   const loadCustomerDetails = (jwt) =>{
     setBackDropOpen(true)
-    fetch(`http://${backendAddress}/customer/email`,{  
+    fetch(`${backendAddress}/customer/email`,{  
       method: 'POST',
       body: JSON.stringify({
         email: email,
@@ -180,7 +182,7 @@ export default function LogIn() {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
+                    control={<Checkbox value="remember" color="default" defaultChecked onChange={e => setRemember(e.target.checked)}/>}
                     label="Remember me"
                   />
                   <Button

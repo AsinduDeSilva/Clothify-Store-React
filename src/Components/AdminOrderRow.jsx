@@ -4,23 +4,23 @@ import { FormControl, IconButton, MenuItem, Select } from '@mui/material'
 import { ExpandCircleDownOutlined } from '@mui/icons-material'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 
 export default function AdminOrderRow({order, customerName}) {
 
   const navigate = useNavigate();
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {jwt} = useSelector(state => state.userInfo);
   const [backDropOpen, setBackDropOpen] = useState(false);
   const [status, setStatus] = useState(order.status);
 
   const updateOrderStatus = (newStatus) => {
     setBackDropOpen(true)
 
-    fetch(`http://${backendAddress}/order/${order.orderID}?status=${newStatus}`, {
+    fetch(`${backendAddress}/order/${order.orderID}?status=${newStatus}`, {
         method: 'PUT',
         headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
         },
     })
      .then(res => res.json())

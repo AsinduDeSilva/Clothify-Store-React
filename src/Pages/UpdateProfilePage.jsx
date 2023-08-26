@@ -5,13 +5,12 @@ import Heading from '../Components/Heading';
 import Footer from '../Components/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import MyBackdrop from '../Components/MyBackdrop';
 
 export default function UpdateProfilePage() {
   
-  const {customerID, isCustomer} = useSelector(state => state.userInfo);
+  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo); 
   const navigate = useNavigate(); 
   const customerDetails = useLocation().state?.customerDetails;  
@@ -62,7 +61,7 @@ export default function UpdateProfilePage() {
 
     setBackDropOpen(true)
 
-    fetch(`http://${backendAddress}/customer/${customerID}`,{  
+    fetch(`${backendAddress}/customer/${customerID}`,{  
       method: 'PUT',
       body: JSON.stringify({
         firstName: firstName,
@@ -72,7 +71,7 @@ export default function UpdateProfilePage() {
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
-        'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        'Authorization': `Bearer ${jwt}`,
       }})
         .then(res => res.json())
         .then(data => {

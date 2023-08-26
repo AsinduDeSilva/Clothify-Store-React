@@ -3,16 +3,15 @@ import Navbar from '../Components/Navbar'
 import Heading from '../Components/Heading'
 import { Button, Container } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
 import Footer from '../Components/Footer';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { logout, setCustomerID } from '../Redux/userInfo';
+import { logout } from '../Redux/userInfo';
 import MyBackdrop from '../Components/MyBackdrop';
 
 
 export default function Profile() {
-  const {customerID, isCustomer} = useSelector(state => state.userInfo);
+  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [customerDetails, setCustomerDetails] = useState({});
   const [backDropOpen, setBackDropOpen] = useState(false);
@@ -25,9 +24,9 @@ export default function Profile() {
 
   const loadCustomerDetails = () =>{
     setBackDropOpen(true)
-    fetch(`http://${backendAddress}/customer/${customerID}`,{  
+    fetch(`${backendAddress}/customer/${customerID}`,{  
       headers: {
-        'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        'Authorization': `Bearer ${jwt}`,
       }
     })
     .then(res => res.json())
@@ -61,20 +60,17 @@ export default function Profile() {
       if (result.isConfirmed) {
 
         setBackDropOpen(true)
-        fetch(`http://${backendAddress}/customer/${customerID}`,{  
+        fetch(`${backendAddress}/customer/${customerID}`,{  
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
           }
         })
         .then(res => res.json())
         .then(data => {
             setBackDropOpen(false); 
             if(data.success){
-                Cookies.remove('jwt');
-                Cookies.remove('customerID')
                 dispatch(logout())
-                dispatch(setCustomerID(undefined))
                 navigate('/', {replace: true})
                 Swal.fire({
                   title: 'Deleted!',

@@ -15,7 +15,7 @@ const SHIPPING_FEE = 500.00;
 
 export default function Checkout() {
 
-  const {customerID, isCustomer} = useSelector(state => state.userInfo);
+  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const {cart} = useSelector((state) => state.userInfo);  
   const dispatch = useDispatch(); 
@@ -48,9 +48,9 @@ export default function Checkout() {
 
   const loadCustomerDetails = () =>{
     setBackDropOpen(true)
-    fetch(`http://${backendAddress}/customer/${customerID}`,{  
+    fetch(`${backendAddress}/customer/${customerID}`,{  
       headers: {
-        'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        'Authorization': `Bearer ${jwt}`,
       }
     })
     .then(res => res.json())
@@ -69,7 +69,7 @@ export default function Checkout() {
     setProductDetailsList([]);
   
     const fetchPromises = checkoutCart.map(async (cartItem) => {
-      const response = await fetch(`http://${backendAddress}/product/${cartItem.productID}`);
+      const response = await fetch(`${backendAddress}/product/${cartItem.productID}`);
       const data = await response.json();
       return data;
     });
@@ -95,7 +95,7 @@ export default function Checkout() {
     setBackDropOpen(true);
 
     if(customerDetails.address === null){
-      fetch(`http://${backendAddress}/customer/${customerID}`,{  
+      fetch(`${backendAddress}/customer/${customerID}`,{  
       method: 'PUT',
       body: JSON.stringify({
         firstName: customerDetails.firstName,
@@ -105,7 +105,7 @@ export default function Checkout() {
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
-        'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        'Authorization': `Bearer ${jwt}`,
       }})
     }
 
@@ -119,7 +119,7 @@ export default function Checkout() {
       })
     }
 
-    fetch(`http://${backendAddress}/order/`,{  
+    fetch(`${backendAddress}/order/`,{  
       method: 'POST',
       body: JSON.stringify({
         receiverAddress: address,
@@ -132,7 +132,7 @@ export default function Checkout() {
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
-        'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        'Authorization': `Bearer ${jwt}`,
       }
     })
     .then(res => res.json())

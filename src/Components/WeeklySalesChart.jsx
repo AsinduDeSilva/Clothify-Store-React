@@ -12,7 +12,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import MyBackdrop from './MyBackdrop';
 
@@ -50,6 +49,7 @@ import MyBackdrop from './MyBackdrop';
 export default function WeeklySalesChart() {
 
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {jwt} = useSelector(state => state.userInfo);
   const [orderCountList, setOrderCountList] = useState([]);  
   const [backDropOpen, setBackDropOpen] = useState(false);
 
@@ -68,9 +68,9 @@ export default function WeeklySalesChart() {
   
   const loadOrderCountList = () => {
     setBackDropOpen(true);
-    fetch(`http://${backendAddress}/order/week`, {
+    fetch(`${backendAddress}/order/week`, {
         headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
         },
     })
       .then(res => res.json())

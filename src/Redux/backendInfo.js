@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  backendAddress: "192.168.1.20:8080"
+  backendAddress: "http://192.168.1.20:8080"
 }
 
 export const backendInfoSlice = createSlice({

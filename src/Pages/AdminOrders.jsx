@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import AdminSidePanel from '../Components/AdminSidePanel'
 import { Pagination, Tab, Tabs } from '@mui/material'
 import { useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
 import AdminOrderRow from '../Components/AdminOrderRow';
 import MyBackdrop from '../Components/MyBackdrop';
 import isDesktop from '../CheckDevice';
@@ -11,6 +10,7 @@ import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning';
 export default function AdminOrders() {
 
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {jwt} = useSelector(state => state.userInfo);
   const [orderList, setOrderList] = useState([]);
   const [customerNameList, setCustomerNameList] = useState([]);
   const [pageCount, setPageCount] = useState(0); 
@@ -20,9 +20,9 @@ export default function AdminOrders() {
   const loadOrders = (page) => {
     setBackDropOpen(true)
 
-    fetch(`http://${backendAddress}/order/status/${activeCategory}?page=${page}`,{
+    fetch(`${backendAddress}/order/status/${activeCategory}?page=${page}`,{
         headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
         },
     })
      .then(res => res.json())
@@ -51,9 +51,9 @@ export default function AdminOrders() {
     setBackDropOpen(true)
   
     const fetchPromises = orderList.map(async (order) => {
-      const response = await fetch(`http://${backendAddress}/customer/${order.customerID}`,{
+      const response = await fetch(`${backendAddress}/customer/${order.customerID}`,{
         headers: {
-          'Authorization': `Bearer ${Cookies.get('jwt')}`,
+          'Authorization': `Bearer ${jwt}`,
         },
       });
       if(response.status === 400) return "Deleted Customer";

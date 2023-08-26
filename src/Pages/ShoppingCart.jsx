@@ -23,7 +23,7 @@ export default function ShoppingCart() {
     setBackDropOpen(true)
   
     const fetchPromises = cart.map(async (cartItem) => {
-      const response = await fetch(`http://${backendAddress}/product/${cartItem.productID}`);
+      const response = await fetch(`${backendAddress}/product/${cartItem.productID}`);
       if(response.status === 400) return undefined;
       const data = await response.json();
       return data;
@@ -148,7 +148,7 @@ export default function ShoppingCart() {
                         <li key={index} className="flex py-6 sm:py-10">
                         <div className="flex-shrink-0">
                             <img
-                              src={productDetailsList[index] !== undefined ? `http://${backendAddress}/product/image/${productDetailsList[index].imgFileName}` : null}
+                              src={productDetailsList[index] !== undefined ? `${backendAddress}/product/image/${productDetailsList[index].imgFileName}` : null}
                               alt={"product"}
                               className="w-24 h-24 rounded-lg object-center object-cover sm:w-32 sm:h-32"
                             />

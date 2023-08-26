@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { logout } from '../Redux/userInfo';
-import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import bcrypt from 'bcryptjs';
 import MyBackdrop from '../Components/MyBackdrop';
@@ -16,7 +15,8 @@ import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning';
 
 export default function AdminSettings() {
 
-  const {backendAddress} = useSelector(state => state.backendInfo); 
+  const {backendAddress} = useSelector(state => state.backendInfo);
+  const {jwt} = useSelector(state => state.userInfo); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [password, setPassword] = useState(""); 
@@ -32,9 +32,9 @@ export default function AdminSettings() {
   const loadAdminDetails = () => {
     setBackDropOpen(true);
 
-    fetch(`http://${backendAddress}/admin`,{
+    fetch(`${backendAddress}/admin`,{
       headers: {
-        'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        'Authorization': `Bearer ${jwt}`,
       }
     })
     .then(res => res.json())
@@ -54,21 +54,20 @@ export default function AdminSettings() {
 
     setBackDropOpen(true);
     
-    fetch(`http://${backendAddress}/admin`,{  
+    fetch(`${backendAddress}/admin`,{  
       method: 'PUT',
       body: JSON.stringify({
         password: newPassword
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
-        'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        'Authorization': `Bearer ${jwt}`,
       }
     })
       .then(res => res.json())
       .then(data => {
           setBackDropOpen(false);
           if(data.success){
-              Cookies.remove('jwt');
               dispatch(logout());
               navigate('/login', {replace: true});
               Swal.fire({

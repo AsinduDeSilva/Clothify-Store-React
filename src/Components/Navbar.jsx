@@ -3,12 +3,12 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from '../assets/logo.jpg';
 import { AccountCircleOutlined, ExitToApp, HistoryOutlined, ShoppingCartOutlined, SupervisorAccountOutlined } from '@mui/icons-material';
-import { Badge, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
 import { logout, setCustomerID } from '../Redux/userInfo';
 import Swal from 'sweetalert2';
+import { Badge } from '@material-tailwind/react';
 
 
 const navigation = [
@@ -46,8 +46,6 @@ export default function Navbar() {
     })
      .then((result) => {
       if (result.isConfirmed) {
-        Cookies.remove('jwt');
-        Cookies.remove('customerID')
         dispatch(logout())
         dispatch(setCustomerID(undefined))
         navigate("/", {replace: true})  
@@ -107,15 +105,15 @@ export default function Navbar() {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0 ">
                 {isAdmin ? null : (
                   <Link to="/cart">
-                    <button
-                      type="button"
-                      className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white  "
-                    >
-                      <span className="absolute -inset-1.5" />
-                      <Badge badgeContent={cart.length} color='info' >
-                        <ShoppingCartOutlined className="h-6 w-6" aria-hidden="true"  />
-                      </Badge> 
-                    </button>
+                    <Badge content={cart.length} withBorder className={`border-black bg-[#00928F] ${cart.length === 0 ? 'hidden' : null}`} >
+                      <button
+                        type="button"
+                        className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white  "
+                      >
+                        <span className="absolute -inset-1.5" />
+                          <ShoppingCartOutlined className="h-6 w-6" aria-hidden="true"  />
+                      </button>
+                    </Badge> 
                   </Link> 
                 )}
 

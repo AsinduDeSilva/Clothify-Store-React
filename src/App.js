@@ -29,7 +29,7 @@ import AdminSettings from './Pages/AdminSettings';
 
 function App() {
 
-  const {isAdmin} = useSelector(state => state.userInfo);
+  const {isAdmin, isCustomer} = useSelector(state => state.userInfo);
 
   return (
     <Routes>
@@ -43,13 +43,17 @@ function App() {
         <Route path=':productID' Component={AddToCart}/>
       </Route>
       <Route path='/cart' Component={Cart}/>
-      <Route path='/checkout' Component={Checkout} />
-      <Route path='/orders' Component={Orders} />
-      <Route path='profile'>
-        <Route path='overview' Component={Profile}/>
-        <Route path='update' Component={UpdateProfilePage}/>
-        <Route path='change-password' Component={ChangePassword}/>
-      </Route>
+      {!isCustomer ? null : (
+        <>
+          <Route path='/checkout' Component={Checkout} />
+          <Route path='/orders' Component={Orders} />
+          <Route path='profile'>
+            <Route path='overview' Component={Profile}/>
+            <Route path='update' Component={UpdateProfilePage}/>
+            <Route path='change-password' Component={ChangePassword}/>
+          </Route>
+        </>
+      )}
       {!isAdmin ? null : (
         <Route path='admin'>
           <Route path='dashboard' Component={AdminDashboard}/>

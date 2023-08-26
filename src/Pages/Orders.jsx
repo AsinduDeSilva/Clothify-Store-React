@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar'
 import Heading from '../Components/Heading'
 import { useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
 import Footer from '../Components/Footer';
 import { Pagination } from '@mui/material';
 import MyBackdrop from '../Components/MyBackdrop';
@@ -12,7 +11,7 @@ export default function Orders() {
 
   const [orderList, setOrderList] = useState([]);
   const [productDetailsList, setProductDetailsList] = useState([]);
-  const {customerID, isCustomer} = useSelector(state => state.userInfo);
+  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [backDropOpen, setBackDropOpen] = useState(false);
   const [pageCount, setPageCount] = useState(0); 
@@ -20,9 +19,9 @@ export default function Orders() {
   
   const loadOrderList = (page) => {
     setBackDropOpen(true)
-    fetch(`http://${backendAddress}/order/customer/${customerID}?page=${page}`,{  
+    fetch(`${backendAddress}/order/customer/${customerID}?page=${page}`,{  
       headers: {
-        'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        'Authorization': `Bearer ${jwt}`,
       }
     })
     .then(res => res.json())
@@ -40,7 +39,7 @@ export default function Orders() {
     
     for (const order of orderList) {
       const fetchPromises = order.orderDetails.map(async (orderDetail) => {
-        const response = await fetch(`http://${backendAddress}/product/${orderDetail.productID}`);
+        const response = await fetch(`${backendAddress}/product/${orderDetail.productID}`);
         const data = await response.json();
         return data;
       });
@@ -132,7 +131,7 @@ export default function Orders() {
                                 <div className="flex items-center">
                                   <img
                                     src={productDetailsList[orderIndex]?.[orderDetailIndex]?.imgFileName === undefined ? null :
-                                      `http://${backendAddress}/product/image/${productDetailsList[orderIndex]?.[orderDetailIndex]?.imgFileName}`}
+                                      `${backendAddress}/product/image/${productDetailsList[orderIndex]?.[orderDetailIndex]?.imgFileName}`}
                                     alt={'product ' + orderDetail.productID}
                                     className="w-16 h-16 object-center object-cover rounded mr-6"
                                   />

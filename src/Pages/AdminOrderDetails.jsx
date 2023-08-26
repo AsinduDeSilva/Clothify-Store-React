@@ -4,7 +4,6 @@ import { Link, useParams } from 'react-router-dom'
 import { IconButton } from '@mui/material'
 import { ExpandCircleDownOutlined } from '@mui/icons-material'
 import { useSelector } from 'react-redux'
-import Cookies from 'js-cookie'
 import AdminOrderDetailRow from '../Components/AdminOrderDetailRow'
 import MyBackdrop from '../Components/MyBackdrop'
 import isDesktop from '../CheckDevice'
@@ -14,6 +13,7 @@ export default function AdminOrderDetails() {
 
   const {orderID} = useParams();
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {jwt} = useSelector(state => state.userInfo);
   const [backDropOpen, setBackDropOpen] = useState(false);
   const [order, setOrder] = useState({});
   const [productNameList, setProductNameList] = useState([]);
@@ -21,9 +21,9 @@ export default function AdminOrderDetails() {
   const loadOrder = () => {
     setBackDropOpen(true)
 
-    fetch(`http://${backendAddress}/order/${orderID}`,{
+    fetch(`${backendAddress}/order/${orderID}`,{
         headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
         },
     })
      .then(res => res.json())
@@ -41,9 +41,9 @@ export default function AdminOrderDetails() {
     
   
     const fetchPromises = order.orderDetails.map(async (orderDetail) => {
-      const response = await fetch(`http://${backendAddress}/product/${orderDetail.productID}`,{
+      const response = await fetch(`${backendAddress}/product/${orderDetail.productID}`,{
         headers: {
-          'Authorization': `Bearer ${Cookies.get('jwt')}`,
+          'Authorization': `Bearer ${jwt}`,
         },
       });
       const data = await response.json();

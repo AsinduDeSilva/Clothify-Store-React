@@ -1,6 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
-import Cookies from 'js-cookie';
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
@@ -10,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 export default function AdminProductRow({productDetails, setProductList, index}) {
 
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {jwt} = useSelector(state => state.userInfo);
   const [backDropOpen, setBackDropOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -28,10 +28,10 @@ export default function AdminProductRow({productDetails, setProductList, index})
       if (result.isConfirmed) {
         setBackDropOpen(true);
 
-        fetch(`http://${backendAddress}/product/${productID}` ,{
+        fetch(`${backendAddress}/product/${productID}` ,{
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
           }
         })
           .then(res => res.json())
@@ -66,7 +66,7 @@ export default function AdminProductRow({productDetails, setProductList, index})
     <div className='flex flex-row text-white mx-5 h-[20%] rounded-[12px] bg-[#141414] mb-3'>
         <div className='flex-[2] flex items-center justify-center '>{productDetails.productID}</div>
         <div className='flex-[2] flex items-center justify-center '>
-            <img src= {`http://192.168.1.20:8080/product/image/${productDetails.imgFileName}`} alt="product" className='h-[90%] rounded'/>
+            <img src= {`${backendAddress}/product/image/${productDetails.imgFileName}`} alt="product" className='h-[90%] rounded'/>
         </div>
         <div className='flex-[4] flex items-center  '>{productDetails.name}</div>
         <div className='flex-[2] flex items-center justify-center'>{productDetails.unitPrice.toFixed(2)}</div>

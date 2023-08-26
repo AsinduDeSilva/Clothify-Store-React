@@ -65,7 +65,7 @@ export default function SignUp() {
 
     setBackDropOpen(true);
 
-    fetch(`http://${backendAddress}/customer`,{
+    fetch(`${backendAddress}/customer`,{
       method: 'POST',
       body: JSON.stringify({
         firstName: firstName,

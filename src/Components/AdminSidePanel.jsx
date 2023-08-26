@@ -3,8 +3,7 @@ import logo from '../assets/logo.jpg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Dashboard, ExitToApp, Inventory2, Person2Outlined, Settings, ShoppingCart } from '@mui/icons-material';
 import Swal from 'sweetalert2';
-import Cookies from 'js-cookie';
-import { logout, setCustomerID } from '../Redux/userInfo';
+import { logout } from '../Redux/userInfo';
 import { useDispatch } from 'react-redux';
 
 const navigation = [
@@ -37,10 +36,7 @@ export default function AdminSidePanel() {
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        Cookies.remove('jwt');
-        Cookies.remove('customerID')
         dispatch(logout())
-        dispatch(setCustomerID(undefined))
         navigate("/", {replace: true})  
       }
     })   

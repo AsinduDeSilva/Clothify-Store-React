@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Alert, Avatar, Box, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCustomerID, setRole } from '../Redux/userInfo';
+import { login, setCustomerID } from '../Redux/userInfo';
 import Cookies from 'js-cookie';
 import MyBackdrop from '../Components/MyBackdrop';
 
@@ -31,7 +31,7 @@ export default function VerifyOTP() {
 
     setBackDropOpen(true);
 
-    fetch(`http://${backendAddress}/customer/verify`,{
+    fetch(`${backendAddress}/customer/verify`,{
       method: 'POST',
       body: JSON.stringify({
         email: email,
@@ -60,7 +60,7 @@ export default function VerifyOTP() {
   const authenticate = () =>{
 
     setBackDropOpen(true);
-    fetch(`http://${backendAddress}/authenticate`,{
+    fetch(`${backendAddress}/authenticate`,{
       method: 'POST',
       body: JSON.stringify({
         email: email,
@@ -81,8 +81,7 @@ export default function VerifyOTP() {
           }else{
             navigate("/admin/dashboard", {replace: true});
           }
-          dispatch(setRole(data.customer));
-          Cookies.set('jwt', data.jwt, { expires: 7 });
+          dispatch(login({isCustomer: data.customer, jwt: data.jwt, remember: true}));
           return;
         }
 
@@ -91,7 +90,7 @@ export default function VerifyOTP() {
   
   const loadCustomerDetails = (jwt) =>{
     setBackDropOpen(true)
-    fetch(`http://${backendAddress}/customer/email`,{  
+    fetch(`${backendAddress}/customer/email`,{  
       method: 'POST',
       body: JSON.stringify({
         email: email,
@@ -113,7 +112,7 @@ export default function VerifyOTP() {
     setOtpExpired(false);
     setBackDropOpen(true);
 
-    fetch(`http://${backendAddress}/customer/resend-otp`,{
+    fetch(`${backendAddress}/customer/resend-otp`,{
       method: 'POST',
       body: JSON.stringify({
         email: email,

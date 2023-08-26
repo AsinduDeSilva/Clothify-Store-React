@@ -6,8 +6,7 @@ import Footer from '../Components/Footer'
 import { useLocation, useNavigate } from 'react-router-dom'
 import bcrypt from 'bcryptjs';
 import { useDispatch, useSelector } from 'react-redux'
-import Cookies from 'js-cookie'
-import { logout, setCustomerID } from '../Redux/userInfo'
+import { logout } from '../Redux/userInfo'
 import Swal from 'sweetalert2'
 import MyBackdrop from '../Components/MyBackdrop'
 
@@ -15,7 +14,7 @@ import MyBackdrop from '../Components/MyBackdrop'
 export default function ChangePassword() {
 
   const customerDetails = useLocation().state?.customerDetails; 
-  const {customerID, isCustomer} = useSelector(state => state.userInfo);
+  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,23 +34,20 @@ export default function ChangePassword() {
 
     setBackDropOpen(true)
     
-    fetch(`http://${backendAddress}/customer/password/${customerID}`,{  
+    fetch(`${backendAddress}/customer/password/${customerID}`,{  
       method: 'PUT',
       body: JSON.stringify({
         password: newPassword
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
-        'Authorization': `Bearer ${Cookies.get('jwt')}`,
+        'Authorization': `Bearer ${jwt}`,
       }})
         .then(res => res.json())
         .then(data => {
             setBackDropOpen(false)
             if(data.success){
-                Cookies.remove('jwt');
-                Cookies.remove('customerID')
                 dispatch(logout())
-                dispatch(setCustomerID(undefined))
                 navigate('/login', {replace: true})
                 Swal.fire({
                     icon: 'success',

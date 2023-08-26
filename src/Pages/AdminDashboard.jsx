@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import AdminSidePanel from '../Components/AdminSidePanel'
 import { Autorenew, CalendarMonth, LocalShipping, MoreHoriz, Today } from '@mui/icons-material'
-import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
 import MyBackdrop from '../Components/MyBackdrop';
 import isDesktop from '../CheckDevice';
@@ -11,6 +10,7 @@ import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning';
 export default function AdminDashboard() {
 
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {jwt} = useSelector(state => state.userInfo);
   const [orderStats, setOrderStats] = useState({
     incomeOfToday : 0,
     incomeOfYesterday : 0,
@@ -23,9 +23,9 @@ export default function AdminDashboard() {
 
   const loadOrderStats = () => {
     setBackDropOpen(true);
-    fetch(`http://${backendAddress}/order/stats`, {
+    fetch(`${backendAddress}/order/stats`, {
         headers: {
-            'Authorization': `Bearer ${Cookies.get('jwt')}`,
+            'Authorization': `Bearer ${jwt}`,
         },
     })
       .then(res => res.json())

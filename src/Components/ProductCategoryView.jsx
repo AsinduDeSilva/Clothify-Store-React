@@ -22,7 +22,7 @@ export default function ProductCategoryView(props) {
 
     setBackDropOpen(true);
 
-    fetch(`http://${backendAddress}/product/category/${props.category}?page=${page}`)
+    fetch(`${backendAddress}/product/category/${props.category}?page=${page}`)
      .then(res => res.json())
      .then(data => {
         setBackDropOpen(false);

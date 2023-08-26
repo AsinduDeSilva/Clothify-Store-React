@@ -22,7 +22,7 @@ export default function AdminProducts() {
   const loadProducts = (page) => {
     setBackDropOpen(true)
 
-    fetch(`http://${backendAddress}/product/category/${activeCategory}?page=${page}`)
+    fetch(`${backendAddress}/product/category/${activeCategory}?page=${page}`)
      .then(res => res.json())
      .then(data => {
         setBackDropOpen(false);
