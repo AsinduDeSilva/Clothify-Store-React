@@ -8,9 +8,9 @@ import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import MyBackdrop from '../Components/MyBackdrop';
 
-export default function UpdateProfilePage() {
+export default function UpdateProfil() {
   
-  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
+  const {customerID, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo); 
   const navigate = useNavigate(); 
   const customerDetails = useLocation().state?.customerDetails;  
@@ -91,7 +91,7 @@ export default function UpdateProfilePage() {
 
   return (
     <div>
-        { !isCustomer || customerDetails === undefined ? null : (
+        {customerDetails === undefined ? null : (
             <>
                 <Navbar />
                 <Heading name='Update Profile' />
@@ -163,7 +163,7 @@ export default function UpdateProfilePage() {
 }
 
 const btnStyle1 ={
-    backgroundColor:'black',
+    backgroundColor:'#212529',
     borderRadius:'25px',
     ":hover":{
       backgroundColor:"black"

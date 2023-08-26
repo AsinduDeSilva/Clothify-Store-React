@@ -14,7 +14,7 @@ import MyBackdrop from '../Components/MyBackdrop'
 export default function ChangePassword() {
 
   const customerDetails = useLocation().state?.customerDetails; 
-  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
+  const {customerID, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,7 +28,6 @@ export default function ChangePassword() {
   const [txtConfirmPasswordError, setTxtConfirmPasswordError] = useState(false);
 
   
-
   const btnChangePasswordOnClick = async () => {
     if(! await checkValidity()) return;
 
@@ -96,7 +95,7 @@ export default function ChangePassword() {
 
   return (
     <div>
-        {!isCustomer || customerDetails === undefined ? null : (
+        {customerDetails === undefined ? null : (
             <>
                 <Navbar />
                 <Heading name='Change Password' />
@@ -158,7 +157,7 @@ export default function ChangePassword() {
 }
 
 const btnStyle1 ={
-    backgroundColor:'black',
+    backgroundColor:'#212529',
     borderRadius:'25px',
     ":hover":{
       backgroundColor:"black"

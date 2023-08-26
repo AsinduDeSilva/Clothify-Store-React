@@ -15,7 +15,7 @@ const SHIPPING_FEE = 500.00;
 
 export default function Checkout() {
 
-  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
+  const {customerID, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const {cart} = useSelector((state) => state.userInfo);  
   const dispatch = useDispatch(); 
@@ -37,13 +37,11 @@ export default function Checkout() {
   const [checkoutCart, setCheckoutCart] = useState(cart);
 
   useEffect(() => {
-    if(isCustomer){
-      if(tempCart != undefined){
-        setCheckoutCart(tempCart);
-      }
-      loadCustomerDetails();
-      loadProducts();
+    if(tempCart != undefined){
+      setCheckoutCart(tempCart);
     }
+    loadCustomerDetails();
+    loadProducts();   
   },[checkoutCart])
 
   const loadCustomerDetails = () =>{
@@ -204,7 +202,7 @@ export default function Checkout() {
   return (
     <div>
         {
-          checkoutCart.length === 0 || !isCustomer ? null : (
+          checkoutCart.length === 0 ? null : (
             <>
               <Navbar/>
               <Heading name="Checkout" />
@@ -311,9 +309,10 @@ export default function Checkout() {
 }
 
 const btnStyle1 ={
-  backgroundColor:'black',
-  mb:1,
+  backgroundColor:'#212529',
+  borderRadius:'25px',
+  mb: 1,
   ":hover":{
-    backgroundColor:"black"
+    backgroundColor:"#000000"
   }
 }

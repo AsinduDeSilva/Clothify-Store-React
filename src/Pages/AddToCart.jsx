@@ -207,7 +207,8 @@ export default function AddToCart() {
                             width:'147px',
                             borderRadius:'25px', 
                             ":hover":{
-                              backgroundColor:"white"
+                              backgroundColor:"#212529",
+                              color: 'white'
                             }
                           }}
                           onClick={e => buyNowBtnClicked()}
@@ -239,13 +240,14 @@ export default function AddToCart() {
 }
 
 const btnStyle1 ={
-  backgroundColor:'black',
+  backgroundColor:'#212529',
   border:'1px solid black',
   borderRadius:'25px',
   ":hover":{
-    backgroundColor:"black"
+    backgroundColor:"#000000"
   }
 }
+
 
 const btnStyle2 = {
   backgroundColor:'white',
@@ -253,6 +255,7 @@ const btnStyle2 = {
   border:'1px solid black',
   borderRadius:'25px', 
   ":hover":{
-    backgroundColor:"white"
+    backgroundColor:"black",
+    color: 'white'
   }
 }

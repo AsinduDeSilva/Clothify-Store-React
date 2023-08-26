@@ -235,7 +235,7 @@ export default function ShoppingCart() {
 }
 
 const btnStyle1 ={
-    backgroundColor:'black',
+    backgroundColor:'#212529',
     border:'1px solid black',
     borderRadius:'25px',
     ":hover":{

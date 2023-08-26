@@ -105,7 +105,11 @@ export default function Navbar() {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0 ">
                 {isAdmin ? null : (
                   <Link to="/cart">
-                    <Badge content={cart.length} withBorder className={`border-black bg-[#00928F] ${cart.length === 0 ? 'hidden' : null}`} >
+                    <Badge 
+                      content={cart.length} 
+                      withBorder 
+                      className={`border-black bg-[#00928F] border-[3px] ${cart.length === 0 ? 'hidden' : null}`} 
+                    >
                       <button
                         type="button"
                         className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white  "

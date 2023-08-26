@@ -11,7 +11,7 @@ export default function Orders() {
 
   const [orderList, setOrderList] = useState([]);
   const [productDetailsList, setProductDetailsList] = useState([]);
-  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
+  const {customerID, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [backDropOpen, setBackDropOpen] = useState(false);
   const [pageCount, setPageCount] = useState(0); 
@@ -67,9 +67,7 @@ export default function Orders() {
 
   
   return (
-    <div>
-      {!isCustomer ? null : (
-        <>
+        <div>
           <Navbar/>
           <Heading name='My Orders' /> 
 
@@ -167,10 +165,7 @@ export default function Orders() {
           <Footer />
 
           <MyBackdrop backDropOpen={backDropOpen} />
-        </>
-      )}  
-
-    </div>
+        </div>
   )
 }
 

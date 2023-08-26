@@ -11,7 +11,7 @@ import MyBackdrop from '../Components/MyBackdrop';
 
 
 export default function Profile() {
-  const {customerID, isCustomer, jwt} = useSelector(state => state.userInfo);
+  const {customerID, jwt} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [customerDetails, setCustomerDetails] = useState({});
   const [backDropOpen, setBackDropOpen] = useState(false);
@@ -87,99 +87,95 @@ export default function Profile() {
 
   return (
     <div>
-      {!isCustomer ? null : (
-        <>
           <Navbar />
           <Heading name="Profile" />
 
-          <Container maxWidth="sm" className='flex'>
-            <div className='flex border-b border-white h-[60px]'>
-              <div className='w-[40%] border-r border-white flex items-center justify-center bg-[#212529] text-white text-[15px]'>
-                First name
-              </div>
-              <div className='w-full flex items-center bg-[#D9D9D9] text- text-[14px] px-2'>
-                {customerDetails.firstName}
-              </div>
-            </div>
-            <div className='flex h-[60px] border-b border-white'>
-              <div className='w-[40%] border-r border-white flex items-center justify-center bg-[#212529] text-white text-[15px]'>
-                Last name
-              </div>
-              <div className='w-full flex items-center bg-[#D9D9D9] text-[14px] px-2'>
-                {customerDetails.lastName}
-              </div>
-            </div>
-            <div className='flex h-[60px] border-b border-white'>
-              <div className='w-[40%] border-r border-white flex items-center justify-center bg-[#212529] text-white text-[15px]'>
-                Phone No
-              </div>
-              <div className='w-full flex items-center bg-[#D9D9D9] text-[14px] px-2'>
-                {customerDetails.mobileNo}
-              </div>
-            </div>
-            <div className='flex h-[100px] border-b border-white'>
-              <div className='w-[40%] border-r border-white flex items-center justify-center bg-[#212529] text-white text-[15px]'>
-                Address
-              </div>
-              <div className='w-full flex items-center bg-[#D9D9D9] text-[14px] px-2'>
-                {customerDetails.address}
-              </div>
-            </div>
-            
-            <div className='xs:flex justify-between my-5'>
-              <div className='flex justify-end mb-2 xs:block xs:mb-0'>
-                <Button 
-                  variant="contained" 
-                  size='medium'
-                  sx={btnStyle1}  
-                  onClick={btnChangePasswordOnClick}         
-                >
-                  Change Password
-                </Button>
-              </div>
-              <div className='flex justify-end xs:block'>
-                  <Button 
-                    variant="contained" 
-                    size='medium'
-                    sx={btnStyle1}  
-                    onClick={btnUpdateProfileOnClick}         
-                  >
-                    Update Profile
-                  </Button>
-              </div>
-            </div>
+          <Container maxWidth="md" className='flex'>
+            <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-10">
+              <div className="border-t border-gray-200">
+                <dl>
+                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm sm:text-md font-medium text-gray-500">First name</dt>
+                    <dd className="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">{customerDetails.firstName}</dd>
+                  </div>
+                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm sm:text-md font-medium text-gray-500">Last name</dt>
+                    <dd className="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">{customerDetails.lastName}</dd>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm sm:text-md font-medium text-gray-500">Phone no</dt>
+                    <dd className="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">{customerDetails.mobileNo}</dd>
+                  </div>
+                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm sm:text-md font-medium text-gray-500">Email</dt>
+                    <dd className="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">{customerDetails.user?.email}</dd>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm sm:text-md font-medium text-gray-500">Address</dt>
+                    <dd className="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">
+                      {customerDetails.address}
+                    </dd>
+                  </div>
+                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm sm:text-md font-medium text-gray-500 mb-3">Actions</dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <div>
+                          <Button 
+                            variant="contained" 
+                            size='small'
+                            sx={btnStyle1}  
+                            onClick={btnChangePasswordOnClick}         
+                          >
+                            Change Password
+                          </Button>
+                        </div>
 
-            <hr />
+                        <br />
+                        <div>
+                          <Button 
+                            variant="contained" 
+                            size='small'
+                            sx={btnStyle1}  
+                            onClick={btnUpdateProfileOnClick}         
+                            >
+                            Update Profile
+                          </Button>
+                        </div>
 
-            <div className='mt-5 mb-10 flex justify-end'>
-              <Button 
-                variant="contained" 
-                size='medium'
-                color='error' 
-                sx={{borderRadius:'25px'}}
-                onClick={btnDeleteAccountOnClick}         
-              >
-                  Delete Account
-              </Button>
+                        <br />
+                        
+                        <div>
+                          <Button 
+                            variant="contained" 
+                            size='small'
+                            color='error' 
+                            sx={{borderRadius:'25px', py: 1,}}
+                            onClick={btnDeleteAccountOnClick}         
+                          >
+                              Delete Account
+                          </Button>
+                        </div>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
             </div>
-
           </Container>
 
           <Footer/>
 
           <MyBackdrop backDropOpen={backDropOpen} />
-        </>
-      )}
-      
-    </div>
+        </div>
   )
 }
 
 const btnStyle1 ={
-  backgroundColor:'black',
+  backgroundColor:'#212529',
   borderRadius:'25px',
+
+  py: 1,
   ":hover":{
-    backgroundColor:"black"
+    backgroundColor:"#000000"
   }
 }
 
