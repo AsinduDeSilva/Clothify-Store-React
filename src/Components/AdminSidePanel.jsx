@@ -53,7 +53,7 @@ export default function AdminSidePanel() {
         />
       </div>
       <div className="mt-14 flex-grow flex flex-col bg-[#1E1E1E]">
-        <nav className="flex-1 px-12 space-y-3" aria-label="Sidebar">
+        <nav className="flex-1 px-12 space-y-2" aria-label="Sidebar">
           {navigation.map((item) => {
             const isActive = location.pathname.startsWith(item.to);
             return(

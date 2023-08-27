@@ -56,8 +56,28 @@ export default function Profile() {
       customClass:{
         confirmButton: 'confirm-delete'
       }
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
+
+        setBackDropOpen(true)
+        const response = await fetch(`${backendAddress}/order/customer/count/${customerID}`,{  
+          headers: {
+            'Authorization': `Bearer ${jwt}`,
+          }
+        })
+        setBackDropOpen(false); 
+        const data = await response.json();
+        console.log(data)
+        if(data > 0){
+          Swal.fire({
+            title: 'Delete Failed!',
+            text: 'You have an Ongoing order',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#636C74'
+          })
+          return;
+        }
 
         setBackDropOpen(true)
         fetch(`${backendAddress}/customer/${customerID}`,{  

@@ -39,8 +39,8 @@ export default function Homepage() {
       <HomeCarousel/>
       <CategoryPreview/>
 
-      <div className='w-full pb-5 mt-4 bg-gradient-to-br from-[#141414] to-[#5E5E5E]'>
-        <div className='text-white text-3xl flex justify-center py-10 font-semibold'>New Arrivals</div>
+      <div className='w-full '>
+        <div className='text-white text-3xl flex justify-center mb-10 my-16 py-4 font-semibold bg-gradient-to-br from-[#141414] to-[#5E5E5E]'>New Arrivals</div>
         <ProductListView products={productList} />
       </div>
 

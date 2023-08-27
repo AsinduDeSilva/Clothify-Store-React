@@ -34,7 +34,7 @@ const categories = [
 export default function Homepage() {
     return (
       <div className="bg-white">
-        <div className="py-16 sm:py-20 xl:max-w-[1150px] xl:mx-auto xl:px-8">
+        <div className="py-16 sm:py-20 lg:max-w-[1450px] xl:mx-auto xl:px-8">
           <div className="px-4 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
             <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Shop by Category</h2>
           </div>
@@ -47,7 +47,7 @@ export default function Homepage() {
                     <Link
                       key={category.name}
                       to={category.to}
-                      className="relative w-56 h-80 rounded-lg p-6 flex flex-col overflow-hidden hover:opacity-75"
+                      className="relative w-56 xl:w-72 h-80 xl:h-96 rounded-lg p-6 flex flex-col overflow-hidden hover:opacity-75"
                     >
                       <span aria-hidden="true" className="absolute inset-0">
                         <img src={category.imageSrc} alt="" className="w-full h-full object-center object-cover" />
