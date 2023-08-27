@@ -24,6 +24,7 @@ import AdminDashboard from './Pages/AdminDashboard';
 import AdminOrders from './Pages/AdminOrders';
 import AdminOrderDetails from './Pages/AdminOrderDetails';
 import AdminSettings from './Pages/AdminSettings';
+import AdminCustomers from './Pages/AdminCustomers';
 
 
 
@@ -66,6 +67,7 @@ function App() {
             <Route path='' Component={AdminOrders}/>
             <Route path=':orderID' Component={AdminOrderDetails}/>
           </Route>
+          <Route path='customers' Component={AdminCustomers}/>
           <Route path='settings' Component={AdminSettings}/>
         </Route>
       )}

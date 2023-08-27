@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../assets/logo.jpg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Dashboard, ExitToApp, Inventory2, Person2Outlined, Settings, ShoppingCart } from '@mui/icons-material';
+import { Dashboard, ExitToApp, Groups, Inventory2, Person2Outlined, Settings, ShoppingCart } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 import { logout } from '../Redux/userInfo';
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ const navigation = [
   { name: 'Dashboard', icon: Dashboard,  to: '/admin/dashboard'},
   { name: 'Products', icon: Inventory2,  to: '/admin/products' },
   { name: 'Orders', icon: ShoppingCart,  to: '/admin/orders'},
+  { name: 'Customers', icon: Groups,  to: '/admin/customers'},
   { name: 'Settings', icon: Settings,  to: '/admin/settings'},
 ]
 
