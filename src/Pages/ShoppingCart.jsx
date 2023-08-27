@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import Heading from '../Components/Heading';
 import Navbar from '../Components/Navbar';
-import { Button, IconButton } from '@mui/material';
+import { Alert, Button, IconButton, Snackbar } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCart } from '../Redux/userInfo';
+
 import { Link, useNavigate } from 'react-router-dom';
 import MyBackdrop from '../Components/MyBackdrop';
+import { removeFromCart, updateCart } from '../Redux/userInfo';
 
 export default function ShoppingCart() {
 
-  const {cart, isAdmin, isCustomer} = useSelector((state) => state.userInfo);   
+  const {cart, isAdmin, isCustomer, customerID, jwt} = useSelector((state) => state.userInfo);   
   const {backendAddress} = useSelector(state => state.backendInfo);
   const [productDetailsList, setProductDetailsList] = useState([]); 
   const [backDropOpen, setBackDropOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSettings, setSnackbarSettings] = useState({message: null, type: null});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,14 +33,42 @@ export default function ShoppingCart() {
     });
   
     const productDetailsArray = await Promise.all(fetchPromises);
-    validateCart(productDetailsArray);
+    await validateCart(productDetailsArray);
     setBackDropOpen(false);
     setProductDetailsList(productDetailsArray);
   }
 
-  const validateCart = (productDetailsArray) => {
+  const updateServerCart = async (cartItem, index) => {
+    setBackDropOpen(true);
+    const response = await fetch(`${backendAddress}/customer/cart/${customerID}?index=${index}`,{  
+      method: 'PUT',
+      body: JSON.stringify(cartItem),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': `Bearer ${jwt}`,
+      }
+    })
+    setBackDropOpen(false);
+    return response;
+  }
+
+  const removeFromServerCart = async (indexesToRemoveArray) => {
+    setBackDropOpen(true);
+    const response = await fetch(`${backendAddress}/customer/cart/${customerID}`,{  
+      method: 'DELETE',
+      body: JSON.stringify(indexesToRemoveArray),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': `Bearer ${jwt}`,
+      }
+    })
+    setBackDropOpen(false);
+    return response;
+  }
+  
+
+  const validateCart = async (productDetailsArray) => {
     const indexesToRemove = [];
-    const tempCart = [...cart];
 
     for (let i = 0; i < productDetailsArray.length; i++) {
       if (productDetailsArray[i] === undefined || cart[i].qty > qtyOnHand(cart[i].size, productDetailsArray[i])) {
@@ -47,13 +78,21 @@ export default function ShoppingCart() {
 
     if(indexesToRemove.length === 0) return;
 
+    if (isCustomer){
+      const response = await removeFromServerCart(indexesToRemove);
+      if(!response.ok){
+        setSnackbarSettings({message: "Something went wrong", type: "error"});
+        setSnackbarOpen(true);
+        return;
+      }
+    }
+
     for (let i = indexesToRemove.length - 1; i >= 0; i--) {
       const indexToRemove = indexesToRemove[i];
       productDetailsArray.splice(indexToRemove, 1);
-      tempCart.splice(indexToRemove, 1);
     }
 
-    dispatch(updateCart(tempCart));
+    dispatch(removeFromCart(indexesToRemove));
   }
 
   const qtyOnHand = (size, productData) => {
@@ -69,19 +108,25 @@ export default function ShoppingCart() {
     loadProducts();
   },[])
 
-  const removefromCart = (index) => {
-    const updatedCart = [...cart];
-    updatedCart.splice(index, 1);
-    dispatch(updateCart(updatedCart))
-
-    productDetailsList.splice(index,1)
-    
+  const removefromCart = async (index) => {
+    if(isCustomer){
+      const response = await removeFromServerCart([index]);
+      if(!response.ok){
+        setSnackbarSettings({message: "Something went wrong", type: "error"});
+        setSnackbarOpen(true);
+        return;
+      }
+    }
+    dispatch(removeFromCart([index]));
+    productDetailsList.splice(index,1);
+    setSnackbarSettings({message: "Removed", type: "success"});
+    setSnackbarOpen(true);
   }
 
   const getTotal = () => {
     let total = 0;
     cart.forEach((cartItem, index) => {
-        total += cartItem.qty * productDetailsList[index]?.unitPrice;
+        total += cartItem.quantity * productDetailsList[index]?.unitPrice;
     })
     return total;
   }
@@ -95,39 +140,56 @@ export default function ShoppingCart() {
     }
   }
 
-  const incremnet = (index) => {
-    if(qtyOnHandOf(index,cart[index].size) === cart[index].qty)return;
+  const incremnet = async (index) => {
+    if(qtyOnHandOf(index,cart[index].size) === cart[index].quantity)return;
 
-    const cartDetail = cart[index];
+    const cartItem = {
+      productID: cart[index].productID,
+      size: cart[index].size,
+      quantity: cart[index].quantity + 1
+    }
 
-    let updatedCart = [...cart];
-    updatedCart[index] = {
-        productID: cartDetail.productID,
-        size: cartDetail.size,
-        qty: cartDetail.qty + 1
-    };
-    
+    if(isCustomer){
+      const response = await updateServerCart(cartItem, index);
+      if(!response.ok){
+        setSnackbarSettings({message: "Something went wrong", type: "error"});
+        setSnackbarOpen(true);
+        return;
+      }
+    }
 
-    dispatch(updateCart(updatedCart))
+    dispatch(updateCart({
+      index: index, 
+      data : cartItem
+    }));
   }
 
-  const decremnet = (index) => {
-    if(cart[index].qty === 1) return;
- 
-    const cartDetail = cart[index];
+  const decremnet = async (index) => {
+    if(cart[index].quantity === 1) return;
 
-    let updatedCart = [...cart];
-    updatedCart[index] = {
-        productID: cartDetail.productID,
-        size: cartDetail.size,
-        qty: cartDetail.qty - 1
-    };
+    const cartItem = {
+      productID: cart[index].productID,
+      size: cart[index].size,
+      quantity: cart[index].quantity - 1
+    }
 
-    dispatch(updateCart(updatedCart))
+    if(isCustomer){
+      const response = await updateServerCart(cartItem, index);
+      if(!response.ok){
+        setSnackbarSettings({message: "Something went wrong", type: "error"});
+        setSnackbarOpen(true);
+        return;
+      }
+    }
+
+    dispatch(updateCart({
+      index: index, 
+      data : cartItem
+    }));
   }
 
   const btnCheckoutOnClick = () => {
-    isCustomer ? navigate("/checkout") : navigate("/login");
+    isCustomer ? navigate("/checkout") : navigate("/login", {state: {fromCart: true, cart}});
   }
 
     
@@ -169,7 +231,7 @@ export default function ShoppingCart() {
                                 </div>
 
                                 <p className="text-sm font-medium text-gray-900 text-right">
-                                    {"LKR "+(productDetailsList[index]?.unitPrice * cartItem.qty).toFixed(2) }</p>
+                                    {"LKR "+(productDetailsList[index]?.unitPrice * cartItem.quantity).toFixed(2) }</p>
                             </div>
 
                             <div className="mt-4 flex items-center md:block md:absolute md:top-0 md:left-1/2 md:mt-0 "> 
@@ -178,16 +240,16 @@ export default function ShoppingCart() {
                                     <div className='w-8 flex items-center justify-center'>
                                         <button className="font-semibold" onClick={e => decremnet(index)}> - </button>
                                     </div>
-                                    <div className='flex w-8 items-center justify-center'> {cartItem.qty} </div>
+                                    <div className='flex w-8 items-center justify-center'> {cartItem.quantity} </div>
                                     <div className='w-8 flex items-center justify-center'>
                                         <button className="font-semibold" onClick={e => incremnet(index)}> + </button>
                                     </div>
                                 </div>  
 
                                 <button
-                                type="button"
-                                className="hidden md:block text-gray-500 text-sm font-light md:ml-4 sm:mt-3 hover:underline"
-                                onClick={e => removefromCart(index)}
+                                  type="button"
+                                  className="hidden md:block text-gray-500 text-sm font-light md:ml-4 sm:mt-3 hover:underline"
+                                  onClick={e => removefromCart(index)}
                                 >
                                 <span>Remove</span>
                                 </button> 
@@ -226,6 +288,12 @@ export default function ShoppingCart() {
             )}
 
             <Footer/>
+
+            <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={e => setSnackbarOpen(false)} anchorOrigin={{vertical: 'top', horizontal:'right'}}>
+              <Alert severity={snackbarSettings.type} sx={{ width: '100%' }}>
+                {snackbarSettings.message}
+              </Alert>
+            </Snackbar>
 
             <MyBackdrop backDropOpen={backDropOpen} />
           </>

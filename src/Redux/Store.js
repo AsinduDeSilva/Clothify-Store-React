@@ -7,7 +7,6 @@ import backendInfoReducer from './backendInfo'
 export const Store = configureStore({
   reducer: {
     userInfo: userInfoReducer,
-    backendInfo: backendInfoReducer,
-    
+    backendInfo: backendInfoReducer, 
   },
 })

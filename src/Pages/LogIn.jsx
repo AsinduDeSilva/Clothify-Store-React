@@ -13,10 +13,10 @@ import Typography from '@mui/material/Typography';
 import logo from '../assets/logo-full.png';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, setCustomerID } from '../Redux/userInfo';
+import { login, setCart, setCustomerID } from '../Redux/userInfo';
 import MyBackdrop from '../Components/MyBackdrop';
 
 
@@ -39,9 +39,24 @@ export default function LogIn() {
   const [remember, setRemember] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const cart = useLocation().state?.cart;
+  const fromCart = useLocation().state?.fromCart;
   const {backendAddress} = useSelector(state => state.backendInfo);
   const {isCustomer, isAdmin} = useSelector(state => state.userInfo);
 
+  const setServerCart = async (cart, customerID, jwt) => {
+    setBackDropOpen(true);
+    const response = await fetch(`${backendAddress}/customer/cart/set/${customerID}`,{  
+      method: 'Post',
+      body: JSON.stringify(cart),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': `Bearer ${jwt}`,
+      }
+    })
+    setBackDropOpen(false);
+    return response;
+  }
 
   const loginClicked = () =>{
 
@@ -103,10 +118,22 @@ export default function LogIn() {
       }
     })
     .then(res => res.json())
-    .then(data => {
-      setBackDropOpen(false)
-      Cookies.set('customerID',data.customerID, {expires: 7})
-      dispatch(setCustomerID(data.customerID))
+    .then(async data => {
+      setBackDropOpen(false);
+      Cookies.set('customerID',data.customerID, {expires: 7});
+      dispatch(setCustomerID(data.customerID));
+
+      if(fromCart){
+        let tempCart = [...data.cart]
+        cart.forEach(cartItem => {
+          tempCart.push(cartItem);
+        });
+        await setServerCart(tempCart, data.customerID, jwt);
+        dispatch(setCart(tempCart));
+        return;
+      }
+
+      dispatch(setCart(data.cart));
     })
   }
 

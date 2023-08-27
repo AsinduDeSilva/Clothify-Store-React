@@ -75,11 +75,13 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start h-10">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-14 w-auto"
-                    src={logo}
-                    alt="logo"
-                  />
+                  <Link to={"/"}>
+                    <img
+                      className="h-14 w-auto"
+                      src={logo}
+                      alt="logo"
+                    />
+                  </Link>
                 </div>
                 <div className="hidden md:ml-6 lg:ml-16 md:block text-md">
                   <div className="flex space-x-4">

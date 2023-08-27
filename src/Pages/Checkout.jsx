@@ -5,17 +5,16 @@ import { Button, Container, TextField } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
-import { updateCart } from '../Redux/userInfo';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MyBackdrop from '../Components/MyBackdrop';
 import Swal from 'sweetalert2';
+import { emptyCart } from '../Redux/userInfo';
 
 const SHIPPING_FEE = 500.00;
 
 export default function Checkout() {
 
-  const {customerID, jwt} = useSelector(state => state.userInfo);
+  const {customerID, jwt, isCustomer} = useSelector(state => state.userInfo);
   const {backendAddress} = useSelector(state => state.backendInfo);
   const {cart} = useSelector((state) => state.userInfo);  
   const dispatch = useDispatch(); 
@@ -76,10 +75,22 @@ export default function Checkout() {
     setProductDetailsList(productDetailsArray);
   }
 
+  const emptyServerCart = async () => {
+    setBackDropOpen(true);
+    const response = await fetch(`${backendAddress}/customer/cart/empty/${customerID}`,{  
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${jwt}`,
+      }
+    })
+    setBackDropOpen(false);
+    return response;
+  }
+
   const getTotal = () => {
     let total = 0;
     checkoutCart.forEach((cartItem, index) => {
-        total += cartItem.qty * productDetailsList[index]?.unitPrice;
+        total += cartItem.quantity * productDetailsList[index]?.unitPrice;
     })
     return total;
   }
@@ -94,17 +105,18 @@ export default function Checkout() {
 
     if(customerDetails.address === null){
       fetch(`${backendAddress}/customer/${customerID}`,{  
-      method: 'PUT',
-      body: JSON.stringify({
-        firstName: customerDetails.firstName,
-        lastName: customerDetails.lastName,
-        address: address,
-        mobileNo: phoneNo 
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-        'Authorization': `Bearer ${jwt}`,
-      }})
+        method: 'PUT',
+        body: JSON.stringify({
+          firstName: customerDetails.firstName,
+          lastName: customerDetails.lastName,
+          address: address,
+          mobileNo: phoneNo 
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+          'Authorization': `Bearer ${jwt}`,
+        }
+      })
     }
 
     let orderDetails = [];
@@ -112,7 +124,7 @@ export default function Checkout() {
       orderDetails.push({
         productID: checkoutCart[i].productID,
         size: checkoutCart[i].size,
-        quantity: checkoutCart[i].qty,
+        quantity: checkoutCart[i].quantity,
         unitPrice: productDetailsList[i].unitPrice
       })
     }
@@ -134,7 +146,7 @@ export default function Checkout() {
       }
     })
     .then(res => res.json())
-    .then(data => {
+    .then(async data => {
       setBackDropOpen(false);
 
       if(data.success){
@@ -144,8 +156,10 @@ export default function Checkout() {
           icon: 'success',
           confirmButtonColor: '#636C74',
         })
-        dispatch(updateCart([]));
-        Cookies.remove('cart');
+        if(isCustomer){
+          await emptyServerCart();
+        }
+        dispatch(emptyCart());
         navigate("/", {replace: true})
         
       }else if (data.message === "Some products not found") {

@@ -5,8 +5,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Footer from '../Components/Footer';
 import { Alert, Button, Snackbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../Redux/userInfo';
 import MyBackdrop from '../Components/MyBackdrop';
+import { addToCart, updateCart } from '../Redux/userInfo';
 
 
 export default function AddToCart() {
@@ -29,7 +29,7 @@ export default function AddToCart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {backendAddress} = useSelector(state => state.backendInfo);
-  const {isCustomer, isAdmin} = useSelector(state => state.userInfo);
+  const {isCustomer, isAdmin, cart, jwt, customerID} = useSelector(state => state.userInfo);
   
 
   useEffect(() =>{
@@ -41,9 +41,35 @@ export default function AddToCart() {
     fetch(`${backendAddress}/product/${productID}`)
      .then(res => res.json())
      .then(data => {
-      setBackDropOpen(false)
-      setProductData(data)
+       setBackDropOpen(false)
+       setProductData(data)
+      })
+  }
+
+  const addToServerCart = async (cartItem) => {
+    setBackDropOpen(true);
+    await fetch(`${backendAddress}/customer/cart/${customerID}`,{  
+      method: 'POST',
+      body: JSON.stringify(cartItem),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': `Bearer ${jwt}`,
+      }
     })
+    setBackDropOpen(false);
+  }
+
+  const updateServerCart = async (cartItem, index) => {
+    setBackDropOpen(true);
+    await fetch(`${backendAddress}/customer/cart/${customerID}?index=${index}`,{  
+      method: 'PUT',
+      body: JSON.stringify(cartItem),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': `Bearer ${jwt}`,
+      }
+    })
+    setBackDropOpen(false);
   }
 
   const qtyOnHandOf = (size) => {
@@ -74,17 +100,41 @@ export default function AddToCart() {
     setQty(prev => --prev)
   }
 
-  const addToCartBtnClicked = () => {
+  const addToCartBtnClicked = async () => {
     if (qty === 0 ){
       setSnackbarSettings({message: "Please select a quantity", type: "error"});
       setSnackbarOpen(true);
       return;
     } 
-    dispatch(addToCart({
+
+    const existingCartItemIndex = cart.findIndex(
+      cartItem => cartItem.productID === productID && size === size
+    );
+    
+    const cartItem = {
       productID: productID,
       size: size,
-      qty: qty 
-    }))
+      quantity: qty
+    }
+
+    if (existingCartItemIndex !== -1) {
+      if(isCustomer){
+        await updateServerCart(cartItem, existingCartItemIndex);
+      }
+      dispatch(updateCart({
+        index: existingCartItemIndex, 
+        data : cartItem
+      }));
+      setSnackbarSettings({message: "Cart Updated", type: "success"});
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if(isCustomer){
+      await addToServerCart(cartItem);
+    }
+    
+    dispatch(addToCart(cartItem))
     setSnackbarSettings({message: "Added to cart", type: "success"});
     setSnackbarOpen(true);
   }
@@ -98,7 +148,7 @@ export default function AddToCart() {
     !isCustomer ? navigate("/login") : navigate("/checkout", {state: {cart:[{
       productID: productID,
       size: size,
-      qty: qty 
+      quantity: qty 
     }]}})
   }
 
