@@ -5,11 +5,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Alert, Avatar, Box, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, setCustomerID } from '../Redux/userInfo';
+import { login, setCart, setCustomerID } from '../Redux/userInfo';
 import Cookies from 'js-cookie';
 import MyBackdrop from '../Components/MyBackdrop';
 
-export default function VerifyOTP() {
+export default function OtpVerification() {
   const[otp,setOtp] = useState("");
   const [isOtpExpired, setOtpExpired] = useState(false);
   const [isOtpValid, setOtpValid] = useState(true);
@@ -19,13 +19,18 @@ export default function VerifyOTP() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {backendAddress} = useSelector(state => state.backendInfo);
+  const {cart} = useSelector(state => state.userInfo);
 
   const verifyBtnClicked = () =>{
-    
     setOtpValid(true);
-    
+
     if(otp.length!==6) {
       setOtpValid(false);
+      return;
+    }
+    
+    if(password === undefined){   //Came from ForgetPassword
+      authenticateWithOTP();
       return;
     }
 
@@ -44,11 +49,12 @@ export default function VerifyOTP() {
       .then(res => res.json())
       .then(data => {
         setBackDropOpen(false);
-        console.log(data);
+
         if(data.success){
-            authenticate();
-            return;
+          authenticate();
+          return;
         }
+
         if(data.otpExpired){
           setOtpExpired(data.otpExpired);
           return;
@@ -87,6 +93,40 @@ export default function VerifyOTP() {
 
       });   
   }
+
+  const authenticateWithOTP = () =>{
+
+    setBackDropOpen(true);
+    fetch(`${backendAddress}/authenticate/otp`,{
+      method: 'POST',
+      body: JSON.stringify({
+        email: email,
+        otp: otp
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        setBackDropOpen(false);
+
+        if(data.success){
+          loadCustomerDetails(data.jwt);
+          if(data.customer){
+            navigate("/login/change-password", {state: {authData: data}, replace: true})
+          }
+          return;
+        }
+
+        if(data.credentialsValid){
+          setOtpExpired(true);
+          return;
+        }
+
+        setOtpValid(false);
+      });   
+  }
   
   const loadCustomerDetails = (jwt) =>{
     setBackDropOpen(true)
@@ -101,11 +141,32 @@ export default function VerifyOTP() {
       }
     })
     .then(res => res.json())
-    .then(data => {
+    .then(async data => {
       setBackDropOpen(false)
       Cookies.set('customerID',data.customerID, {expires: 7})
       dispatch(setCustomerID(data.customerID))
+
+      if(password === undefined){
+        dispatch(setCart(data.cart)); 
+      }else{
+        await setServerCart(cart, data.customerID, data.jwt);
+      }
+
     })
+  }
+
+  const setServerCart = async (cart, customerID, jwt) => {
+    setBackDropOpen(true);
+    const response = await fetch(`${backendAddress}/customer/cart/set/${customerID}`,{  
+      method: 'Post',
+      body: JSON.stringify(cart),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': `Bearer ${jwt}`,
+      }
+    })
+    setBackDropOpen(false);
+    return response;
   }
   
   const resendOtpBtnClicked = () =>{

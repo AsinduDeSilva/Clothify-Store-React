@@ -54,7 +54,8 @@ export const userInfoSlice = createSlice({
         state.customerID =action.payload;
     },
     addToCart: (state,action) => {
-      state.cart.push(action.payload);  
+      const updatedCart = [...state.cart, action.payload]; 
+      state.cart = updatedCart;  
       if(!state.isCustomer){
         Cookies.set('cart', JSON.stringify(state.cart));
       }
@@ -63,8 +64,7 @@ export const userInfoSlice = createSlice({
       const indexesToRemove = action.payload;
 
       for (let i = indexesToRemove.length - 1; i >= 0; i--) {
-        const indexToRemove = indexesToRemove[i];
-        state.cart.splice(indexToRemove, 1);
+        state.cart.splice(indexesToRemove[i], 1);
       }
 
       Cookies.set('cart', JSON.stringify(state.cart));

@@ -5,7 +5,7 @@ import Kids from './Pages/Kids';
 import Accessories from './Pages/Accessories';
 import Homepage from './Pages/Homepage';
 import LogIn from './Pages/LogIn';
-import VerifyOTP from './Pages/OtpVerification';
+import OtpVerification from './Pages/OtpVerification';
 import SignUp from './Pages/SignUp';
 import AddToCart from './Pages/AddToCart';
 import PageNotFound from './Pages/PageNotFound';
@@ -25,6 +25,8 @@ import AdminOrders from './Pages/AdminOrders';
 import AdminOrderDetails from './Pages/AdminOrderDetails';
 import AdminSettings from './Pages/AdminSettings';
 import AdminCustomers from './Pages/AdminCustomers';
+import LoginFindEmail from './Pages/LoginFindEmail';
+import LoginChangePassword from './Pages/LoginChangePassword';
 
 
 
@@ -44,6 +46,9 @@ function App() {
         <Route path=':productID' Component={AddToCart}/>
       </Route>
       <Route path='/cart' Component={Cart}/>
+
+      {/* Routes for Logged as Customer */}
+
       {!isCustomer ? null : (
         <>
           <Route path='/checkout' Component={Checkout} />
@@ -55,6 +60,9 @@ function App() {
           </Route>
         </>
       )}
+
+      {/* Routes for Logged as Admin */}
+
       {!isAdmin ? null : (
         <Route path='admin'>
           <Route path='dashboard' Component={AdminDashboard}/>
@@ -71,9 +79,20 @@ function App() {
           <Route path='settings' Component={AdminSettings}/>
         </Route>
       )}
-      <Route path='/login' Component={LogIn} />
-      <Route path='/signup' Component={SignUp} />
-      <Route path='/verify' Component={VerifyOTP} />
+
+      {/* Routes for not logged users */}
+
+      {isAdmin || isCustomer? null : (
+        <>
+          <Route path='login'>
+            <Route path='' Component={LogIn} />
+            <Route path='find-email' Component={LoginFindEmail} />
+            <Route path='change-password' Component={LoginChangePassword} />
+          </Route>
+          <Route path='/signup' Component={SignUp} />
+          <Route path='/verify' Component={OtpVerification} />
+        </>
+      )}
       <Route path="*" Component={PageNotFound} />
     </Routes>   
   );

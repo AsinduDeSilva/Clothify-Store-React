@@ -5,7 +5,6 @@ import { Alert, Button, IconButton, Snackbar } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Link, useNavigate } from 'react-router-dom';
 import MyBackdrop from '../Components/MyBackdrop';
 import { removeFromCart, updateCart } from '../Redux/userInfo';
@@ -237,11 +236,11 @@ export default function ShoppingCart() {
                             <div className="mt-4 flex items-center md:block md:absolute md:top-0 md:left-1/2 md:mt-0 "> 
 
                                 <div className='flex h-8 w-24 bg-[#fff] rounded border border-black md:scale-100 scale-90 -ml-1 md:ml-0'>
-                                    <div className='w-8 flex items-center justify-center'>
+                                    <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer'>
                                         <button className="font-semibold" onClick={e => decremnet(index)}> - </button>
                                     </div>
                                     <div className='flex w-8 items-center justify-center'> {cartItem.quantity} </div>
-                                    <div className='w-8 flex items-center justify-center'>
+                                    <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer'>
                                         <button className="font-semibold" onClick={e => incremnet(index)}> + </button>
                                     </div>
                                 </div>  

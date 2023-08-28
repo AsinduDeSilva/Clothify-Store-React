@@ -222,7 +222,7 @@ export default function LogIn() {
                   </Button>
                   <Grid container>
                     <Grid item xs>
-                    <Link to="/login" className='text-[#1976D2] underline text-sm underline-["red"]'> 
+                    <Link to="find-email" className='text-[#1976D2] underline text-sm underline-["red"]'> 
                         Forgot password?
                       </Link>
                     </Grid>

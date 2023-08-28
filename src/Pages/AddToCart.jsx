@@ -106,11 +106,11 @@ export default function AddToCart() {
       setSnackbarOpen(true);
       return;
     } 
-
-    const existingCartItemIndex = cart.findIndex(
-      cartItem => cartItem.productID === productID && size === size
-    );
     
+    const existingCartItemIndex = cart.findIndex(
+
+    cartItem => cartItem.productID == productID && cartItem.size === size);
+
     const cartItem = {
       productID: productID,
       size: size,
@@ -219,11 +219,11 @@ export default function AddToCart() {
 
                     <div className='flex'>
                       <div className='flex h-8 w-24 bg-[#fff] rounded border border-black ml-5 mt-4 mb-10'>
-                        <div className='w-8 flex items-center justify-center'>
+                        <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer'>
                           <button className="font-semibold" onClick={e => decrement()}> - </button>
                         </div>
                         <div className='flex w-8 items-center justify-center'> {qty} </div>
-                        <div className='w-8 flex items-center justify-center'>
+                        <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer'>
                           <button className="font-semibold" onClick={e => increment()}> + </button>
                         </div>
                       </div>

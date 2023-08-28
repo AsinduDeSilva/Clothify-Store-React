@@ -82,7 +82,6 @@ export default function SignUp() {
       .then(res => res.json())
       .then(data => {
 
-        console.log(data);
         setBackDropOpen(false);
         if(data.success){
             navigate("/verify", {state: {email: email, password: password}});
