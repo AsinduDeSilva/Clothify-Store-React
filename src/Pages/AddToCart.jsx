@@ -277,7 +277,13 @@ export default function AddToCart() {
 
         <MyBackdrop backDropOpen={backDropOpen} />
                           
-        <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={e => setSnackbarOpen(false)} anchorOrigin={{vertical: 'top', horizontal:'right'}}>
+        <Snackbar 
+          open={snackbarOpen} 
+          autoHideDuration={1500} 
+          onClose={e => setSnackbarOpen(false)} 
+          anchorOrigin={{vertical: 'top', horizontal:'right'}}
+          style={{ top: '100px' }}
+        >
           <Alert severity={snackbarSettings.type} sx={{ width: '100%' }}>
             {snackbarSettings.message}
           </Alert>

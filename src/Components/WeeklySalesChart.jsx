@@ -33,6 +33,24 @@ import MyBackdrop from './MyBackdrop';
         position: 'top' ,
       },
     },
+    scales: {
+    x: {
+      grid: {
+        color: '#1E1E1E', 
+      },
+      ticks: {
+        color: 'rgb(209 213 219)', 
+      },
+    },
+    y: {
+      grid: {
+        color: '#1E1E1E', 
+      },
+      ticks: {
+        color: 'rgb(209 213 219)',
+      },
+    },
+  },
   };
 
   const currentTime = new Date();

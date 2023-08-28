@@ -42,7 +42,6 @@ export default function LoginChangePassword() {
                 setTimeout(() => {
                     navigate("/", {replace: true})
                 }, 50);
-                //navigate(0);
               }
               Swal.fire({
                   icon: 'success',
@@ -82,56 +81,60 @@ export default function LoginChangePassword() {
 
   return (
     <>
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-            <Avatar sx={{ m: 1, bgcolor: '#000000' }}>
-                <LockOutlinedIcon className='text-[#00C2BE]' />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Change Your Email
-            </Typography>
-              <p className='mt-3 text-sm'>Enter your email</p>
-                
-              <TextField
-                required
-                fullWidth
-                id="newPassword"
-                label="New Password"
-                error={txtNewPasswordError}
-                sx={{mt:3}}
-                value={newPassword}
-                onChange={e => {/*setEmailNotExistsError(false); */ setNewPassword(e.target.value)}}
-              />
+      {authData === undefined ? null : (
+        <>
+          <Container component="main" maxWidth="xs">
+            <Box
+              sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+                <Avatar sx={{ m: 1, bgcolor: '#000000' }}>
+                    <LockOutlinedIcon className='text-[#00C2BE]' />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Change Your Email
+                </Typography>
+                  <p className='mt-3 text-sm'>Enter your email</p>
+                    
+                  <TextField
+                    required
+                    fullWidth
+                    id="newPassword"
+                    label="New Password"
+                    error={txtNewPasswordError}
+                    sx={{mt:3}}
+                    value={newPassword}
+                    onChange={e => {/*setEmailNotExistsError(false); */ setNewPassword(e.target.value)}}
+                  />
 
-              <TextField
-                required
-                fullWidth
-                id="confirmPassword"
-                label="Confirm Password"
-                error={txtConfirmPasswordError}
-                sx={{mt:3}}
-                value={confirmPassword}
-                onChange={e => {/*setEmailNotExistsError(false);*/ setConfirmPassword(e.target.value)}}
-              />
+                  <TextField
+                    required
+                    fullWidth
+                    id="confirmPassword"
+                    label="Confirm Password"
+                    error={txtConfirmPasswordError}
+                    sx={{mt:3}}
+                    value={confirmPassword}
+                    onChange={e => {/*setEmailNotExistsError(false);*/ setConfirmPassword(e.target.value)}}
+                  />
 
-              <Button
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor:"#262626", ":hover":{backgroundColor:'#000000'} }}
-                onClick={changePassword}
-              >
-                Change Password
-              </Button>
-        </Box>
-      </Container>
-      <MyBackdrop backDropOpen={backDropOpen} />
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, backgroundColor:"#262626", ":hover":{backgroundColor:'#000000'} }}
+                    onClick={changePassword}
+                  >
+                    Change Password
+                  </Button>
+            </Box>
+          </Container>
+          <MyBackdrop backDropOpen={backDropOpen} />
+        </>
+      )}
     </>
   )
 }

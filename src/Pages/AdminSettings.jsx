@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react'
 import AdminSidePanel from '../Components/AdminSidePanel'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button } from '@mui/material';
 import { logout } from '../Redux/userInfo';
 import Swal from 'sweetalert2';
 import bcrypt from 'bcryptjs';
 import MyBackdrop from '../Components/MyBackdrop';
 import isDesktop from '../CheckDevice';
 import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning';
-
+import AdminTextField from '../Components/AdminTextField';
 
 
 export default function AdminSettings() {
@@ -127,7 +126,7 @@ export default function AdminSettings() {
     
                 <div className='ml-[2%] w-[40%] flex justify-between items-center mt-8'>
                   <span className='text-[15px]'>Current Password</span>
-                  <CssTextField 
+                  <AdminTextField 
                     variant="outlined" 
                     size='small' 
                     type='password'
@@ -139,7 +138,7 @@ export default function AdminSettings() {
                 </div>
                 <div className='ml-[2%] w-[40%]  flex justify-between items-center mt-3'>
                   <span className='text-[15px]'>New Password</span>
-                  <CssTextField  
+                  <AdminTextField  
                     variant="outlined" 
                     size='small' 
                     type='password'
@@ -150,7 +149,7 @@ export default function AdminSettings() {
                 </div>
                 <div className='ml-[2%] w-[40%]  flex justify-between items-center mt-3'>
                   <span className='text-[15px]'>Confirm Password</span>
-                  <CssTextField  
+                  <AdminTextField  
                     variant="outlined" 
                     size='small'
                     type='password' 
@@ -180,23 +179,4 @@ export default function AdminSettings() {
   )
 }
 
-const CssTextField = styled(TextField)({
-  '& label.Mui-focused': {
-    color: '#A0AAB4',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: '#B2BAC2',
-  },
-  '& .MuiOutlinedInput-root': {
-    color:"white",
-    '& fieldset': {
-      borderColor: '#E0E3E7',
-    },
-    '&:hover fieldset': {
-      borderColor: '#B2BAC2',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#6F7E8C',
-    },
-  },
-});
+

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AdminSidePanel from '../Components/AdminSidePanel'
 import { ExpandCircleDownOutlined } from '@mui/icons-material'
-import { Button, FormControl, IconButton, MenuItem, Select, TextField} from '@mui/material'
+import { Button, FormControl, IconButton, InputBase, MenuItem, Select, TextField} from '@mui/material'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
@@ -9,6 +9,8 @@ import { useDropzone } from 'react-dropzone'
 import MyBackdrop from '../Components/MyBackdrop'
 import isDesktop from '../CheckDevice'
 import AdminPanelMobileWarning from '../Components/AdminPanelMobileWarning'
+import styled from 'styled-components'
+import AdminTextField from '../Components/AdminTextField'
 
 
 export default function UpdateProduct() {
@@ -182,20 +184,20 @@ export default function UpdateProduct() {
                   <div className='mx-16 flex items-center mt-7 '>
                       <span className='flex-1 font-medium'>Product Name </span>
                       <div className='flex-[2]'>
-                          <TextField 
+                          <AdminTextField 
                             variant="outlined" 
                             size='small'
                             value={productName}
                             error={txtProductNameError} 
                             onChange={e => setProductName(e.target.value)}
-                            sx={{backgroundColor: 'white', borderRadius: 1, width:'80%'}}
+                            sx={{borderRadius: 1, width:'80%'}}
                           />
                       </div>
                   </div>
                   <div className='mx-16 flex items-center mt-7 '>
                       <span className='flex-1 font-medium'>Unit Price (LKR)</span>
                       <div className='flex-[2]'>
-                          <TextField 
+                          <AdminTextField 
                             type='number'
                             inputProps={{min: 0}}
                             variant="outlined" 
@@ -203,7 +205,7 @@ export default function UpdateProduct() {
                             value={unitPrice}
                             error={txtUnitPriceError}
                             onChange={e => setUnitPrice(e.target.value)}
-                            sx={{backgroundColor: 'white', borderRadius: 1, width: 150}}
+                            sx={{borderRadius: 1, width: 150}}
                           />
                       </div>
                   </div>
@@ -219,12 +221,13 @@ export default function UpdateProduct() {
                                   size='small'
                                   displayEmpty
                                   onChange={e => setCategory(e.target.value)}
-                                  sx={{width: 150, backgroundColor: 'white', borderRadius: 1}}
+                                  sx={{width: 150, borderRadius: 1}}
+                                  input={<BootstrapInput/>}
                               >
-                              <MenuItem value="">Select</MenuItem>    
-                              <MenuItem value={"MEN"}>Men</MenuItem>
-                              <MenuItem value={"WOMEN"}>Women</MenuItem>
-                              <MenuItem value={"KIDS"}>Kids</MenuItem>
+                                <MenuItem value="">Select</MenuItem>    
+                                <MenuItem value={"MEN"}>Men</MenuItem>
+                                <MenuItem value={"WOMEN"}>Women</MenuItem>
+                                <MenuItem value={"KIDS"}>Kids</MenuItem>
                               </Select>
                           </FormControl>  
                       </div>
@@ -234,7 +237,7 @@ export default function UpdateProduct() {
                       <div className='flex-[2] flex justify-between'>
                           <div className='flex items-center'>
                               <span className='mr-5'>Small</span> 
-                              <TextField 
+                              <AdminTextField 
                                 type='number'
                                 inputProps={{min: 0}}
                                 variant="outlined" 
@@ -242,12 +245,12 @@ export default function UpdateProduct() {
                                 value={qtySmall}
                                 error={txtQtySmallError}
                                 onChange={e => setQtySmall(e.target.value)}
-                                sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
+                                sx={{borderRadius: 1, width: 100, scale: '0.9'}}
                               />
                           </div>
                           <div className='flex items-center'>
                               <span className='mr-5'>Medium</span>
-                              <TextField 
+                              <AdminTextField 
                                 type='number'
                                 inputProps={{min: 0}}
                                 variant="outlined" 
@@ -255,12 +258,12 @@ export default function UpdateProduct() {
                                 value={qtyMedium}
                                 error={txtQtyMediumError}
                                 onChange={e => setQtyMedium(e.target.value)}
-                                sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
+                                sx={{borderRadius: 1, width: 100, scale: '0.9'}}
                               />
                           </div>
                           <div className='flex items-center'>
                               <span className='mr-5'>Large</span>
-                              <TextField 
+                              <AdminTextField 
                                 type='number'
                                 inputProps={{min: 0}}
                                 variant="outlined" 
@@ -268,7 +271,7 @@ export default function UpdateProduct() {
                                 value={qtyLarge}
                                 error={txtQtyLargeError}
                                 onChange={e => setQtyLarge(e.target.value)}
-                                sx={{backgroundColor: 'white', borderRadius: 1, width: 100, scale: '0.9'}}
+                                sx={{borderRadius: 1, width: 100, scale: '0.9'}}
                               />
                           </div>
                       </div>
@@ -288,7 +291,7 @@ export default function UpdateProduct() {
                       <div className='flex-[2]'>
                           <div {...getRootProps({className: 'dropzone'})}>
                               <input {...getInputProps()}/>
-                              <p className='bg-white text-black h-[110px] font-semibold flex items-center justify-center rounded'>
+                              <p className='text-white h-[110px] border border-[#E0E3E7] hover:border-[#B2BAC2] cursor-pointer font-semibold flex items-center justify-center rounded'>
                                   Drag your Image here or click to select Image
                               </p>
                               {image === null || acceptedFiles.length === 0 ? null : (
@@ -324,3 +327,23 @@ export default function UpdateProduct() {
     </>       
   )
 }
+
+const BootstrapInput = styled(InputBase)(() => ({
+  '& .MuiSelect-icon': {
+    color: 'white'
+  },
+  '& .MuiInputBase-input': {
+    color: 'white',
+    borderRadius: 4,
+    position: 'relative',   
+    border: '1px solid #E0E3E7',
+    fontSize: 16,
+    padding: '10px 26px 10px 12px',
+    '&:hover': {
+      borderColor: '#B2BAC2',
+    },
+    '&.Mui-focused': {
+      borderColor: '#6F7E8C',
+    }
+  },
+}));

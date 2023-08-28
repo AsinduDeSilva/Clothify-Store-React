@@ -140,107 +140,102 @@ export default function LogIn() {
 
   return (
     <>
-      {isAdmin || isCustomer ? null : (
-        <>   
-          <Grid container component="main" sx={{ height: '100vh'}}>
-            <CssBaseline />
+      <Grid container component="main" sx={{ height: '100vh'}}>
+        <CssBaseline />
             
-            <Grid
-              item
-              lg={8}
-              sx={{
-                backgroundImage: `url(${logo})`,
-                backgroundRepeat: 'no-repeat',
-                backgroundColor: (t) =>
-                  t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-    
+        <Grid
+          item
+          lg={8}
+          sx={{
+            backgroundImage: `url(${logo})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
             
-            <Grid item xs={12} lg={4} component={Paper} elevation={6} square >
-              <Box
-                sx={{
-                  my: 8,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
-                className='xl:mx-12 sm:mx-[20%] mx-4 '
-              >
-                <Avatar sx={{ m: 1, bgcolor: '#000000' }}>
-                  <LockOutlinedIcon className='text-[#00C2BE]' />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                  Log In
-                </Typography>
-                {
-                  credentialsInvalidError ? (
-                    <Alert severity="error" className='w-full mt-4'>
-                      Incorrect email or password
-                    </Alert>
-                  ): null
-                }
-                <Box component="form" noValidate sx={{ mt: 1 }}>
-                  <TextField
-                    error={emailFieldEmptyError ? true : false}
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    autoFocus
-                    onChange={(e) => setEmail(e.target.value)}
+        <Grid item xs={12} lg={4} component={Paper} elevation={6} square >
+          <Box
+            sx={{
+              my: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+            className='xl:mx-12 sm:mx-[20%] mx-4 '
+          >
+            <Avatar sx={{ m: 1, bgcolor: '#000000' }}>
+              <LockOutlinedIcon className='text-[#00C2BE]' />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Log In
+            </Typography>
+            {
+              credentialsInvalidError ? (
+                <Alert severity="error" className='w-full mt-4'>
+                  Incorrect email or password
+                </Alert>
+              ): null
+            }
+            <Box component="form" noValidate sx={{ mt: 1 }}>
+              <TextField
+                error={emailFieldEmptyError ? true : false}
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={(e) => setEmail(e.target.value)}
                     
-                  />
-                  <TextField
-                    error={passwordFieldEmptyError ? true : false}
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="default" defaultChecked onChange={e => setRemember(e.target.checked)}/>}
-                    label="Remember me"
-                  />
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, backgroundColor:"#262626", ":hover":{backgroundColor:'#000000'} }}
-                    onClick={loginClicked}
-                  >
-                    Log In
-                  </Button>
-                  <Grid container>
-                    <Grid item xs>
-                    <Link to="find-email" className='text-[#1976D2] underline text-sm underline-["red"]'> 
-                        Forgot password?
-                      </Link>
-                    </Grid>
-                    <Grid item>
-                      <Link to="/signup" className='text-[#1976D2] underline text-sm underline-["red"]'> 
-                        {"Don't have an account? Sign Up"}
-                      </Link>
-                    </Grid>
-                  </Grid>
-                  <Copyright sx={{ mt: 5 }} />
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
+              />
+              <TextField
+                error={passwordFieldEmptyError ? true : false}
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="default" style={{color: 'black'}} defaultChecked onChange={e => setRemember(e.target.checked)}/>}
+                label="Remember me"
+              />
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, backgroundColor:"#262626", ":hover":{backgroundColor:'#000000'} }}
+                onClick={loginClicked}
+              >
+                Log In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                <Link to="find-email" className='text-[#1976D2] underline text-sm underline-["red"]'> 
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link to="/signup" className='text-[#1976D2] underline text-sm underline-["red"]'> 
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+              <Copyright sx={{ mt: 5 }} />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
     
-          <MyBackdrop backDropOpen={backDropOpen} />
-        </>  
-      )}
-    </>
+      <MyBackdrop backDropOpen={backDropOpen} />
+    </>  
   );
 }
