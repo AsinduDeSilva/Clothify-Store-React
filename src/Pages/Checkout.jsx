@@ -62,16 +62,23 @@ export default function Checkout() {
     })
   }
 
-  async function loadProducts() {
+  const loadProducts = async () => {
     setProductDetailsList([]);
-  
-    const fetchPromises = checkoutCart.map(async (cartItem) => {
-      const response = await fetch(`${backendAddress}/product/${cartItem.productID}`);
-      const data = await response.json();
-      return data;
-    });
-  
-    const productDetailsArray = await Promise.all(fetchPromises);
+    const productIdArray = cart.map(cartItem => cartItem.productID);
+    
+    if (productIdArray.length === 0) return;
+
+    setBackDropOpen(true)
+    const response = await fetch(`${backendAddress}/product/list`, {
+      method: 'POST',
+      body: JSON.stringify(productIdArray),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      }
+    })
+    setBackDropOpen(false)
+    const productDetails = await response.json();
+    const productDetailsArray = cart.map(cartItem => productDetails.find(productDetail => productDetail.productID == cartItem.productID))
     setProductDetailsList(productDetailsArray);
   }
 
@@ -119,15 +126,12 @@ export default function Checkout() {
       })
     }
 
-    let orderDetails = [];
-    for(var i=0; i<checkoutCart.length; i++){
-      orderDetails.push({
-        productID: checkoutCart[i].productID,
-        size: checkoutCart[i].size,
-        quantity: checkoutCart[i].quantity,
-        unitPrice: productDetailsList[i].unitPrice
-      })
-    }
+    let orderDetails = checkoutCart.map((cartItem, index) => {return {
+      productID: cartItem.productID,
+      size: cartItem.size,
+      quantity: cartItem.quantity,
+      unitPrice: productDetailsList[index].unitPrice
+    }});
 
     fetch(`${backendAddress}/order/`,{  
       method: 'POST',

@@ -34,19 +34,32 @@ export default function Orders() {
 
   
   const loadProducts = async () => {
-    setBackDropOpen(true)
-    let orderProductList = [];
-    
-    for (const order of orderList) {
-      const fetchPromises = order.orderDetails.map(async (orderDetail) => {
-        const response = await fetch(`${backendAddress}/product/${orderDetail.productID}`);
-        const data = await response.json();
-        return data;
-      });
-    
-      const productDetailsArray = await Promise.all(fetchPromises);
-      orderProductList.push(productDetailsArray);
+    let productIdArray =[];
+
+    orderList.forEach(order => {
+      order.orderDetails.forEach(orderDetail => productIdArray.push(orderDetail.productID))
+    }) 
+
+    if (productIdArray.length === 0){
+      setProductDetailsList([]);
+      return;
     }
+
+    setBackDropOpen(true)
+    const response = await fetch(`${backendAddress}/product/list`, {
+      method: 'POST',
+      body: JSON.stringify(productIdArray),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      }
+    })
+    setBackDropOpen(false)
+    const productDetails = await response.json();
+
+    const orderProductList = orderList.map(
+      order => order.orderDetails.map(orderDetail => productDetails.find(product => product.productID == orderDetail.productID))
+    );
+
     setBackDropOpen(false)
     setProductDetailsList(orderProductList)
 

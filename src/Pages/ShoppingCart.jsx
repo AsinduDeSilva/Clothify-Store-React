@@ -7,7 +7,8 @@ import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import MyBackdrop from '../Components/MyBackdrop';
-import { removeFromCart, updateCart } from '../Redux/userInfo';
+import { removeFromCart, setCart, updateCart } from '../Redux/userInfo';
+import Cookies from 'js-cookie';
 
 export default function ShoppingCart() {
 
@@ -20,20 +21,25 @@ export default function ShoppingCart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  async function loadProducts() {
+  const loadProducts = async () => {
     setProductDetailsList([]);
+    const productIdArray = cart.map(cartItem => cartItem.productID);
+
+    if (productIdArray.length === 0) return;
+
     setBackDropOpen(true)
-  
-    const fetchPromises = cart.map(async (cartItem) => {
-      const response = await fetch(`${backendAddress}/product/${cartItem.productID}`);
-      if(response.status === 400) return undefined;
-      const data = await response.json();
-      return data;
-    });
-  
-    const productDetailsArray = await Promise.all(fetchPromises);
+    const response = await fetch(`${backendAddress}/product/list`, {
+      method: 'POST',
+      body: JSON.stringify(productIdArray),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      }
+    })
+    setBackDropOpen(false)
+    const productDetails = await response.json();
+    const productDetailsArray = cart.map(cartItem => productDetails.find(productDetail => productDetail.productID == cartItem.productID));
+    
     await validateCart(productDetailsArray);
-    setBackDropOpen(false);
     setProductDetailsList(productDetailsArray);
   }
 
@@ -64,6 +70,20 @@ export default function ShoppingCart() {
     setBackDropOpen(false);
     return response;
   }
+
+  const setServerCart = async (cart) => {
+    setBackDropOpen(true);
+    const response = await fetch(`${backendAddress}/customer/cart/set/${customerID}`,{  
+      method: 'Post',
+      body: JSON.stringify(cart),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': `Bearer ${jwt}`,
+      }
+    })
+    setBackDropOpen(false);
+    return response;
+  }
   
 
   const validateCart = async (productDetailsArray) => {
@@ -74,24 +94,28 @@ export default function ShoppingCart() {
         indexesToRemove.push(i);
       }
     }
+    console.log(indexesToRemove)
 
     if(indexesToRemove.length === 0) return;
-
+ 
+    let tempCart = [...cart]; 
+    for (let i = indexesToRemove.length - 1; i >= 0; i--) {
+      productDetailsArray.splice(indexesToRemove[i], 1);
+      tempCart.splice(indexesToRemove[i], 1);
+    }
+    
     if (isCustomer){
-      const response = await removeFromServerCart(indexesToRemove);
+      const response = await setServerCart(tempCart);
       if(!response.ok){
         setSnackbarSettings({message: "Something went wrong", type: "error"});
         setSnackbarOpen(true);
         return;
       }
+    }else{
+      Cookies.set('cart', JSON.stringify(tempCart));
     }
 
-    for (let i = indexesToRemove.length - 1; i >= 0; i--) {
-      const indexToRemove = indexesToRemove[i];
-      productDetailsArray.splice(indexToRemove, 1);
-    }
-
-    dispatch(removeFromCart(indexesToRemove));
+    dispatch(setCart(tempCart));
   }
 
   const qtyOnHand = (size, productData) => {
@@ -108,6 +132,11 @@ export default function ShoppingCart() {
   },[])
 
   const removefromCart = async (index) => {
+    let tempCart = [...cart];
+    productDetailsList.splice(index,1);
+    tempCart.splice(index, 1);
+    dispatch(setCart(tempCart));
+
     if(isCustomer){
       const response = await removeFromServerCart([index]);
       if(!response.ok){
@@ -115,9 +144,10 @@ export default function ShoppingCart() {
         setSnackbarOpen(true);
         return;
       }
+    }else{
+      Cookies.set('cart', JSON.stringify(tempCart));
     }
-    dispatch(removeFromCart([index]));
-    productDetailsList.splice(index,1);
+
     setSnackbarSettings({message: "Removed", type: "success"});
     setSnackbarOpen(true);
   }
@@ -140,7 +170,11 @@ export default function ShoppingCart() {
   }
 
   const incremnet = async (index) => {
-    if(qtyOnHandOf(index,cart[index].size) === cart[index].quantity)return;
+    if(qtyOnHandOf(index,cart[index].size) === cart[index].quantity){
+      setSnackbarSettings({message: "You have selected the maximum quantity", type: "warning"});
+      setSnackbarOpen(true);
+      return;
+    }  
 
     const cartItem = {
       productID: cart[index].productID,
@@ -236,12 +270,12 @@ export default function ShoppingCart() {
                             <div className="mt-4 flex items-center md:block md:absolute md:top-0 md:left-1/2 md:mt-0 "> 
 
                                 <div className='flex h-8 w-24 bg-[#fff] rounded border border-black md:scale-100 scale-90 -ml-1 md:ml-0'>
-                                    <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer'>
-                                        <button className="font-semibold" onClick={e => decremnet(index)}> - </button>
+                                    <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer'  onClick={e => decremnet(index)}>
+                                        <div className="font-semibold"> - </div>
                                     </div>
                                     <div className='flex w-8 items-center justify-center'> {cartItem.quantity} </div>
-                                    <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer'>
-                                        <button className="font-semibold" onClick={e => incremnet(index)}> + </button>
+                                    <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer' onClick={e => incremnet(index)}>
+                                        <div className="font-semibold"> + </div>
                                     </div>
                                 </div>  
 
@@ -288,7 +322,13 @@ export default function ShoppingCart() {
 
             <Footer/>
 
-            <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={e => setSnackbarOpen(false)} anchorOrigin={{vertical: 'top', horizontal:'right'}}>
+            <Snackbar 
+              open={snackbarOpen} 
+              autoHideDuration={1500} 
+              onClose={e => setSnackbarOpen(false)} 
+              anchorOrigin={{vertical: 'top', horizontal:'right'}}
+              style={{ top: '100px' }}
+            >
               <Alert severity={snackbarSettings.type} sx={{ width: '100%' }}>
                 {snackbarSettings.message}
               </Alert>

@@ -1,7 +1,7 @@
 import { Carousel } from "@material-tailwind/react";
 import swiper1 from "../assets/swiper1.jpg"
 import swiper2 from "../assets/swpier2.jpg"
-import swiper3 from "../assets/swiper3.png"
+import swiper3 from "../assets/swiper3.jpg"
 import swiper4 from "../assets/swiper4.jpg"
 import swiper5 from "../assets/swiper5.jpg"
  

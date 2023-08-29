@@ -38,21 +38,28 @@ export default function AdminOrderDetails() {
     
     setProductNameList([]);
     setBackDropOpen(true)
-    
-  
-    const fetchPromises = order.orderDetails.map(async (orderDetail) => {
-      const response = await fetch(`${backendAddress}/product/${orderDetail.productID}`,{
-        headers: {
-          'Authorization': `Bearer ${jwt}`,
-        },
-      });
-      const data = await response.json();
-      return data.name;
-    });
-  
-    const customerNamesArray = await Promise.all(fetchPromises);
+
+    const productIdArray = order.orderDetails.map(cartItem => cartItem.productID);
+
+    if (productIdArray.length === 0) return;
+
+    setBackDropOpen(true)
+    const response = await fetch(`${backendAddress}/product/list`, {
+      method: 'POST',
+      body: JSON.stringify(productIdArray),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      }
+    })
     setBackDropOpen(false)
-    setProductNameList(customerNamesArray);
+    const productDetails = await response.json();
+    const productNamesArray = order.orderDetails.map(orderDetail => {
+      const productDetail = productDetails.find(productDetail => productDetail.productID == orderDetail.productID)
+      return productDetail ? productDetail.name : "Deleted";
+    });
+
+    setBackDropOpen(false)
+    setProductNameList(productNamesArray);
   }
 
   useEffect(() => {

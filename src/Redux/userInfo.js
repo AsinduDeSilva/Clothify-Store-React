@@ -60,15 +60,6 @@ export const userInfoSlice = createSlice({
         Cookies.set('cart', JSON.stringify(state.cart));
       }
     },
-    removeFromCart: (state, action) => {
-      const indexesToRemove = action.payload;
-
-      for (let i = indexesToRemove.length - 1; i >= 0; i--) {
-        state.cart.splice(indexesToRemove[i], 1);
-      }
-
-      Cookies.set('cart', JSON.stringify(state.cart));
-    },
     updateCart: (state, action) => {
       const {index, data} = action.payload;
       state.cart[index] = data;

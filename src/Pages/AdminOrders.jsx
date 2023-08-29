@@ -16,6 +16,7 @@ export default function AdminOrders() {
   const [pageCount, setPageCount] = useState(0); 
   const [activeCategory, setActiveCategory] = useState(0);
   const [backDropOpen, setBackDropOpen] = useState(false);
+
   
   const loadOrders = (page) => {
     setBackDropOpen(true)
@@ -30,13 +31,8 @@ export default function AdminOrders() {
         setBackDropOpen(false);
         setOrderList(data.content);
         setPageCount(data.totalPages);
-        loadCustomerNames();
     })
   }
-
-  useEffect(() => {
-    loadOrders(1);
-  },[])
 
   useEffect(() => {
     loadOrders(1);
@@ -46,22 +42,29 @@ export default function AdminOrders() {
     loadCustomerNames();
   },[orderList])
 
-  async function loadCustomerNames() {
+
+  const loadCustomerNames = async () => {
     setCustomerNameList([]);
+    if (orderList.length === 0) return;
+
+    const customerIdArray = orderList.map(order => order.customerID);
+
     setBackDropOpen(true)
-  
-    const fetchPromises = orderList.map(async (order) => {
-      const response = await fetch(`${backendAddress}/customer/${order.customerID}`,{
-        headers: {
-          'Authorization': `Bearer ${jwt}`,
-        },
-      });
-      if(response.status === 400) return "Deleted Customer";
-      const data = await response.json();
-      return data.firstName + " " + data.lastName ;
+    const response = await fetch(`${backendAddress}/customer/list`, {
+      method: 'POST',
+      body: JSON.stringify(customerIdArray),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      }
+    })
+    setBackDropOpen(false)
+    const customerDetails = await response.json();
+
+    const customerNamesArray = orderList.map(order => {
+      const customerDetail  = customerDetails.find(customerDetail => order.customerID == customerDetail.customerID);
+      return customerDetail ? `${customerDetail.firstName} ${customerDetail.lastName}` : "Deleted Customer";
     });
-  
-    const customerNamesArray = await Promise.all(fetchPromises);
+      
     setBackDropOpen(false)
     setCustomerNameList(customerNamesArray);
   }

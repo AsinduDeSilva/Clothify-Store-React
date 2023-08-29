@@ -219,12 +219,12 @@ export default function AddToCart() {
 
                     <div className='flex'>
                       <div className='flex h-8 w-24 bg-[#fff] rounded border border-black ml-5 mt-4 mb-10'>
-                        <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer'>
-                          <button className="font-semibold" onClick={e => decrement()}> - </button>
+                        <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer' onClick={e => decrement()}>
+                          <div className="font-semibold"> - </div>
                         </div>
                         <div className='flex w-8 items-center justify-center'> {qty} </div>
-                        <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer'>
-                          <button className="font-semibold" onClick={e => increment()}> + </button>
+                        <div className='w-8 flex items-center justify-center hover:bg-gray-100 cursor-pointer' onClick={e => increment()}>
+                          <div className="font-semibold"> + </div>
                         </div>
                       </div>
                       
