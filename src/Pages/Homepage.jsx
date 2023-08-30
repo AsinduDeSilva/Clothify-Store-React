@@ -26,10 +26,12 @@ export default function Homepage() {
      .then(data => {
         setBackDropOpen(false);
         let productList = [];
-        for(let i=0; i<4; i++){
-          productList.push(data.content[i])
+        if(data.content.length >= 3){
+          for(let i=0; i<4; i++){
+            productList.push(data.content[i])
+          }
+          setProductList(productList);
         }
-        setProductList(productList);
     })
   }
 
@@ -39,10 +41,12 @@ export default function Homepage() {
       <HomeCarousel/>
       <CategoryPreview/>
 
-      <div className='w-full'>
-        <div className='text-white bg-black text-3xl flex justify-center mb-10 xl:my-16 py-4 font-semibold'>New Arrivals</div>
-        <ProductListView products={productList} />
+
+      <div className=" xl:pt-20 lg:max-w-[1450px] xl:mx-auto xl:px-8">
+        <h2 className="ml-4 sm:ml-6 md:ml-8 xl:ml-0 text-2xl pb-8 font-extrabold tracking-tight text-gray-900">New Arrivals</h2>
       </div>
+  
+      <ProductListView products={productList} />
 
       <Footer/>
 

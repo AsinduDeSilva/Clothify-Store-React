@@ -88,7 +88,7 @@ export default function AddToCart() {
       return;
     }
     if(qty === qtyOnHandOf(size)){
-      setSnackbarSettings({message: "You have selected the available quantity", type: "error"});
+      setSnackbarSettings({message: "You have selected the maximum quantity", type: "warning"});
       setSnackbarOpen(true);
       return;
     };   

@@ -94,7 +94,6 @@ export default function ShoppingCart() {
         indexesToRemove.push(i);
       }
     }
-    console.log(indexesToRemove)
 
     if(indexesToRemove.length === 0) return;
  

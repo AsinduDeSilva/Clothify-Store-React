@@ -179,7 +179,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, backgroundColor:"#262626", ":hover":{backgroundColor:'#000000'} }}
-              nClick={sigUpBtnClicked}
+              onClick={sigUpBtnClicked}
           >
             Sign Up
           </Button>

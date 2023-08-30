@@ -67,7 +67,6 @@ export default function Profile() {
         })
         setBackDropOpen(false); 
         const data = await response.json();
-        console.log(data)
         if(data > 0){
           Swal.fire({
             title: 'Delete Failed!',

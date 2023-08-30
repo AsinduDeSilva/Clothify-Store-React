@@ -34,7 +34,7 @@ const categories = [
 export default function Homepage() {
     return (
       <div className="bg-white">
-        <div className="py-16 sm:py-20 lg:max-w-[1450px] xl:mx-auto xl:px-8">
+        <div className="py-16 sm:py-12 lg:max-w-[1450px] xl:mx-auto xl:px-8">
           <div className="px-4 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
             <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Shop by Category</h2>
           </div>

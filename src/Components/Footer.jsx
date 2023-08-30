@@ -18,10 +18,10 @@ export default function Footer() {
               <a href="https://wa.me/+94767390760">
                 <WhatsApp fontSize='large' className='mr-3 mt-4 hover:text-green-600 transition-time '/>
               </a>
-              <a href="">
+              <a href="https://www.facebook.com/asindu.desilva.7">
                 <Facebook fontSize='large' className='mr-3 mt-4 hover:text-blue-700'/>
               </a>
-              <a href="">
+              <a href="https://www.instagram.com/asindu_de_silva">
                 <Instagram fontSize='large' className='mr-3 mt-4 hover:text-pink-700'/>
               </a>
               <a href="">
