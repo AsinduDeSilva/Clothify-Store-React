@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
 const loadServerCart = async () => {
-  const response = await fetch(`http://192.168.1.20:8080/customer/${Cookies.get('customerID')}`, {
+  const response = await fetch(`https://clothifystore-backend-production.up.railway.app/customer/${Cookies.get('customerID')}`, {
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
       'Authorization': `Bearer ${Cookies.get('jwt')}`,
