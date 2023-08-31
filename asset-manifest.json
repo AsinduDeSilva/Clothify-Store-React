@@ -1,13 +1,12 @@
 {
   "files": {
     "main.css": "/Clothify-Store-React/static/css/main.8729cb6e.css",
-    "main.js": "/Clothify-Store-React/static/js/main.49f21ae9.js",
+    "main.js": "/Clothify-Store-React/static/js/main.d49cb009.js",
     "static/js/787.837b67b7.chunk.js": "/Clothify-Store-React/static/js/787.837b67b7.chunk.js",
     "static/media/swiper4.jpg": "/Clothify-Store-React/static/media/swiper4.1ee06d419a76b4e31039.jpg",
     "static/media/swpier2.jpg": "/Clothify-Store-React/static/media/swpier2.254099080c5ef68598e8.jpg",
     "static/media/swiper3.jpg": "/Clothify-Store-React/static/media/swiper3.acd68bda9430fa80d029.jpg",
     "static/media/swiper1.jpg": "/Clothify-Store-React/static/media/swiper1.875c737c621267989da8.jpg",
-    "static/media/swiper5.jpg": "/Clothify-Store-React/static/media/swiper5.17ffe875d05aa8c610ff.jpg",
     "static/media/logo.jpg": "/Clothify-Store-React/static/media/logo.65cc2d38bc05d53580ff.jpg",
     "static/media/poppins-devanagari-400-normal.woff": "/Clothify-Store-React/static/media/poppins-devanagari-400-normal.0e11b62db931f85340d4.woff",
     "static/media/poppins-devanagari-300-normal.woff": "/Clothify-Store-React/static/media/poppins-devanagari-300-normal.c5eb8fb453e49d29b817.woff",
@@ -49,11 +48,11 @@
     "static/media/poppins-latin-ext-700-normal.woff2": "/Clothify-Store-React/static/media/poppins-latin-ext-700-normal.63d2a69665d58b22ceea.woff2",
     "index.html": "/Clothify-Store-React/index.html",
     "main.8729cb6e.css.map": "/Clothify-Store-React/static/css/main.8729cb6e.css.map",
-    "main.49f21ae9.js.map": "/Clothify-Store-React/static/js/main.49f21ae9.js.map",
+    "main.d49cb009.js.map": "/Clothify-Store-React/static/js/main.d49cb009.js.map",
     "787.837b67b7.chunk.js.map": "/Clothify-Store-React/static/js/787.837b67b7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8729cb6e.css",
-    "static/js/main.49f21ae9.js"
+    "static/js/main.d49cb009.js"
   ]
 }
