@@ -3,7 +3,7 @@ import swiper1 from "../assets/swiper1.jpg"
 import swiper2 from "../assets/swpier2.jpg"
 import swiper3 from "../assets/swiper3.jpg"
 import swiper4 from "../assets/swiper4.jpg"
-import swiper5 from "../assets/swiper5.jpg"
+
  
 export function HomeCarousel() {
   return (
@@ -25,11 +25,13 @@ export function HomeCarousel() {
         </div>
       )}
     >
-      <img
-        src={window.innerWidth > 700 ? swiper4 : swiper5}
-        alt="image 1"
-        className="h-[500px] sm:h-[74vh] w-full sm:object-cover object-left "
-      />
+      {window.innerWidth > 700 ? (
+        <img
+          src={swiper4}
+          alt="image 1"
+          className="h-[500px] sm:h-[74vh] w-full sm:object-cover object-left "
+        />
+      ): null}
       <img
         src={swiper2}
         alt="image 2"
