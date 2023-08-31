@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login, setCart, setCustomerID } from '../Redux/userInfo';
 import Cookies from 'js-cookie';
 import MyBackdrop from '../Components/MyBackdrop';
+import Swal from 'sweetalert2';
 
 export default function OtpVerification() {
   const[otp,setOtp] = useState("");
@@ -29,7 +30,7 @@ export default function OtpVerification() {
       return;
     }
     
-    if(password === undefined){   //Came from ForgetPassword
+    if(password === undefined){   //From ForgetPassword
       authenticateWithOTP();
       return;
     }
@@ -88,6 +89,13 @@ export default function OtpVerification() {
             navigate("/admin/dashboard", {replace: true});
           }
           dispatch(login({isCustomer: data.customer, jwt: data.jwt, remember: true}));
+          Swal.fire({
+            icon: 'success',
+            title: 'Happy Shopping',
+            text: "Account created successfully",
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#000000'
+          }) 
           return;
         }
 
@@ -146,10 +154,11 @@ export default function OtpVerification() {
       Cookies.set('customerID',data.customerID, {expires: 7})
       dispatch(setCustomerID(data.customerID))
 
-      if(password === undefined){
+      if(password === undefined){  //From Forget Password
         dispatch(setCart(data.cart)); 
-      }else{
-        await setServerCart(cart, data.customerID, data.jwt);
+      }else{  //From sign up
+        await setServerCart(cart, data.customerID, jwt);
+        Cookies.remove('cart');
       }
 
     })

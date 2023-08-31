@@ -142,7 +142,7 @@ export default function AddProduct() {
     setCategory("");
     setQtySmall(0);
     setQtyMedium(0);
-    setQtySmall(0);
+    setQtyLarge(0);
     setImage(null);
   }
 
@@ -209,6 +209,11 @@ export default function AddProduct() {
                               <MenuItem value={"KIDS"}>Kids</MenuItem>
                             </Select>
                         </FormControl>  
+                        {!categoryError ? null : (
+                            <p className='text-[#C62828] text-sm mt-2'>
+                                  Please Select a Category
+                            </p>
+                        )} 
                     </div>
                 </div>
                 <div className='mx-16 flex items-center mt-7 '>

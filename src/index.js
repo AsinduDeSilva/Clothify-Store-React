@@ -17,7 +17,7 @@ import { ThemeProvider } from "@material-tailwind/react";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename='/Clothify-Store-React'>
       <Provider store={Store}>
         <ThemeProvider>
          <App />

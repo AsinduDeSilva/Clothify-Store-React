@@ -41,7 +41,6 @@ export default function SignUp() {
   const [isEmailExists, setEmailExists] = useState(false);
   const navigate = useNavigate();
   const {backendAddress} = useSelector(state => state.backendInfo);
-  const {isCustomer, isAdmin} = useSelector(state => state.userInfo);
   
   const sigUpBtnClicked = () =>{
     setFirstNameFieldError(false);

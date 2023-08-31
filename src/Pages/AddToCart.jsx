@@ -170,11 +170,13 @@ export default function AddToCart() {
                   </div>
                 </div>
             </Grid>
-            <Grid xs={12} md={6} >
-                <div className='md:h-[500px] h-[400px] mb-10 md:my-10 md:ml-10 md:scale-110 flex items-center md:justify-normal justify-center'>
+            <Grid xs={12} md={6} sx={{ display:'flex', justifyContent:'center', alignItems:'center'}}>
+                <div className='md:h-[500px] min-h-[400px] w-[90%] mb-10 md:my-10 md:ml-10 md:scale-110 flex items-center md:justify-normal justify-center'>
                   <div className='h-[80%]'>
-                    <p className='text-4xl font-semibold'>{productData.name}</p>
-                    <p className='text-lg font-medium text-gray-600 mt-4 mb-6' >
+                    <div className='flex items-center'>
+                      <p className='text-3xl sm:text-4xl font-semibold'>{productData.name}</p>
+                    </div>
+                    <p className='text-md sm:text-lg font-medium text-gray-600 mt-4 mb-6' >
                       LKR {productData.unitPrice.toFixed(2)}
                     </p>
                     <p className='font-medium text-md mb-4'>Size</p>

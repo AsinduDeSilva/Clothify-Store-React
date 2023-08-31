@@ -26,9 +26,9 @@ export default function Homepage() {
      .then(data => {
         setBackDropOpen(false);
         let productList = [];
-        if(data.content.length >= 3){
+        if(data.content?.length >= 4){
           for(let i=0; i<4; i++){
-            productList.push(data.content[i])
+            productList.push(data.content[i]);
           }
           setProductList(productList);
         }

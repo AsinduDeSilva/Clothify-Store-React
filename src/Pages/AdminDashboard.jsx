@@ -56,7 +56,7 @@ export default function AdminDashboard() {
                   <p className='text-lg'>Yesterday Sales</p>
                   <p className='font-semibold text-3xl'>LKR {orderStats.incomeOfYesterday.toFixed(2)}</p>
                 </div>
-                <div className='h-[76%] w-[26%] rounded-xl bg-[#FF8A4C] flex flex-col items-center space-y-2'>
+                <div className='h-[76%] w-[26%] rounded-xl bg-[#5d54a4] flex flex-col items-center space-y-2'>
                   <CalendarMonth sx={{fontSize: '30px', mt: '4vh'}}/>
                   <p className='text-lg'>Past 30 Days</p>
                   <p className='font-semibold text-3xl'>LKR {orderStats.incomeOfLast30Days.toFixed(2)}</p>

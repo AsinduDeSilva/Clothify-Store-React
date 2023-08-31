@@ -5,7 +5,7 @@ import { Facebook, Instagram, Twitter, WhatsApp } from '@mui/icons-material';
 
 export default function Footer() {
   return (
-    <div className=' bg-[#D9D9D9] overflow-hidden'>
+    <div className=' bg-[#F2F2F2] overflow-hidden'>
         <Grid container spacing={2} >
           <Grid xs={12} lg={3}>
             <div className='xl:h-[200px] sm:h-[150px] h-[130px] flex items-center justify-center '>
@@ -33,7 +33,7 @@ export default function Footer() {
           <Grid xs={12} sm={4} lg={3}>
             <div className='xl:mt-10 ml-12 sm:ml-0'>
               <span className='font-semibold xl:text-lg xs:text-lg '>Openning Hours</span><br />
-              <div className='mt-5 xl:text-[15px] xs:text-sm text-xs'>
+              <div className='mt-5 xl:text-[15px] xs:text-sm text-xs font-medium'>
                 <p >Monday to Friday : 9.00 am to 5.00pm</p>
                 <p className='mt-1'>Saturday : 9.00 am to 2.00pm</p>
               </div>
@@ -42,7 +42,7 @@ export default function Footer() {
           <Grid xs={12} sm={4} lg={3}>
           <div className='xl:mt-10 ml-12 sm:ml-0'>
               <span className='font-semibold xs:text-lg'>Company Details</span><br />
-              <div className='mt-5 xl:text-[15px] xs:text-sm text-xs'>
+              <div className='mt-5 xl:text-[15px] xs:text-sm text-xs font-medium'>
                 <p>Name : Clothify Store (PVT) Ltd.</p>
                 <p className='mt-1'>Address : No.34, Horana Road, Panadura.</p>
                 <p className='mt-1'>Email : sales@clothifystore.lk</p>
@@ -50,7 +50,7 @@ export default function Footer() {
             </div>
           </Grid>
           <Grid xs={12} >
-            <div className='bg-black text-white border-t py-3 border-black flex justify-center xl:text-md xs:text-sm text-xs'>
+            <div className='bg-[#111827] text-white py-3 flex justify-center xl:text-md xs:text-sm text-xs'>
               © {new Date().getFullYear()} Clothify Store. All rights reserved.
             </div>
           </Grid>

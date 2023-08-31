@@ -29,7 +29,6 @@ export default function UpdateProduct() {
   const [backDropOpen, setBackDropOpen] = useState(false);
   const [txtProductNameError, setTxtProductNameError] = useState(false); 
   const [txtUnitPriceError, setTxtUnitPriceError] = useState(false);
-  const [categoryError, setCategoryError] = useState(false); 
   const [txtQtySmallError, setTxtQtySmallError] = useState(false);
   const [txtQtyMediumError, setTxtQtyMediumError] = useState(false);
   const [txtQtyLargeError, setTxtQtyLargeError] = useState(false);
@@ -127,7 +126,6 @@ export default function UpdateProduct() {
 
     setTxtProductNameError(false);
     setTxtUnitPriceError(false);
-    setCategoryError(false);
     setTxtQtySmallError(false);
     setTxtQtyMediumError(false);
     setTxtQtyLargeError(false);
@@ -140,11 +138,6 @@ export default function UpdateProduct() {
 
     if(unitPrice === "" || unitPrice <= 0 ){
       setTxtUnitPriceError(true);
-      isValid = false;
-    }
-
-    if(category === ""){
-      setCategoryError(true);
       isValid = false;
     }
 
@@ -215,16 +208,14 @@ export default function UpdateProduct() {
                           <FormControl >
                               <Select    
                                   labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  error={categoryError}    
+                                  id="demo-simple-select"    
                                   value={category}
                                   size='small'
                                   displayEmpty
                                   onChange={e => setCategory(e.target.value)}
                                   sx={{width: 150, borderRadius: 1}}
                                   input={<BootstrapInput/>}
-                              >
-                                <MenuItem value="">Select</MenuItem>    
+                              >   
                                 <MenuItem value={"MEN"}>Men</MenuItem>
                                 <MenuItem value={"WOMEN"}>Women</MenuItem>
                                 <MenuItem value={"KIDS"}>Kids</MenuItem>
