@@ -64,7 +64,7 @@ export default function Checkout() {
 
   const loadProducts = async () => {
     setProductDetailsList([]);
-    const productIdArray = cart.map(cartItem => cartItem.productID);
+    const productIdArray = checkoutCart.map(cartItem => cartItem.productID);
     
     if (productIdArray.length === 0) return;
 
@@ -78,7 +78,7 @@ export default function Checkout() {
     })
     setBackDropOpen(false)
     const productDetails = await response.json();
-    const productDetailsArray = cart.map(cartItem => productDetails.find(productDetail => productDetail.productID == cartItem.productID))
+    const productDetailsArray = checkoutCart.map(cartItem => productDetails.find(productDetail => productDetail.productID == cartItem.productID))
     setProductDetailsList(productDetailsArray);
   }
 
