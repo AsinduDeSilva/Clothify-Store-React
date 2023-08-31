@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Clothify-Store-React/static/css/main.a8fd4456.css",
-    "main.js": "/Clothify-Store-React/static/js/main.11088ef4.js",
+    "main.css": "/Clothify-Store-React/static/css/main.8729cb6e.css",
+    "main.js": "/Clothify-Store-React/static/js/main.49f21ae9.js",
     "static/js/787.837b67b7.chunk.js": "/Clothify-Store-React/static/js/787.837b67b7.chunk.js",
     "static/media/swiper4.jpg": "/Clothify-Store-React/static/media/swiper4.1ee06d419a76b4e31039.jpg",
     "static/media/swpier2.jpg": "/Clothify-Store-React/static/media/swpier2.254099080c5ef68598e8.jpg",
@@ -48,12 +48,12 @@
     "static/media/poppins-latin-ext-300-normal.woff2": "/Clothify-Store-React/static/media/poppins-latin-ext-300-normal.b0bb003afc8483bd32d2.woff2",
     "static/media/poppins-latin-ext-700-normal.woff2": "/Clothify-Store-React/static/media/poppins-latin-ext-700-normal.63d2a69665d58b22ceea.woff2",
     "index.html": "/Clothify-Store-React/index.html",
-    "main.a8fd4456.css.map": "/Clothify-Store-React/static/css/main.a8fd4456.css.map",
-    "main.11088ef4.js.map": "/Clothify-Store-React/static/js/main.11088ef4.js.map",
+    "main.8729cb6e.css.map": "/Clothify-Store-React/static/css/main.8729cb6e.css.map",
+    "main.49f21ae9.js.map": "/Clothify-Store-React/static/js/main.49f21ae9.js.map",
     "787.837b67b7.chunk.js.map": "/Clothify-Store-React/static/js/787.837b67b7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a8fd4456.css",
-    "static/js/main.11088ef4.js"
+    "static/css/main.8729cb6e.css",
+    "static/js/main.49f21ae9.js"
   ]
 }
