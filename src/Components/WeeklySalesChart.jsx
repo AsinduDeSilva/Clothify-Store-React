@@ -34,45 +34,36 @@ import MyBackdrop from './MyBackdrop';
       },
     },
     scales: {
-    x: {
-      grid: {
-        color: '#1E1E1E', 
+      x: {
+        grid: {
+          color: '#1E1E1E', 
+        },
+        ticks: {
+          color: 'rgb(209 213 219)', 
+        },
       },
-      ticks: {
-        color: 'rgb(209 213 219)', 
+      y: {
+        grid: {
+          color: '#1E1E1E', 
+        },
+        ticks: {
+          color: 'rgb(209 213 219)',
+        },
       },
     },
-    y: {
-      grid: {
-        color: '#1E1E1E', 
-      },
-      ticks: {
-        color: 'rgb(209 213 219)',
-      },
-    },
-  },
   };
-
-  const currentTime = new Date();
-  const currentOffset = currentTime.getTimezoneOffset();
-  const ISTOffset = 330;  
-  const ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);  
   
-  const labels = [];
-  
-  for(let i = 7; i > 0; i--){
-    labels.push(ISTTime.getMonth() + "/" + (ISTTime.getDate() - i));
-  }
 
 export default function WeeklySalesChart() {
 
   const {backendAddress} = useSelector(state => state.backendInfo);
   const {jwt} = useSelector(state => state.userInfo);
-  const [orderCountList, setOrderCountList] = useState([]);  
+  const [orderCountList, setOrderCountList] = useState([]); 
+  const [dateList, setDateList] = useState([]);  
   const [backDropOpen, setBackDropOpen] = useState(false);
 
   const data = {
-    labels,
+    labels: dateList,
     datasets: [
       {
         fill: true,
@@ -94,7 +85,8 @@ export default function WeeklySalesChart() {
       .then(res => res.json())
       .then(data => {
         setBackDropOpen(false);
-        setOrderCountList(data);
+        setOrderCountList(data.orderCountList);
+        setDateList(data.dateList)
       })
   }
 
